@@ -1,0 +1,13 @@
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.exe
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\web.config
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\appsettings.json
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.deps.json
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.runtimeconfig.json
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.pdb
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
