@@ -1,5 +1,5 @@
 ﻿using WebApiShared.Services.CIDI;
-
+using WebApiShared.Services;
 namespace WebApiShared
 {
     public class Startup
@@ -19,7 +19,7 @@ namespace WebApiShared
 
             // configure DI for application services
             services.AddScoped<IUsuariosServices, UsuariosService>();
-
+            services.AddScoped<IRubrosService, RubrosService>();
             services.AddCors();
 
         }
