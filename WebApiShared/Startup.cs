@@ -20,6 +20,7 @@ namespace WebApiShared
             // configure DI for application services
             services.AddScoped<IUsuariosServices, UsuariosService>();
             services.AddScoped<IRubrosService, RubrosService>();
+            services.AddScoped<IComunicacionesService, ComunicacionesService>();
             services.AddCors();
 
         }

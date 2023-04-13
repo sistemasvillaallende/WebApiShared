@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
 namespace WebApiShared.Entities.CIDI.Comunicacion
 {
     public class Historial
     {
+
         public String Tipo { get; set; }
 
         public String Fecha { get; set; }
