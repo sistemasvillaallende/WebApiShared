@@ -3,8 +3,9 @@ using Newtonsoft;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using Newtonsoft.Json;
 using WebApiShared.Services.CIDI;
+using WebApiShared.Services.NOTIFICACIONES;
 using WebApiShared.Entities.CIDI.Comunicacion;
-
+using WebApiShared.Entities.NOTIFICACIONES;
 namespace WebApiShared.Controllers
 {
     [ApiController]
@@ -12,9 +13,12 @@ namespace WebApiShared.Controllers
     public class ComunicacionesCIDIController : Controller
     {
         private IComunicacionesService _ComunicacionesService;
-        public ComunicacionesCIDIController(IComunicacionesService ComunicacionesService)
+        private INotificacion_digitalService _Notificacion_digitalService;
+
+        public ComunicacionesCIDIController(IComunicacionesService ComunicacionesService, INotificacion_digitalService Notificacion_digitalService)
         {
             _ComunicacionesService = ComunicacionesService;
+            _Notificacion_digitalService = Notificacion_digitalService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -22,7 +26,7 @@ namespace WebApiShared.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult enviarNotificacion(string cuit, string subject, string body)
+        public IActionResult enviarNotificacion(string cuit, string subject, string body,int id_tipo_notif,int id_oficina,int id_usuario)
         {
             Email email = new Email();
             email.Cuil = cuit;
@@ -39,10 +43,13 @@ namespace WebApiShared.Controllers
             email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
             var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
-            if (respuesta == null)
+
+            if (respuesta.Resultado != "OK")
             {
+                _Notificacion_digitalService.insertNotif(cuit, subject, body, id_tipo_notif, id_oficina, id_usuario, 0);
                 return BadRequest(new { message = "Error al obtener los datos" });
             }
+            _Notificacion_digitalService.insertNotif(cuit, subject, body, id_tipo_notif,id_oficina,id_usuario,1);
             return Ok(respuesta);
         }
     }
