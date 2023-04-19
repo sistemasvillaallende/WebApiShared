@@ -27,7 +27,7 @@ namespace WebApiShared.Controllers
             return Ok(Calles);
         }
         [HttpGet]
-        public IActionResult Read()
+        public IActionResult read()
         {
             var Calles = _CallesService.read();
             if (Calles == null)

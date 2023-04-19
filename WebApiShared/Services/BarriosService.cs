@@ -21,7 +21,7 @@ namespace WebApiShared.Services
                 throw ex;
             }
         }
-        public List<Barrios> read()
+        public List<Combo> read()
         {
             try
             {

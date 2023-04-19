@@ -39,20 +39,41 @@ namespace WebApiShared.Entities
             }
             return lst;
         }
+        private static List<Combo> mapeoReducido(SqlDataReader dr)
+        {
+            List<Combo> lst = new List<Combo>();
+            Combo obj;
+            if (dr.HasRows)
+            {
+                int COD_CALLE = dr.GetOrdinal("COD_CALLE");
+                int NOM_CALLE = dr.GetOrdinal("NOM_CALLE");
+                int cod_enlaza = dr.GetOrdinal("cod_barrio");
 
-        public static List<Calles> read()
+                while (dr.Read())
+                {
+                    obj = new Combo();
+                    if (!dr.IsDBNull(COD_CALLE)) { obj.value = dr.GetInt32(COD_CALLE).ToString(); }
+                    if (!dr.IsDBNull(NOM_CALLE)) { obj.text = dr.GetString(NOM_CALLE); }
+                    if (!dr.IsDBNull(cod_enlaza)) { obj.cod_enlaza = dr.GetInt32(cod_enlaza).ToString(); }
+                    lst.Add(obj);
+                }
+            }
+            return lst;
+        }
+        public static List<Combo> read()
         {
             try
             {
-                List<Calles> lst = new List<Calles>();
+                List<Combo> lst = new List<Combo>();
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT *FROM Calles";
+                    cmd.CommandText = @"SELECT A.*, B.COD_BARRIO FROM Calles A
+                                        INNER JOIN CALLES_X_BARRIO B ON A.COD_CALLE=B.cod_calle";
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
-                    lst = mapeo(dr);
+                    lst = mapeoReducido(dr);
                     return lst;
                 }
             }
@@ -70,7 +91,7 @@ namespace WebApiShared.Entities
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT *FROM Calles A
+                    cmd.CommandText = @"SELECT A.*, B.COD_BARRIO FROM Calles A
                                         INNER JOIN CALLES_X_BARRIO B ON A.COD_CALLE=B.cod_calle
                                         WHERE B.cod_barrio=@COD_BARRIO";
                     cmd.Parameters.AddWithValue("@cod_barrio", cod_barrio);
@@ -97,7 +118,7 @@ namespace WebApiShared.Entities
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT *FROM Calles A
+                    cmd.CommandText = @"SELECT A.*, B.COD_BARRIO FROM Calles A
                                         INNER JOIN CALLES_X_BARRIO B ON A.COD_CALLE=B.cod_calle
                                         WHERE B.COD_CALLE=@COD_CALLE";
                     cmd.Parameters.AddWithValue("@COD_CALLE", COD_CALLE);

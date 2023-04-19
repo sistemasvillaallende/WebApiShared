@@ -27,7 +27,7 @@ namespace WebApiShared.Controllers
             return Ok(Barrios);
         }
         [HttpGet]
-        public IActionResult getByPk()
+        public IActionResult read()
         {
             var Barrios = _BarriosService.read();
             if (Barrios == null)

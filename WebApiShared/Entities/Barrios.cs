@@ -41,11 +41,11 @@ namespace WebApiShared.Entities
             return lst;
         }
 
-        public static List<Barrios> read()
+        public static List<Combo> read()
         {
             try
             {
-                List<Barrios> lst = new List<Barrios>();
+                List<Combo> lst = new List<Combo>();
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
@@ -53,7 +53,7 @@ namespace WebApiShared.Entities
                     cmd.CommandText = "SELECT *FROM Barrios";
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
-                    lst = mapeo(dr);
+                    lst = mapeoReducido(dr);
                     return lst;
                 }
             }
@@ -62,7 +62,25 @@ namespace WebApiShared.Entities
                 throw ex;
             }
         }
+        private static List<Combo> mapeoReducido(SqlDataReader dr)
+        {
+            List<Combo> lst = new List<Combo>();
+            Combo obj;
+            if (dr.HasRows)
+            {
+                int COD_BARRIO = dr.GetOrdinal("COD_BARRIO");
+                int NOM_BARRIO = dr.GetOrdinal("NOM_BARRIO");
 
+                while (dr.Read())
+                {
+                    obj = new Combo();
+                    if (!dr.IsDBNull(COD_BARRIO)) { obj.value = dr.GetInt32(COD_BARRIO).ToString(); }
+                    if (!dr.IsDBNull(NOM_BARRIO)) { obj.text = dr.GetString(NOM_BARRIO); }
+                    lst.Add(obj);
+                }
+            }
+            return lst;
+        }
         public static Barrios getByPk(
         int COD_BARRIO)
         {
