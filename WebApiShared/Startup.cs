@@ -1,5 +1,7 @@
 ﻿using WebApiShared.Services.CIDI;
 using WebApiShared.Services;
+using WebApiShared.Services.NOTIFICACIONES;
+
 namespace WebApiShared
 {
     public class Startup
@@ -20,6 +22,8 @@ namespace WebApiShared
             // configure DI for application services
             services.AddScoped<IUsuariosServices, UsuariosService>();
             services.AddScoped<IRubrosService, RubrosService>();
+            services.AddScoped<IComunicacionesService, ComunicacionesService>();
+            services.AddScoped<INotificacion_digitalService, Notificacion_digitalService>();
             services.AddCors();
 
         }

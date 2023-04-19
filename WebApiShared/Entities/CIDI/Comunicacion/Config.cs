@@ -1,14 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
-
+using Newtonsoft.Json;
 
 namespace WebApiShared.Entities.CIDI.Comunicacion
 {
@@ -24,13 +20,6 @@ namespace WebApiShared.Entities.CIDI.Comunicacion
             }
         }
 
-        //public static String MyAppUrl
-        //{
-        //    get
-        //    {
-        //        return ConfigurationManager.AppSettings["MyAppUrl"].ToString();
-        //    }
-        //}
 
         public static int CiDiIdAplicacion
         {
@@ -92,7 +81,7 @@ namespace WebApiShared.Entities.CIDI.Comunicacion
         {
             get
             {
-                return "https://cidi.cba.gov.ar/relacion/appseleccion";
+                return "";
             }
         }
 

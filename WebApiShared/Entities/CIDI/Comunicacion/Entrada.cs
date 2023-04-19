@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-
 namespace WebApiShared.Entities.CIDI.Comunicacion
 {
     public class Entrada
@@ -37,5 +37,4 @@ namespace WebApiShared.Entities.CIDI.Comunicacion
         public String FechaDesde { get; set; }
         public String FechaHasta { get; set; }
     }
-
 }
