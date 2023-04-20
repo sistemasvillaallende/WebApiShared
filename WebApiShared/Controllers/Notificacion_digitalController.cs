@@ -19,18 +19,7 @@ namespace WebApiShared.Controllers
         {
             _Notificacion_digitalService = Notificacion_digitalService;
         }
-        //[HttpGet]
-        //public IActionResult getByPk(int idsolic
-        //)
-        //{
-        //    var Notificacion_digital = _Notificacion_digitalService.getByPk();
-        //    if (Notificacion_digital == null)
-        //    {
-        //        return BadRequest(new { message = "Error al obtener los datos" });
-        //    }
-        //    return Ok(Notificacion_digital);
-        //}
-
+        
         [HttpGet]
         public IActionResult ListarNotificaciones()
         {

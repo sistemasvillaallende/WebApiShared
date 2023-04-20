@@ -464,44 +464,21 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
         }
 
-        public static void update(Notificacion_digital obj)
+        public static int update(int cidi_nivel )
         {
             try
             {
                 StringBuilder sql = new StringBuilder();
                 sql.AppendLine("UPDATE  Notificacion_digital SET");
-                sql.AppendLine("id_notificacion=@id_notificacion");
-                sql.AppendLine(", tipo_notificacion=@tipo_notificacion");
-                sql.AppendLine(", nro_emision=@nro_emision");
-                sql.AppendLine(", fecha_notif=@fecha_notif");
-                sql.AppendLine(", desc_notif=@desc_notif");
-                sql.AppendLine(", cidi_nivel=@cidi_nivel");
-                sql.AppendLine(", estado_notif=@estado_notif");
-                sql.AppendLine(", cuil=@cuil");
-                sql.AppendLine(", subject_notif=@subject_notif");
-                sql.AppendLine(", body_notif=@body_notif");
-                sql.AppendLine(", id_oficina=@id_oficina");
-                sql.AppendLine(", id_usuario=@id_usuario");
-                sql.AppendLine(", nombre=@nombre");
-                sql.AppendLine("WHERE");
+               
+                sql.AppendLine("cidi_nivel=@cidi_nivel");
+            
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = sql.ToString();
-                    cmd.Parameters.AddWithValue("@id_notificacion", obj.id_notificacion);
-                    cmd.Parameters.AddWithValue("@tipo_notificacion", obj.tipo_notificacion);
-                    cmd.Parameters.AddWithValue("@nro_emision", obj.nro_emision);
-                    cmd.Parameters.AddWithValue("@fecha_notif", obj.fecha_notif);
-                    cmd.Parameters.AddWithValue("@desc_notif", obj.desc_notif);
-                    cmd.Parameters.AddWithValue("@cidi_nivel", obj.cidi_nivel);
-                    cmd.Parameters.AddWithValue("@estado_notif", obj.estado_notif);
-                    cmd.Parameters.AddWithValue("@cuil", obj.cuil);
-                    cmd.Parameters.AddWithValue("@subject_notif", obj.subject_notif);
-                    cmd.Parameters.AddWithValue("@body_notif", obj.body_notif);
-                    cmd.Parameters.AddWithValue("@id_oficina", obj.id_oficina);
-                    cmd.Parameters.AddWithValue("@id_usuario", obj.id_usuario);
-                    cmd.Parameters.AddWithValue("@nombre", obj.nombre);
+                    cmd.Parameters.AddWithValue("@cidi_nivel", cidi_nivel);              
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
                 }
