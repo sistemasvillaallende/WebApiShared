@@ -7,7 +7,7 @@ namespace WebApiShared.Services
 {
     public interface IBarriosService
     {
-        public List<Barrios> read();
+        public List<Combo> read();
         public Barrios getByPk(int COD_BARRIO);
         public int insert(Barrios obj);
         public void update(Barrios obj);

@@ -23,6 +23,8 @@ namespace WebApiShared
             services.AddScoped<IUsuariosServices, UsuariosService>();
             services.AddScoped<IRubrosService, RubrosService>();
             services.AddScoped<IComunicacionesService, ComunicacionesService>();
+            services.AddScoped<IBarriosService, BarriosService>();
+            services.AddScoped<ICallesService, CallesService>();
             services.AddScoped<INotificacion_digitalService, Notificacion_digitalService>();
             services.AddCors();
 
