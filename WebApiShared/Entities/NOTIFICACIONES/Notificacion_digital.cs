@@ -464,7 +464,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
         }
 
-        public static int update(int cidi_nivel )
+        public static void update(int cidi_nivel )
         {
             try
             {

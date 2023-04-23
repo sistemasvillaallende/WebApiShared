@@ -68,11 +68,11 @@ namespace WebApiShared.Services.NOTIFICACIONES
             }
         }
 
-        public  int update(int cidi_nivel)
+        public  void update(int cidi_nivel)
         {
             try
             {
-                return Notificacion_digital.update(cidi_nivel);
+                Notificacion_digital.update(cidi_nivel);
             }
             catch (Exception ex)
             {
@@ -113,17 +113,6 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
-        public void update(Notificacion_digital obj)
-        {
-            try
-            {
-                Notificacion_digital.update(obj);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public void delete(Notificacion_digital obj)
         {
             try
@@ -137,6 +126,11 @@ namespace WebApiShared.Services.NOTIFICACIONES
         }
 
         public Notificacion_digital getByPk()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void update(Notificacion_digital obj)
         {
             throw new NotImplementedException();
         }
