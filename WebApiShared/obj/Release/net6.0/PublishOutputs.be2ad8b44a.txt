@@ -6,6 +6,16 @@ D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared
 D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.deps.json
 D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.runtimeconfig.json
 D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.pdb
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\CADP.NetCore.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Castle.Windsor.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\OxyPlot.Wpf.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\OxyPlot.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\RelaFax.Contracts.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\RelaFax.Crypto.ResponseManager.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\RelaFax.Response.Crypto.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\RelaFax.ResponseManager.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\RelaFax.RestManager.Contract.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Serilog.dll
 D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
 D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll
 D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
@@ -17,3 +27,4 @@ D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\runtimes\win
 D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\runtimes\win-x86\native\sni.dll
 D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\CryptoManagerV4.0.dll
