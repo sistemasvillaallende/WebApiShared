@@ -68,3 +68,14 @@ D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\refint\WebApiShared.dl
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.pdb
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.genruntimeconfig.cache
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\ref\WebApiShared.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\CADP.NetCore.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\Castle.Windsor.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\OxyPlot.Wpf.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\OxyPlot.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\RelaFax.Contracts.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\RelaFax.Crypto.ResponseManager.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\RelaFax.Response.Crypto.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\RelaFax.ResponseManager.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\RelaFax.RestManager.Contract.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\Serilog.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\CryptoManagerV4.0.dll
