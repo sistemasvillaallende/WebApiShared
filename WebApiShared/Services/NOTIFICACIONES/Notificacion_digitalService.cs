@@ -68,17 +68,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
             }
         }
 
-        public  int update(int cidi_nivel)
-        {
-            try
-            {
-                return Notificacion_digital.update(cidi_nivel);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+       
 
         public List<Notificacion_digital> ListNotifxcuil(string cuil)
         {

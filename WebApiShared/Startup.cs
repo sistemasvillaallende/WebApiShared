@@ -1,6 +1,7 @@
 ﻿using WebApiShared.Services.CIDI;
 using WebApiShared.Services;
 using WebApiShared.Services.NOTIFICACIONES;
+using WebApiShared.Services.LOGIN;
 
 namespace WebApiShared
 {
@@ -26,6 +27,7 @@ namespace WebApiShared
             services.AddScoped<IBarriosService, BarriosService>();
             services.AddScoped<ICallesService, CallesService>();
             services.AddScoped<INotificacion_digitalService, Notificacion_digitalService>();
+            services.AddScoped<IUsuarioServices, UsuarioServices>();
             services.AddCors();
 
         }
