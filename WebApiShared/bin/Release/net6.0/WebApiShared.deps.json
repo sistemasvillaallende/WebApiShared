@@ -9,7 +9,6 @@
       "WebApiShared/1.0.0": {
         "dependencies": {
           "CipherTrust.CADP.NETCore": "8.11.0",
-          "FaIndustry.RelaFax.Crypto.ResponseManager": "1.0.58",
           "Newtonsoft.Json": "13.0.2",
           "Swashbuckle.AspNetCore": "6.2.3",
           "System.Data.SqlClient": "4.8.5",
@@ -33,46 +32,6 @@
           "lib/netstandard2.1/CADP.NetCore.dll": {
             "assemblyVersion": "8.11.0.4",
             "fileVersion": "8.11.0.4"
-          }
-        }
-      },
-      "FaIndustry.RelaFax.Crypto.ResponseManager/1.0.58": {
-        "runtime": {
-          "lib/Castle.Windsor.dll": {
-            "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.0.0.0"
-          },
-          "lib/OxyPlot.Wpf.dll": {
-            "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.0.0"
-          },
-          "lib/OxyPlot.dll": {
-            "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.0.0"
-          },
-          "lib/RelaFax.Contracts.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          },
-          "lib/RelaFax.Crypto.ResponseManager.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          },
-          "lib/RelaFax.Response.Crypto.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          },
-          "lib/RelaFax.ResponseManager.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          },
-          "lib/RelaFax.RestManager.Contract.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          },
-          "lib/Serilog.dll": {
-            "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.9.0.0"
           }
         }
       },
@@ -514,13 +473,6 @@
       "sha512": "sha512-t9Lo/92peZz0jeWfH5T9qSOZ43en5FYdCJ40W4Crds+YlsxSfoM5dlacqBYd4+QjCuA7EdF0/gcH3L7tES+pvQ==",
       "path": "ciphertrust.cadp.netcore/8.11.0",
       "hashPath": "ciphertrust.cadp.netcore.8.11.0.nupkg.sha512"
-    },
-    "FaIndustry.RelaFax.Crypto.ResponseManager/1.0.58": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-P4BtcuRHyz0gaeZZZj0Txj+qL8ftxKjcnwKG6Q4K+989Y9IwnvMmkQkyDVCq0ZuIKe0Buzn1DTk/HvMvOiVGiw==",
-      "path": "faindustry.relafax.crypto.responsemanager/1.0.58",
-      "hashPath": "faindustry.relafax.crypto.responsemanager.1.0.58.nupkg.sha512"
     },
     "Microsoft.Extensions.ApiDescription.Server/3.0.0": {
       "type": "package",
