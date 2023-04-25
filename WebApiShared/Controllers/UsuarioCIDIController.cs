@@ -22,5 +22,12 @@ namespace WebApiShared.Controllers
                 _usuarioService.ObtenerUsuario(Hash);
             return Ok(usu);
         }
+        [HttpGet]
+        public IActionResult ObtenerUsuarioCIDI2(string Hash)
+        {
+            var usu =
+                _usuarioService.ObtenerUsuario2(Hash);
+            return Ok(usu);
+        }
     }
 }
