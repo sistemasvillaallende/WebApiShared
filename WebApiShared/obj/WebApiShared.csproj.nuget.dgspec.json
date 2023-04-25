@@ -44,10 +44,6 @@
               "target": "Package",
               "version": "[8.11.0, )"
             },
-            "FaIndustry.RelaFax.Crypto.ResponseManager": {
-              "target": "Package",
-              "version": "[1.0.58, )"
-            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.2, )"

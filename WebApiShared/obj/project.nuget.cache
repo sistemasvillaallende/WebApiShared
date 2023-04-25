@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Gje3iku15MOkZMlt71FwOWZB6792hgUXpl6bxYT1BaD6p+GEHwc3nxW7y/qRe+Xc1DODI+b/3VRAwIzKjQcHlA==",
+  "dgSpecHash": "fnBzQkzkXXmAodq+TzcBYvirHpIhgOcEvhwxH7oP1oY29o78lf8bS7z/olpYnt6lRX9zZl2sdzJq1LUp6czk2w==",
   "success": true,
   "projectFilePath": "D:\\NET 2018\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mvelez\\.nuget\\packages\\ciphertrust.cadp.netcore\\8.11.0\\ciphertrust.cadp.netcore.8.11.0.nupkg.sha512",
-    "C:\\Users\\mvelez\\.nuget\\packages\\faindustry.relafax.crypto.responsemanager\\1.0.58\\faindustry.relafax.crypto.responsemanager.1.0.58.nupkg.sha512",
     "C:\\Users\\mvelez\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\mvelez\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\3.0.0\\microsoft.extensions.caching.abstractions.3.0.0.nupkg.sha512",
     "C:\\Users\\mvelez\\.nuget\\packages\\microsoft.extensions.caching.memory\\3.0.0\\microsoft.extensions.caching.memory.3.0.0.nupkg.sha512",
@@ -70,16 +69,5 @@
     "C:\\Users\\mvelez\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
     "C:\\Users\\mvelez\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "El paquete \"FaIndustry.RelaFax.Crypto.ResponseManager 1.0.58\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" en lugar de la plataforma de destino del proyecto \"net6.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
-      "libraryId": "FaIndustry.RelaFax.Crypto.ResponseManager",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  "logs": []
 }
