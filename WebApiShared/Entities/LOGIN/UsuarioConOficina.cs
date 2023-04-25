@@ -7,21 +7,21 @@ namespace WebApiShared.Entities.LOGIN
 {
     public class UsuarioConOficina:DALBase
     {
-        public int COD_USUARIO { get; set; }
+        public int cod_usuario { get; set; }
 
-        public string NOMBRE { get; set; }
+        public string nombre { get; set; }
 
-        public int LEGAJO { get; set; }
+        public int legajo { get; set; }
 
-        public bool ADMINISTRADOR { get; set; }
+        public bool administrador { get; set; }
 
-        public string NOMBRE_COMPLETO { get; set; }
+        public string nombre_completo { get; set; }
 
-        public string PASSWD { get; set; }
+        public string passwd { get; set; }
 
-        public string EMAIL { get; set; }
+        public string email { get; set; }
 
-        public bool BAJA { get; set; }
+        public bool baja { get; set; }
 
         public int cod_oficina { get; set; }
 
@@ -47,14 +47,14 @@ namespace WebApiShared.Entities.LOGIN
                 sqlCommand.CommandText = stringBuilder.ToString();
                 sqlCommand.Connection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-                int ordinal1 = sqlDataReader.GetOrdinal("COD_USUARIO");
-                int ordinal2 = sqlDataReader.GetOrdinal("NOMBRE");
-                int ordinal3 = sqlDataReader.GetOrdinal("LEGAJO");
-                int ordinal4 = sqlDataReader.GetOrdinal("ADMINISTRADOR");
-                int ordinal5 = sqlDataReader.GetOrdinal("NOMBRE_COMPLETO");
-                int ordinal6 = sqlDataReader.GetOrdinal("PASSWD");
-                int ordinal7 = sqlDataReader.GetOrdinal("EMAIL");
-                int ordinal8 = sqlDataReader.GetOrdinal("BAJA");
+                int ordinal1 = sqlDataReader.GetOrdinal("cod_usuario");
+                int ordinal2 = sqlDataReader.GetOrdinal("nombre");
+                int ordinal3 = sqlDataReader.GetOrdinal("legajo");
+                int ordinal4 = sqlDataReader.GetOrdinal("administrador");
+                int ordinal5 = sqlDataReader.GetOrdinal("nombre_completo");
+                int ordinal6 = sqlDataReader.GetOrdinal("passwd");
+                int ordinal7 = sqlDataReader.GetOrdinal("email");
+                int ordinal8 = sqlDataReader.GetOrdinal("baja");
                 int ordinal9 = sqlDataReader.GetOrdinal("COD_OFICINA");
                 int ordinal10 = sqlDataReader.GetOrdinal("nombre_oficina");
                 int cuit = sqlDataReader.GetOrdinal("cuit");
@@ -66,21 +66,21 @@ namespace WebApiShared.Entities.LOGIN
                     {
                         usuario = new UsuarioConOficina();
                         if (!sqlDataReader.IsDBNull(ordinal4))
-                            usuario.ADMINISTRADOR = sqlDataReader.GetBoolean(ordinal4);
+                            usuario.administrador = sqlDataReader.GetBoolean(ordinal4);
                         if (!sqlDataReader.IsDBNull(ordinal8))
-                            usuario.BAJA = sqlDataReader.GetBoolean(ordinal8);
+                            usuario.baja = sqlDataReader.GetBoolean(ordinal8);
                         if (!sqlDataReader.IsDBNull(ordinal1))
-                            usuario.COD_USUARIO = sqlDataReader.GetInt32(ordinal1);
+                            usuario.cod_usuario = sqlDataReader.GetInt32(ordinal1);
                         if (!sqlDataReader.IsDBNull(ordinal7))
-                            usuario.EMAIL = sqlDataReader.GetString(ordinal7);
+                            usuario.email = sqlDataReader.GetString(ordinal7);
                         if (!sqlDataReader.IsDBNull(ordinal3))
-                            usuario.LEGAJO = sqlDataReader.GetInt32(ordinal3);
+                            usuario.legajo = sqlDataReader.GetInt32(ordinal3);
                         if (!sqlDataReader.IsDBNull(ordinal2))
-                            usuario.NOMBRE = sqlDataReader.GetString(ordinal2);
+                            usuario.nombre = sqlDataReader.GetString(ordinal2);
                         if (!sqlDataReader.IsDBNull(ordinal5))
-                            usuario.NOMBRE_COMPLETO = sqlDataReader.GetString(ordinal5);
+                            usuario.nombre_completo = sqlDataReader.GetString(ordinal5);
                         if (!sqlDataReader.IsDBNull(ordinal6))
-                            usuario.PASSWD = sqlDataReader.GetString(ordinal6);
+                            usuario.passwd = sqlDataReader.GetString(ordinal6);
                         if (!sqlDataReader.IsDBNull(ordinal9))
                             usuario.cod_oficina = sqlDataReader.GetInt32(ordinal9);
                         if (!sqlDataReader.IsDBNull(ordinal10))
@@ -106,7 +106,7 @@ namespace WebApiShared.Entities.LOGIN
             SqlConnection sqlConnection = (SqlConnection)null;
             StringBuilder stringBuilder = new StringBuilder();
             UsuarioConOficina usuario = (UsuarioConOficina)null;
-            stringBuilder.AppendLine("SELECT U.*, O.nombre_oficina From USUARIOS_V2 U INNER JOIN OFICINAS O ON U.COD_OFICINA = O.codigo_oficina WHERE COD_USUARIO = @COD_USUARIO");
+            stringBuilder.AppendLine("SELECT U.*, O.nombre_oficina From USUARIOS_V2 U INNER JOIN OFICINAS O ON U.COD_OFICINA = O.codigo_oficina WHERE cod_usuario = @cod_usuario");
             SqlCommand sqlCommand = new SqlCommand();
 
             try
@@ -115,17 +115,17 @@ namespace WebApiShared.Entities.LOGIN
                 sqlCommand.Connection = sqlConnection;
                 sqlCommand.CommandType = CommandType.Text;
                 sqlCommand.CommandText = stringBuilder.ToString();
-                sqlCommand.Parameters.AddWithValue("@COD_USUARIO", cod_usuario);
+                sqlCommand.Parameters.AddWithValue("@cod_usuario", cod_usuario);
                 sqlCommand.Connection.Open();
                 SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-                int ordinal1 = sqlDataReader.GetOrdinal("COD_USUARIO");
-                int ordinal2 = sqlDataReader.GetOrdinal("NOMBRE");
-                int ordinal3 = sqlDataReader.GetOrdinal("LEGAJO");
-                int ordinal4 = sqlDataReader.GetOrdinal("ADMINISTRADOR");
-                int ordinal5 = sqlDataReader.GetOrdinal("NOMBRE_COMPLETO");
-                int ordinal6 = sqlDataReader.GetOrdinal("PASSWD");
-                int ordinal7 = sqlDataReader.GetOrdinal("EMAIL");
-                int ordinal8 = sqlDataReader.GetOrdinal("BAJA");
+                int ordinal1 = sqlDataReader.GetOrdinal("cod_usuario");
+                int ordinal2 = sqlDataReader.GetOrdinal("nombre");
+                int ordinal3 = sqlDataReader.GetOrdinal("legajo");
+                int ordinal4 = sqlDataReader.GetOrdinal("administrador");
+                int ordinal5 = sqlDataReader.GetOrdinal("nombre_completo");
+                int ordinal6 = sqlDataReader.GetOrdinal("passwd");
+                int ordinal7 = sqlDataReader.GetOrdinal("email");
+                int ordinal8 = sqlDataReader.GetOrdinal("baja");
                 int ordinal9 = sqlDataReader.GetOrdinal("COD_OFICINA");
                 int ordinal10 = sqlDataReader.GetOrdinal("nombre_oficina");
                 int cuit = sqlDataReader.GetOrdinal("cuit");
@@ -133,21 +133,21 @@ namespace WebApiShared.Entities.LOGIN
                 {
                     usuario = new UsuarioConOficina();
                     if (!sqlDataReader.IsDBNull(ordinal4))
-                        usuario.ADMINISTRADOR = sqlDataReader.GetBoolean(ordinal4);
+                        usuario.administrador = sqlDataReader.GetBoolean(ordinal4);
                     if (!sqlDataReader.IsDBNull(ordinal8))
-                        usuario.BAJA = sqlDataReader.GetBoolean(ordinal8);
+                        usuario.baja = sqlDataReader.GetBoolean(ordinal8);
                     if (!sqlDataReader.IsDBNull(ordinal1))
-                        usuario.COD_USUARIO = sqlDataReader.GetInt32(ordinal1);
+                        usuario.cod_usuario = sqlDataReader.GetInt32(ordinal1);
                     if (!sqlDataReader.IsDBNull(ordinal7))
-                        usuario.EMAIL = sqlDataReader.GetString(ordinal7);
+                        usuario.email = sqlDataReader.GetString(ordinal7);
                     if (!sqlDataReader.IsDBNull(ordinal3))
-                        usuario.LEGAJO = sqlDataReader.GetInt32(ordinal3);
+                        usuario.legajo = sqlDataReader.GetInt32(ordinal3);
                     if (!sqlDataReader.IsDBNull(ordinal2))
-                        usuario.NOMBRE = sqlDataReader.GetString(ordinal2);
+                        usuario.nombre = sqlDataReader.GetString(ordinal2);
                     if (!sqlDataReader.IsDBNull(ordinal5))
-                        usuario.NOMBRE_COMPLETO = sqlDataReader.GetString(ordinal5);
+                        usuario.nombre_completo = sqlDataReader.GetString(ordinal5);
                     if (!sqlDataReader.IsDBNull(ordinal6))
-                        usuario.PASSWD = sqlDataReader.GetString(ordinal6);
+                        usuario.passwd = sqlDataReader.GetString(ordinal6);
                     if (!sqlDataReader.IsDBNull(ordinal9))
                         usuario.cod_oficina = sqlDataReader.GetInt32(ordinal9);
                     if (!sqlDataReader.IsDBNull(ordinal10))

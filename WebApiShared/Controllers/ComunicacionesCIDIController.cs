@@ -28,11 +28,27 @@ namespace WebApiShared.Controllers
         [HttpPost]
         public IActionResult enviarNotificacion(string cuit, string subject, string body,int id_tipo_notif,int id_oficina,int id_usuario)
         {
+            string cuerpo =
+                @"<html>
+                    <head>
+                        <title>Notificacion </title>
+                    </head>
+                    <body>
+                        <p>Se notifica a Ud. del contenido de la presente y se procede a citarlo 
+                           y emplazarlo para que en el término de cinco (5) dias, formule 
+                           descargo por escrito y ofrezca las pruebas.
+                        </p>
+                        <p>En caso de descargo, mencionar número de causa.</p>
+                        <p>El horario de atención es de lunes a viernes de 7 a 13Hs, 
+                           Oficina ubicada en Goycoechea 686
+                        </p>
+                    </body>
+                 </html>";
             Email email = new Email();
             email.Cuil = cuit;
             email.Asunto = subject;
             //email.Subtitulo = "Subtitulo";
-            email.Mensaje = body;
+            email.Mensaje = cuerpo;
             //email.InfoDesc = "InfoDesc";
             //email.InfoDato = "InfoDato";
             //email.InfoLink = "http://google.com";
