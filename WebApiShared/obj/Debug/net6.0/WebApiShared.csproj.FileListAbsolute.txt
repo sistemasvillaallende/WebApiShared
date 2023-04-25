@@ -33,3 +33,40 @@ D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\refint\WebApiShared.dl
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.pdb
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.genruntimeconfig.cache
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\ref\WebApiShared.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\web.config
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\appsettings.Development.json
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\appsettings.json
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\WebApiShared.exe
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\WebApiShared.deps.json
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\WebApiShared.runtimeconfig.json
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\WebApiShared.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\WebApiShared.pdb
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\CADP.NetCore.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\Microsoft.OpenApi.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\System.Data.SqlClient.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+D:\NET 2018\WebApiShared\WebApiShared\bin\Debug\net6.0\CryptoManagerV4.0.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.csproj.AssemblyReference.cache
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.GeneratedMSBuildEditorConfig.editorconfig
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.AssemblyInfoInputs.cache
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.AssemblyInfo.cs
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.csproj.CoreCompileInputs.cache
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.MvcApplicationPartsAssemblyInfo.cs
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.MvcApplicationPartsAssemblyInfo.cache
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\staticwebassets.build.json
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\staticwebassets.development.json
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\scopedcss\bundle\WebApiShared.styles.css
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.csproj.CopyComplete
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\refint\WebApiShared.dll
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.pdb
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.genruntimeconfig.cache
+D:\NET 2018\WebApiShared\WebApiShared\obj\Debug\net6.0\ref\WebApiShared.dll
