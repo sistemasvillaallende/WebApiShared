@@ -29,6 +29,28 @@ namespace WebApiShared.Services.CIDI
                 throw ex;
             }
         }
+        public Entities.CIDI.Usuario ObtenerUsuario2(string HashCookie)
+        {
+            try
+            {
+                Entities.CIDI.Entrada entrada = new Entities.CIDI.Entrada();
+                entrada.IdAplicacion = Entities.CIDI.Config.CiDiIdAplicacion;
+                entrada.Contrasenia = Entities.CIDI.Config.CiDiPassAplicacion;
+                entrada.HashCookie = HashCookie;
+                entrada.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                entrada.TokenValue = Entities.CIDI.Config.ObtenerToken_SHA1(entrada.TimeStamp);
+
+                Entities.CIDI.Usuario Usuario = Entities.CIDI.Config.LlamarWebAPI<Entities.CIDI.Entrada,
+                    Entities.CIDI.Usuario>(Entities.CIDI.APICuenta.Usuario.Obtener_Usuario_Basicos_Domicilio, entrada);
+                Usuario.foto = TraerFotoPerfil(HashCookie, Usuario.CUIL);
+                return Usuario;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         protected string TraerFotoPerfil(string hash, string cuit)
         {
