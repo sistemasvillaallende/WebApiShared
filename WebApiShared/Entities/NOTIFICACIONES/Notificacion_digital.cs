@@ -465,6 +465,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         }
 
         public static void update(Notificacion_digital obj)
+
         {
             try
             {

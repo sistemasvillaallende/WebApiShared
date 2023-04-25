@@ -67,9 +67,17 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
-
-       
-
+        public  void update(Notificacion_digital obj)
+        {
+            try
+            {
+                Notificacion_digital.update(obj);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<Notificacion_digital> ListNotifxcuil(string cuil)
         {
             try
@@ -103,17 +111,6 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
-        public void update(Notificacion_digital obj)
-        {
-            try
-            {
-                Notificacion_digital.update(obj);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public void delete(Notificacion_digital obj)
         {
             try
@@ -130,6 +127,8 @@ namespace WebApiShared.Services.NOTIFICACIONES
         {
             throw new NotImplementedException();
         }
+
+       
     }
 }
 

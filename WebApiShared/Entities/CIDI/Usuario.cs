@@ -38,6 +38,7 @@ namespace WebApiShared.Entities.CIDI
         public Respuesta Respuesta { get; set; }
         public string Nivel1Seguro { get; set; }
         public string PIN { get; set; }
+        public string foto { get; set; }
         public Usuario()
         {
             Afip = new Afip();
