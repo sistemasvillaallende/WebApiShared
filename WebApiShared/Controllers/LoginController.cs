@@ -12,10 +12,11 @@ namespace WebApiShared.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IUsuarioServices _iusuarioService;
-
-        public LoginController(IUsuarioServices iusuarioService)
+        private readonly IUsuarioConOficina _iusuarioConOficinaService;
+        public LoginController(IUsuarioServices iusuarioService, IUsuarioConOficina iusuarioConOficinaService)
         {
             _iusuarioService = iusuarioService;
+            _iusuarioConOficinaService = iusuarioConOficinaService;
         }
 
         [HttpGet]
@@ -36,7 +37,18 @@ namespace WebApiShared.Controllers
             var resultado = await _iusuarioService.ValidaPermiso(user, proceso);
             return Ok(resultado);
         }
-
+        [HttpGet]
+        public IActionResult ValidaUsuarioConOficina(string user, string password)
+        {
+            var resultado = _iusuarioConOficinaService.ValidUser(user, password);
+            return Ok(resultado);
+        }
+        [HttpGet]
+        public IActionResult ValidaPermisoConOficina(string user, string proceso)
+        {
+            var resultado = _iusuarioConOficinaService.ValidaPermiso(user, proceso);
+            return Ok(resultado);
+        }
 
     }
 }

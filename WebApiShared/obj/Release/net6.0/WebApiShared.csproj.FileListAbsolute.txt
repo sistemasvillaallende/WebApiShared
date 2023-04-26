@@ -82,3 +82,4 @@ D:\NET 2018\WebApiShared\WebApiShared\bin\Release\net6.0\RelaFax.RestManager.Con
 D:\NET 2018\WebApiShared\WebApiShared\bin\Release\net6.0\Serilog.dll
 D:\NET 2018\WebApiShared\WebApiShared\bin\Release\net6.0\CryptoManagerV4.0.dll
 >>>>>>> 896fbfbc7381e0368bfaed7c094bda36e8026c92
+D:\Dev\Net2022\WebApiShared\WebApiShared\bin\Release\net6.0\CADP.NetCore.dll

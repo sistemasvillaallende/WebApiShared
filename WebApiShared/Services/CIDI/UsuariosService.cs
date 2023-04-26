@@ -1,10 +1,11 @@
 ﻿using WebApiShared.Entities.CIDI;
+using WebApiShared.Entities.CIDI.Documentos;
 
 namespace WebApiShared.Services.CIDI
 {
     public class UsuariosService : IUsuariosServices
     {
-        public Usuario ObtenerUsuario(string HashCookie)
+        public Entities.CIDI.Usuario ObtenerUsuario(string HashCookie)
         {
             try
             {
@@ -23,8 +24,7 @@ namespace WebApiShared.Services.CIDI
                 throw ex;
             }
         }
-<<<<<<< HEAD
-=======
+
         public Entities.CIDI.Usuario ObtenerUsuario2(string HashCookie)
         {
             try
@@ -66,10 +66,10 @@ namespace WebApiShared.Services.CIDI
             if (respuesta.Resultado == Entities.CIDI.Documentos.Config.CiDi_OK)
             {
                 //Desencriptado de la Documentación
-                CryptoHash objCryptoHash = new CryptoManager.Clases.CryptoHash();
+              //  CryptoHash objCryptoHash = new CryptoManager.Clases.CryptoHash();
                 String mensaje = String.Empty;
 
-                respuesta.Documentacion.Imagen = objCryptoHash.Descifrar_Datos(respuesta.Documentacion.Imagen, out mensaje);
+            //    respuesta.Documentacion.Imagen = objCryptoHash.Descifrar_Datos(respuesta.Documentacion.Imagen, out mensaje);
 
                 if (String.IsNullOrEmpty(mensaje))
                 {
@@ -93,6 +93,10 @@ namespace WebApiShared.Services.CIDI
             }
             return respuesta;
         }
->>>>>>> origin/main
+
+        string IUsuariosServices.ObtenerUsuario(string HashCookie)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="CipherTrust.CADP.NETCore" Version="8.11.0" />
-    <PackageReference Include="FaIndustry.RelaFax.Crypto.ResponseManager" Version="1.0.58" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
