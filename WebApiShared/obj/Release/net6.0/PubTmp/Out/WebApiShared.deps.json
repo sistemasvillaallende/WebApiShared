@@ -16,6 +16,7 @@
           "System.Security.Cryptography.Csp": "4.3.0",
           "System.Security.Cryptography.Encoding": "4.3.0",
           "System.Security.Cryptography.Primitives": "4.3.0",
+          "runtime.native.System.Data.SqlClient.sni": "4.7.0",
           "CryptoManagerV4.0": "1.0.0.0"
         },
         "runtime": {
