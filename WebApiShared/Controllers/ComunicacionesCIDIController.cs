@@ -34,7 +34,7 @@ namespace WebApiShared.Controllers
                         <title>Notificacion </title>
                     </head>
                     <body>
-                        <p>Se notifica a Ud. del contenido de la presente y se procede a citarlo 
+                        <p>Se notifica a " + body + @". del contenido de la presente y se procede a citarlo 
                            y emplazarlo para que en el término de cinco (5) dias, formule 
                            descargo por escrito y ofrezca las pruebas.
                         </p>
