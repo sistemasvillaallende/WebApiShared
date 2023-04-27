@@ -35,6 +35,17 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
+        public  Resoluciones_multas GetDatosExpedienteNotificar(int NRO_EXPEDIENTE, int tipo_reporte)
+        {
+            try
+            {
+                return Resoluciones_multas.GetDatosExpedienteNotificar(NRO_EXPEDIENTE,tipo_reporte);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<Resoluciones_multas> read()
         {
             try

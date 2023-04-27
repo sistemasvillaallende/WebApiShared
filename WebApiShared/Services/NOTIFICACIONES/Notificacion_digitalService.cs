@@ -45,6 +45,18 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
+        public int InsertarNuevoEstado(int nro_expediente, int cod_usuario, int tipo_reporte)
+        {
+            try
+            {
+                return Notificacion_digital.InsertarNuevoEstado(nro_expediente,cod_usuario,tipo_reporte);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<Notificacion_digital> listNotifxTipoNotif(int tipo_notificacion)
         {
             try
@@ -78,6 +90,18 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
+
+        public  void updateSumario(int nro_expediente, int tipo_reporte)
+        {
+            try
+            {
+                Notificacion_digital.updateSumario(nro_expediente,tipo_reporte);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<Notificacion_digital> ListNotifxcuil(string cuil)
         {
             try
@@ -89,11 +113,11 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
-        public int insertNotif(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado)
+        public int insertNotif(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_expediente)
         {
             try
             {
-                return Notificacion_digital.insertNotif(cuil,subject,body,id_tipo_notif,id_oficina,id_usuario, cod_estado);
+                return Notificacion_digital.insertNotif(cuil,subject,body,id_tipo_notif,id_oficina,id_usuario, cod_estado,nro_expediente);
             }
             catch (Exception ex)
             {

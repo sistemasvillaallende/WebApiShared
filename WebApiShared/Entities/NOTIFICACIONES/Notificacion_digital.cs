@@ -32,6 +32,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         public string estado { get; set; }
         public string usuario { get; set; }
         public string oficina { get; set; }
+        public int nro_expediente { get; set; }
 
         public Notificacion_digital()
         {
@@ -48,6 +49,11 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             id_oficina = 0;
             id_usuario = 0;
             nombre = string.Empty;
+            nro_expediente = 0;
+            desc_tipo_notif = string.Empty;
+            estado = string.Empty;
+            usuario = string.Empty;
+            oficina = string.Empty;
         }
 
         private static List<Notificacion_digital> mapeo(SqlDataReader dr)
@@ -400,7 +406,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
         }
 
-        public static int insertNotif(string cuil,string subject,string body,int id_tipo_notif,int id_oficina,int id_usuario ,int cod_estado)
+        public static int insertNotif(string cuil,string subject,string body,int id_tipo_notif,int id_oficina,int id_usuario ,int cod_estado,int nro_expediente)
         {
             try
             {
@@ -418,7 +424,8 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 sql.AppendLine(", body_notif");
                 sql.AppendLine(", id_oficina");
                 sql.AppendLine(", id_usuario");
-              //  sql.AppendLine(", nombre");
+                sql.AppendLine(", nro_expediente");
+                //  sql.AppendLine(", nombre");
                 sql.AppendLine(")");
                 sql.AppendLine("VALUES");
                 sql.AppendLine("(");
@@ -434,6 +441,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 sql.AppendLine(", @body_notif");
                 sql.AppendLine(", @id_oficina");
                 sql.AppendLine(", @id_usuario");
+                sql.AppendLine(", @nro_expediente");
                 //sql.AppendLine(", @nombre");
                 sql.AppendLine(")");
                 using (SqlConnection con = GetConnection())
@@ -453,7 +461,8 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.Parameters.AddWithValue("@body_notif", body);
                     cmd.Parameters.AddWithValue("@id_oficina", id_oficina);
                     cmd.Parameters.AddWithValue("@id_usuario",id_usuario);
-                   // cmd.Parameters.AddWithValue("@nombre", obj.nombre);
+                    cmd.Parameters.AddWithValue("@nro_expediente", nro_expediente);
+                    // cmd.Parameters.AddWithValue("@nombre", obj.nombre);
                     cmd.Connection.Open();
                     return cmd.ExecuteNonQuery();
                 }
@@ -501,6 +510,112 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.Parameters.AddWithValue("@nombre", obj.nombre);
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void updateSumario(int nro_expediente, int tipo_reporte)
+
+        {
+            try
+            {
+                StringBuilder sql = new StringBuilder();
+                if (tipo_reporte==1)
+                {
+                    sql.AppendLine("UPDATE  sumarios SET");
+                    sql.AppendLine(" es_multa_notificada=1,cod_estado=3");
+                    sql.AppendLine("WHERE  nro_expediente= @nro_expediente");
+
+                }
+                if (tipo_reporte == 2)
+                {
+                    sql.AppendLine("UPDATE  sumarios SET");
+                    sql.AppendLine(" es_resolucion_notificada=1,cod_estado=8");
+                    sql.AppendLine("WHERE  nro_expediente= @nro_expediente");
+
+                }
+
+
+                    using (SqlConnection con = GetConnection())
+                {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql.ToString();
+                    cmd.Parameters.AddWithValue("@nro_expediente", nro_expediente);
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static int InsertarNuevoEstado(int nro_expediente,int cod_usuario,int tipo_reporte)
+
+        {
+            try
+            {
+                StringBuilder sql = new StringBuilder();
+
+                sql.AppendLine(@"INSERT INTO HISTORIAL_SUMARIOS
+                  (COD_OFICINA, NRO_EXPEDIENTE, NRO_PASO, CODIGO_ESTADO
+                   , FECHA_INICIO_ESTADO, FECHA_CAMBIO_ESTADO, OBSERVACIONES, USUARIO)
+                  VALUES
+                 (@COD_OFICINA, @NRO_EXPEDIENTE, @NRO_PASO, @CODIGO_ESTADO
+                 ,@FECHA_INICIO_ESTADO,@FECHA_CAMBIO_ESTADO,@OBSERVACIONES ,@USUARIO)");
+
+                int sig=DALBase.SigPaso("HISTORIAL_SUMARIOS","nro_paso","nro_expediente",nro_expediente);
+                string usuario_hist= DALBase.GetNombre("USUARIOS_V2", "NOMBRE", "COD_USUARIO", cod_usuario);
+                DateTime fechaActual = DateTime.Now;
+                
+                
+                
+                using (SqlConnection con = GetConnection())
+                {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    if (tipo_reporte == 1)
+                    {
+                      
+                        DateTime nuevaFecha = fechaActual.AddDays(5);
+                        cmd.CommandText = sql.ToString();
+                        cmd.Parameters.AddWithValue("@COD_OFICINA", 122);
+                        cmd.Parameters.AddWithValue("@NRO_EXPEDIENTE", nro_expediente);
+                        cmd.Parameters.AddWithValue("@NRO_PASO", sig);
+                        cmd.Parameters.AddWithValue("@CODIGO_ESTADO", 3);
+                        cmd.Parameters.AddWithValue("@FECHA_INICIO_ESTADO", fechaActual);
+                        cmd.Parameters.AddWithValue("@FECHA_CAMBIO_ESTADO", nuevaFecha);
+                        cmd.Parameters.AddWithValue("@OBSERVACIONES", "CAUSA NOTIFICADA MEDIANTE CIDI");
+                        cmd.Parameters.AddWithValue("@USUARIO", usuario_hist);
+                        cmd.Connection.Open();
+                        
+
+
+                    }
+                    if (tipo_reporte == 2)
+                    {
+                     
+                        DateTime nuevaFecha = fechaActual.AddDays(15);
+                        cmd.CommandText = sql.ToString();
+                        cmd.Parameters.AddWithValue("@COD_OFICINA", 122);
+                        cmd.Parameters.AddWithValue("@NRO_EXPEDIENTE", nro_expediente);
+                        cmd.Parameters.AddWithValue("@NRO_PASO", sig);
+                        cmd.Parameters.AddWithValue("@CODIGO_ESTADO", 8);
+                        cmd.Parameters.AddWithValue("@FECHA_INICIO_ESTADO", fechaActual);
+                        cmd.Parameters.AddWithValue("@FECHA_CAMBIO_ESTADO", nuevaFecha);
+                        cmd.Parameters.AddWithValue("@OBSERVACIONES", "CAUSA CON RESOLUCION NOTIFICADA MEDIANTE CIDI");
+                        cmd.Parameters.AddWithValue("@USUARIO", usuario_hist);
+                        cmd.Connection.Open();
+                        
+                       
+
+                    }
+                    return cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)

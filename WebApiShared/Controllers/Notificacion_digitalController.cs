@@ -47,7 +47,7 @@ namespace WebApiShared.Controllers
             var req = _Notificacion_digitalService.ListNotifxEstado(cod_estado);
             return Ok(req);
         }
-
+        
     }
 }
 

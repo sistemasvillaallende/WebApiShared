@@ -24,8 +24,14 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         public string ART_5 { get; set; }
         public int ANIO { get; set; }
         public int nro_causa { get; set; }
-        public string tipo_resolucion { get; set; }
+        public string tipo_resol { get; set; }
         public string nombre_noti { get; set; }
+        public string motivos { get; set; }
+        public string dominio { get; set; }
+        public DateTime FECHA_ACTA_INFRACCION { get; set; }
+        public int nro_acta { get; set; }
+        public string cuit { get; set; }
+        public string NOMBRE_ESTADO { get; set; }
         public Resoluciones_multas()
         {
             COD_OFICINA = 0;
@@ -43,8 +49,14 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             ART_5 = string.Empty;
             ANIO = 0;
             nro_causa = 0;  
-            tipo_resolucion = string.Empty;
+            tipo_resol = string.Empty;
             nombre_noti = string.Empty;
+            motivos = string.Empty;
+            nro_acta = 0;
+            dominio=string.Empty;
+            FECHA_ACTA_INFRACCION= DateTime.Now;
+            cuit = string.Empty;
+            NOMBRE_ESTADO = string.Empty;
         }
 
         private static List<Resoluciones_multas> mapeo(SqlDataReader dr)
@@ -96,10 +108,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             {
                 StringBuilder sql = new StringBuilder();
                 sql.AppendLine(@"Select s.Nro_Causa,s.anio, r.NRO_EXPEDIENTE, r.visto ,r.considerando,r.ART_1 ,r.ART_2,r.ART_3,r.ART_4 
-                               ,t.descripcion as tipo_resolucion ,su.NOMBRE_NOTI
+                               ,t.descripcion as tipo_resol ,s.NOMBRE_NOTI,s.dominio,s.nro_acta,s.FECHA_ACTA_INFRACCION,s.motivos
                                from RESOLUCIONES_MULTAS r left join SUMARIOS s on s.NRO_EXPEDIENTE=r.NRO_EXPEDIENTE
                                left join TIPO_RESOLUCION_MULTAS t on t.id_tip_resol_multas=r.TIPO_RESOLUCION
-                               left join SUMARIOS su on su.NRO_EXPEDIENTE=s.NRO_EXPEDIENTE
                                where r.nro_expediente=@nro_expediente and r.ID_RESOLUCION=0");
                 Resoluciones_multas obj = null;
                 List<Resoluciones_multas> lst = new List<Resoluciones_multas>();
@@ -125,8 +136,12 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                             if (!dr.IsDBNull(6)) { obj.ART_2 = dr.GetString(6); }
                             if (!dr.IsDBNull(7)) { obj.ART_3 = dr.GetString(7); }
                             if (!dr.IsDBNull(8)) { obj.ART_4 = dr.GetString(8); }
-                            if (!dr.IsDBNull(9)) { obj.tipo_resolucion = dr.GetString(9); }
+                            if (!dr.IsDBNull(9)) { obj.tipo_resol = dr.GetString(9); }
                             if (!dr.IsDBNull(10)) { obj.nombre_noti= dr.GetString(10); }
+                            if (!dr.IsDBNull(11)) { obj.dominio = dr.GetString(11); }
+                            if (!dr.IsDBNull(12)) { obj.nro_acta = dr.GetInt32(12); }
+                            if (!dr.IsDBNull(13)) { obj.FECHA_ACTA_INFRACCION = dr.GetDateTime(13); }
+                            if (!dr.IsDBNull(14)) { obj.motivos = dr.GetString(14); }
                             lst.Add(obj);
                         }
                     }
@@ -143,6 +158,78 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
         }
 
+        public static Resoluciones_multas GetDatosExpedienteNotificar(int NRO_EXPEDIENTE, int tipo_reporte)
+        {
+            try
+            {
+                StringBuilder sql = new StringBuilder();
+                if (tipo_reporte==1)
+                {
+
+                    sql.AppendLine(@"select b.cuit, s.Nro_Causa,s.anio, s.NRO_EXPEDIENTE,e.NOMBRE_ESTADO as estado_actual,
+                    s.NOMBRE_NOTI,s.dominio,s.nro_acta,s.motivos,s.FECHA_ACTA_INFRACCION
+                    from sumarios s left join badec b on b.NRO_BAD=s.NRO_BAD
+                    left join ESTADOS_SUMARIO e on e.CODIGO_ESTADO=s.COD_ESTADO
+                    where s.cod_estado=2 and s.nro_expediente= @nro_expediente and s.TIPO_SUMARIO=3 and cuit is not null
+                    and (s.es_multa_notificada is null or s.es_multa_notificada<>1)");
+
+                }
+                if (tipo_reporte == 2)
+                {
+
+                    sql.AppendLine(@"select b.cuit, s.Nro_Causa,s.anio, s.NRO_EXPEDIENTE,e.NOMBRE_ESTADO as estado_actual,
+                    s.NOMBRE_NOTI,s.dominio,s.nro_acta,s.motivos,s.FECHA_ACTA_INFRACCION
+                    from sumarios s left join badec b on b.NRO_BAD=s.NRO_BAD
+                    left join ESTADOS_SUMARIO e on e.CODIGO_ESTADO=s.COD_ESTADO
+                    where s.cod_estado=5 and s.nro_expediente= @nro_expediente and s.TIPO_SUMARIO=3 and cuit is not null
+                    and (s.es_resolucion_notificada is null or s.es_resolucion_notificada<>1)");
+
+                }
+
+                Resoluciones_multas obj = null;
+                List<Resoluciones_multas> lst = new List<Resoluciones_multas>();
+                using (SqlConnection con = GetConnection())
+                {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql.ToString();
+                    cmd.Parameters.AddWithValue("@NRO_EXPEDIENTE", NRO_EXPEDIENTE);
+                    cmd.Connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            obj = new Resoluciones_multas();
+                            if (!dr.IsDBNull(0)) { obj.cuit = dr.GetString(0); }
+                            if (!dr.IsDBNull(1)) { obj.nro_causa = dr.GetInt32(1); }
+                            if (!dr.IsDBNull(2)) { obj.ANIO = dr.GetInt32(2); }
+                            if (!dr.IsDBNull(3)) { obj.NRO_EXPEDIENTE = dr.GetInt32(3); }
+                            if (!dr.IsDBNull(4)) { obj.NOMBRE_ESTADO = dr.GetString(4); }
+                            if (!dr.IsDBNull(5)) { obj.nombre_noti = dr.GetString(5); }
+                            if (!dr.IsDBNull(6)) { obj.dominio = dr.GetString(6); }
+                            if (!dr.IsDBNull(7)) { obj.nro_acta = dr.GetInt32(7); }
+                            if (!dr.IsDBNull(8)) { obj.motivos = dr.GetString(8); }
+                            if (!dr.IsDBNull(9)) { obj.FECHA_ACTA_INFRACCION = dr.GetDateTime(9); }
+
+                            lst.Add(obj);
+                        }
+                    }
+
+                    //List<Resoluciones_multas> lst = mapeo(dr);
+                    if (lst.Count != 0)
+                        obj = lst[0];
+                }
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+     
+       
         public static List<Resoluciones_multas> read()
     {
         try

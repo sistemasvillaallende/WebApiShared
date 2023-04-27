@@ -6,6 +6,7 @@ D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiSha
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.deps.json
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.runtimeconfig.json
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\WebApiShared.pdb
+D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\CADP.NetCore.dll
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
