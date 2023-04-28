@@ -34,55 +34,64 @@ namespace WebApiShared.Controllers
         {
             string cuerpo = "";
             Resoluciones_multas obj = new Resoluciones_multas();
-            obj = _Resoluciones_multasService.GetResolucion(nro_expediente);
+            obj = _Resoluciones_multasService.GetDatosExpedienteNotificar(nro_expediente,1);
             if (tipo_reporte==1) /* nro*/
             {
                 cuerpo =
                    @"<html>
                     <head>
-                        <title>Notificacion de Multas </title>
+                        <title>Notificación para: "+obj.nombre_noti+@" Cuit: "+cuit+@" Nro. de Notificación xxx</title>
                     </head>
                     <body>
-                        <p>Se notifica. del contenido de la presente y se procede a citarlo 
-                           y emplazarlo para que en el término de cinco (5) dias, formule 
-                           descargo por escrito y ofrezca las pruebas.
+                        <br>
+                        <p>INFRACCIONES DE TRANSITO ** MUNICIPALIDAD DE VILLA ALLENDE</p>
+
+                          <p>Dominio: "+obj.dominio+@" </p>
+                          <br>
+                            <p>Causa:"+obj.nro_causa+@"/"+obj.ANIO+@"  ** Acta Nro: "+obj.nro_acta+@" </p>
+                            <p> Fecha de Infracción:"+obj.FECHA_ACTA_INFRACCION+@" Hs.</p>
+                            <p>  Falta Cometida: "+obj.motivos+@" </p>
+
+                        <p>Se notifica a Ud. del contenido de la presente y se procede a citarlo y emplazarlo
+                           para que en el término de cinco (5) días, formule descargo en los términos de ley 
+                         y ofrezca las pruebas.
+
                         </p>
-                        <p>En caso de descargo, mencionar número de causa.</p>
-                        <p>El horario de atención es de lunes a viernes de 7 a 13Hs, 
-                           Oficina ubicada en Goycoechea 686
-                        </p>
-                          ";
-                    cuerpo = cuerpo +" <p> <a href='https://vecino.villaallende.gov.ar/PagosOnLine/Multas.aspx?dominio=NEX918&nroEpediente="+obj.NRO_EXPEDIENTE+"'>Link para pago</a> </p></body> </html>";
+                        <p>Si acepta la infracción y desea abonarla con los descuentos previstos a tal fin, 
+                          puede hacerlo desde el  siguiente vínculo ";
+                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/Multas.aspx?dominio="+obj.dominio+"&nroEpediente=" + obj.NRO_EXPEDIENTE + "'>Link para pago</a> </p>";
+                cuerpo = cuerpo + @" <p>El horario de atención es de lunes a viernes de 7 a 13Hs.
+                         Oficina ubicada en Goycoechea 686</p>
+                        <p> Tel: 03543-439280 int. 321/322</p>
+                         </body> </html> ";
+                    
             }
             if (tipo_reporte == 2)
             {
-                
-    
-                     cuerpo =
-                    @"<html>
+                Resoluciones_multas obj2 = new Resoluciones_multas();
+                obj2 = _Resoluciones_multasService.GetResolucion(nro_expediente);
+
+                cuerpo =
+               @"<html>
                     <head>
                         <title>Notificacion  de Resolucion </title>
-                    </head>"+
+                    </head>
+                    <body>
+                       <p> Estimado/a " + obj2.nombre_noti + @" </p>
+                       <p> Nos dirigimos a usted en relacion a la Resolucion de la multa emitida con causa nro: " + obj2.nro_causa + @"/" + obj2.ANIO + @" para la cual se dictamino:</p> " +
 
-                   @" <body>
-                       <p> Estimado/a "+obj.nombre_noti+ @" </p>
-                       <p> Nos dirigimos a usted en relacion a la Resolucion de la multa emitida con causa n" + obj.nro_causa+ @" para la cual se dictamino:</p> "+
-
-                       @" <p>" + obj.ART_1+ @"</p>
-                       
-                       
-                    </body>
-                 </html>";
+                  @" <p>" + obj2.ART_1 + @"</p>";
+                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/Multas.aspx?dominio=" + obj2.dominio + "8&nroEpediente=" + obj2.NRO_EXPEDIENTE + "'>Link para pago</a>";
+                cuerpo = cuerpo + @" <p>El horario de atención es de lunes a viernes de 7 a 13Hs.
+                         Oficina ubicada en Goycoechea 686</p>
+                        <p> Tel: 03543-439280 int. 321/322</p>
+                         </body> </html> ";
 
 
 
 
             }
-            // <p>CONSIDERANDO: " + obj.CONSIDERANDO + @"</p>
-            //< p > ARTICULO 1: " + obj.ART_1 + @" </ p >
-            //            < p > ARTICULO 2: " + obj.ART_2 + @" </ p >
-            //            < p > ARTICULO 3: " + obj.ART_3 + @" </ p >
-            //            < p > ARTICULO 4: " + obj.ART_4 + @" </ p >
+   
 
             Email email = new Email();
             email.Cuil = cuit;
@@ -102,10 +111,12 @@ namespace WebApiShared.Controllers
 
             if (respuesta.Resultado != "OK")
             {
-                _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, id_tipo_notif, id_oficina, id_usuario, 0);
+                _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, id_tipo_notif, id_oficina, id_usuario, 0, nro_expediente);
                 return BadRequest(new { message = "Error al obtener los datos" });
             }
-            _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, id_tipo_notif,id_oficina,id_usuario,1);
+            _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, id_tipo_notif,id_oficina,id_usuario,1, nro_expediente);
+            _Notificacion_digitalService.updateSumario(nro_expediente,tipo_reporte);
+            _Notificacion_digitalService.InsertarNuevoEstado(nro_expediente,id_usuario ,tipo_reporte);
             return Ok(respuesta);
         }
     }

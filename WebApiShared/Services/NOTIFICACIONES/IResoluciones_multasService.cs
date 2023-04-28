@@ -13,6 +13,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
         public void update(Resoluciones_multas obj);
         public void delete(Resoluciones_multas obj);
         public Resoluciones_multas GetResolucion(int NRO_EXPEDIENTE);
+        public Resoluciones_multas GetDatosExpedienteNotificar(int NRO_EXPEDIENTE, int tipo_reporte);
     }
 }
 
