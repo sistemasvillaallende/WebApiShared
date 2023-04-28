@@ -1,11 +1,12 @@
-﻿using WebApiShared.Entities.CIDI;
+﻿using Newtonsoft.Json;
+using WebApiShared.Entities.CIDI;
 using WebApiShared.Entities.CIDI.Documentos;
 
 namespace WebApiShared.Services.CIDI
 {
     public class UsuariosService : IUsuariosServices
     {
-        public Entities.CIDI.Usuario ObtenerUsuario(string HashCookie)
+        public string ObtenerUsuario(string HashCookie)
         {
             try
             {
@@ -15,9 +16,11 @@ namespace WebApiShared.Services.CIDI
                 entrada.HashCookie = HashCookie;
                 entrada.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 entrada.TokenValue = Entities.CIDI.Config.ObtenerToken_SHA1(entrada.TimeStamp);
-
-                return Entities.CIDI.Config.LlamarWebAPI<Entities.CIDI.Entrada,
-                    Entities.CIDI.Usuario>(Entities.CIDI.APICuenta.Usuario.Obtener_Usuario_Aplicacion, entrada);
+                
+                Entities.CIDI.Usuario Usuario = Entities.CIDI.Config.LlamarWebAPI<Entities.CIDI.Entrada,
+                    Entities.CIDI.Usuario>(Entities.CIDI.APICuenta.Usuario.Obtener_Usuario_Basicos_Domicilio, entrada);
+                Usuario.foto = TraerFotoPerfil(HashCookie, Usuario.CUIL);
+                return JsonConvert.SerializeObject(Usuario);
             }
             catch (Exception ex)
             {
