@@ -55,10 +55,11 @@ namespace WebApiShared.Controllers
                         <p>Se notifica a Ud. del contenido de la presente y se procede a citarlo y emplazarlo
                            para que en el término de cinco (5) días, formule descargo en los términos de ley 
                          y ofrezca las pruebas.
+
                         </p>
                         <p>Si acepta la infracción y desea abonarla con los descuentos previstos a tal fin, 
                           puede hacerlo desde el  siguiente vínculo ";
-                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/Multas.aspx?dominio=NEX918&nroEpediente=" + obj.NRO_EXPEDIENTE + "'>Link para pago</a> </p>";
+                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/Multas.aspx?dominio="+obj.dominio+"&nroEpediente=" + obj.NRO_EXPEDIENTE + "'>Link para pago</a> </p>";
                 cuerpo = cuerpo + @" <p>El horario de atención es de lunes a viernes de 7 a 13Hs.
                          Oficina ubicada en Goycoechea 686</p>
                         <p> Tel: 03543-439280 int. 321/322</p>
@@ -74,16 +75,17 @@ namespace WebApiShared.Controllers
                @"<html>
                     <head>
                         <title>Notificacion  de Resolucion </title>
-                    </head>" +
-
-              @" <body>
+                    </head>
+                    <body>
                        <p> Estimado/a " + obj2.nombre_noti + @" </p>
                        <p> Nos dirigimos a usted en relacion a la Resolucion de la multa emitida con causa nro: " + obj2.nro_causa + @"/" + obj2.ANIO + @" para la cual se dictamino:</p> " +
 
                   @" <p>" + obj2.ART_1 + @"</p>";
-                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/Multas.aspx?dominio=NEX918&nroEpediente=" + obj2.NRO_EXPEDIENTE + @"'>Link para pago</a>
-                    </body>
-                 </html>";
+                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/Multas.aspx?dominio=" + obj2.dominio + "8&nroEpediente=" + obj2.NRO_EXPEDIENTE + "'>Link para pago</a>";
+                cuerpo = cuerpo + @" <p>El horario de atención es de lunes a viernes de 7 a 13Hs.
+                         Oficina ubicada en Goycoechea 686</p>
+                        <p> Tel: 03543-439280 int. 321/322</p>
+                         </body> </html> ";
 
 
 

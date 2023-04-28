@@ -4,7 +4,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
+<<<<<<< HEAD
     <History>True|2023-04-27T10:24:34.7370070Z;True|2023-04-26T21:08:58.6174988-03:00;True|2023-04-26T19:43:41.1009711-03:00;False|2023-04-26T19:39:50.7344366-03:00;False|2023-04-26T19:38:53.8211344-03:00;</History>
     <_PublishTargetUrl>D:\WebApiSharedPublish</_PublishTargetUrl>
+=======
+    <_PublishTargetUrl>D:\NET 2018\WebApiShared\WebApiShared\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2023-04-26T13:11:12.5338376Z;</History>
+>>>>>>> 4dc111bfae6fb5e952c060092086c61a32fb507a
   </PropertyGroup>
 </Project>

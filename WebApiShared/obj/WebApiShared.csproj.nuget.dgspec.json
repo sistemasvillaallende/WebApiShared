@@ -71,6 +71,10 @@
             "System.Security.Cryptography.Primitives": {
               "target": "Package",
               "version": "[4.3.0, )"
+            },
+            "runtime.native.System.Data.SqlClient.sni": {
+              "target": "Package",
+              "version": "[4.7.0, )"
             }
           },
           "imports": [
