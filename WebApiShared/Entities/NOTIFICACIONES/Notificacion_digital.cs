@@ -443,7 +443,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 sql.AppendLine(", @id_usuario");
                 sql.AppendLine(", @nro_expediente");
                 //sql.AppendLine(", @nombre");
-                sql.AppendLine(")");
+                sql.AppendLine(") SELECT SCOPE_IDENTITY()");
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
@@ -464,7 +464,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.Parameters.AddWithValue("@nro_expediente", nro_expediente);
                     // cmd.Parameters.AddWithValue("@nombre", obj.nombre);
                     cmd.Connection.Open();
-                    return cmd.ExecuteNonQuery();
+                    return Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception ex)
@@ -473,41 +473,24 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
         }
 
-        public static void update(Notificacion_digital obj)
+        public static void update(int id_notificacion ,int estado_notif,string body_notif)
 
         {
             try
             {
                 StringBuilder sql = new StringBuilder();
                 sql.AppendLine("UPDATE  Notificacion_digital SET");
-               
-                sql.AppendLine(", cidi_nivel=@cidi_nivel");
-                sql.AppendLine(", estado_notif=@estado_notif");
-                sql.AppendLine(", cuil=@cuil");
-                sql.AppendLine(", subject_notif=@subject_notif");
-                sql.AppendLine(", body_notif=@body_notif");
-                sql.AppendLine(", id_oficina=@id_oficina");
-                sql.AppendLine(", id_usuario=@id_usuario");
-                sql.AppendLine(", nombre=@nombre");
-                sql.AppendLine("WHERE");
+                sql.AppendLine(" estado_notif=@estado_notif");     
+                sql.AppendLine(", body_notif=@body_notif");           
+                sql.AppendLine("WHERE id_notificacion= @id_notificacion");
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = sql.ToString();
-                    cmd.Parameters.AddWithValue("@id_notificacion", obj.id_notificacion);
-                    cmd.Parameters.AddWithValue("@tipo_notificacion", obj.tipo_notificacion);
-                    cmd.Parameters.AddWithValue("@nro_emision", obj.nro_emision);
-                    cmd.Parameters.AddWithValue("@fecha_notif", obj.fecha_notif);
-                    cmd.Parameters.AddWithValue("@desc_notif", obj.desc_notif);
-                    cmd.Parameters.AddWithValue("@cidi_nivel", obj.cidi_nivel);
-                    cmd.Parameters.AddWithValue("@estado_notif", obj.estado_notif);
-                    cmd.Parameters.AddWithValue("@cuil", obj.cuil);
-                    cmd.Parameters.AddWithValue("@subject_notif", obj.subject_notif);
-                    cmd.Parameters.AddWithValue("@body_notif", obj.body_notif);
-                    cmd.Parameters.AddWithValue("@id_oficina", obj.id_oficina);
-                    cmd.Parameters.AddWithValue("@id_usuario", obj.id_usuario);
-                    cmd.Parameters.AddWithValue("@nombre", obj.nombre);
+                    cmd.Parameters.AddWithValue("@id_notificacion", id_notificacion);            
+                    cmd.Parameters.AddWithValue("@estado_notif", estado_notif);      
+                    cmd.Parameters.AddWithValue("@body_notif", body_notif);
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -567,7 +550,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                    , FECHA_INICIO_ESTADO, FECHA_CAMBIO_ESTADO, OBSERVACIONES, USUARIO)
                   VALUES
                  (@COD_OFICINA, @NRO_EXPEDIENTE, @NRO_PASO, @CODIGO_ESTADO
-                 ,@FECHA_INICIO_ESTADO,@FECHA_CAMBIO_ESTADO,@OBSERVACIONES ,@USUARIO)");
+                 ,@FECHA_INICIO_ESTADO,@FECHA_CAMBIO_ESTADO,@OBSERVACIONES ,@USUARIO)
+                 ");
+                
 
                 int sig=DALBase.SigPaso("HISTORIAL_SUMARIOS","nro_paso","nro_expediente",nro_expediente);
                 string usuario_hist= DALBase.GetNombre("USUARIOS_V2", "NOMBRE", "COD_USUARIO", cod_usuario);

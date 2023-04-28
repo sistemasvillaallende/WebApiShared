@@ -33,20 +33,33 @@ namespace WebApiShared.Controllers
         public IActionResult enviarNotificacionMultas(string cuit,int id_tipo_notif,int id_oficina,int id_usuario,int tipo_reporte,int nro_expediente)
         {
             string cuerpo = "";
+            int nro_notif = 0;
             Resoluciones_multas obj = new Resoluciones_multas();
             obj = _Resoluciones_multasService.GetDatosExpedienteNotificar(nro_expediente,1);
+
+            Email email = new Email();
+            email.Cuil = cuit;
+            email.Asunto = " NOTIFICACION DE MULTAS";
+            email.Mensaje = "";
+            email.Firma = "Juzgado de Faltas";
+            email.Ente = "Municipalidad de Villa Allende";
+            email.Id_App = Config.CiDiIdAplicacion;
+            email.Pass_App = Config.CiDiPassAplicacion;
+            email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
+            nro_notif = _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, id_tipo_notif, id_oficina, id_usuario, 0, nro_expediente);
             if (tipo_reporte==1) /* nro*/
             {
                 cuerpo =
                    @"<html>
                     <head>
-                        <title>Notificación para: "+obj.nombre_noti+@" Cuit: "+cuit+@" Nro. de Notificación xxx</title>
+                        <title>Notificación para: "+obj.nombre_noti+@" Cuit: "+cuit+ @"  </title>
                     </head>
                     <body>
                         <br>
-                        <p>INFRACCIONES DE TRANSITO ** MUNICIPALIDAD DE VILLA ALLENDE</p>
+                        <p>INFRACCIONES DE TRANSITO  MUNICIPALIDAD DE VILLA ALLENDE    Nro. de Notificación digital " + nro_notif + @"</p>
 
-                          <p>Dominio: "+obj.dominio+@" </p>
+                          <p>Dominio: " + obj.dominio+@" </p>
                           <br>
                             <p>Causa:"+obj.nro_causa+@"/"+obj.ANIO+@"  ** Acta Nro: "+obj.nro_acta+@" </p>
                             <p> Fecha de Infracción:"+obj.FECHA_ACTA_INFRACCION+@" Hs.</p>
@@ -74,7 +87,7 @@ namespace WebApiShared.Controllers
                 cuerpo =
                @"<html>
                     <head>
-                        <title>Notificacion  de Resolucion </title>
+                        <title>Notificacion  de Resolucion                nro notif digital: "+ obj.nro_acta+@" </title>
                     </head>
                     <body>
                        <p> Estimado/a " + obj2.nombre_noti + @" </p>
@@ -91,33 +104,51 @@ namespace WebApiShared.Controllers
 
 
             }
-   
 
-            Email email = new Email();
-            email.Cuil = cuit;
-            email.Asunto = " NOTIFICACION DE MULTAS"  ;
-            //email.Subtitulo = "Subtitulo";
+
+
+
             email.Mensaje = cuerpo;
-            //email.InfoDesc = "InfoDesc";
-            //email.InfoDato = "InfoDato";
-            //email.InfoLink = "http://google.com";
-            email.Firma = "Juzgado de Faltas";
-            email.Ente = "Municipalidad de Villa Allende";
-            email.Id_App = Config.CiDiIdAplicacion;
-            email.Pass_App = Config.CiDiPassAplicacion;
-            email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
             var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
 
             if (respuesta.Resultado != "OK")
             {
-                _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, id_tipo_notif, id_oficina, id_usuario, 0, nro_expediente);
+                _Notificacion_digitalService.update(nro_notif, 0, email.Mensaje);
                 return BadRequest(new { message = "Error al obtener los datos" });
             }
-            _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, id_tipo_notif,id_oficina,id_usuario,1, nro_expediente);
+             _Notificacion_digitalService.update(nro_notif,1, email.Mensaje);
             _Notificacion_digitalService.updateSumario(nro_expediente,tipo_reporte);
             _Notificacion_digitalService.InsertarNuevoEstado(nro_expediente,id_usuario ,tipo_reporte);
             return Ok(respuesta);
         }
+
+        [HttpPost]
+        public IActionResult enviarNotificacionGeneral(string cuit, string subject,string body)
+        {
+            
+            int nro_notif = 0;
+            Email email = new Email();
+            email.Cuil = cuit;
+            email.Asunto = subject;
+            email.Mensaje = body;
+            email.Firma = "Administracion General";
+            email.Ente = "Municipalidad de Villa Allende";
+            email.Id_App = Config.CiDiIdAplicacion;
+            email.Pass_App = Config.CiDiPassAplicacion;
+            email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);                     
+            var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
+            nro_notif = _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, 6, 0, 0, 0, 0);
+            if (respuesta.Resultado != "OK")
+            {
+                _Notificacion_digitalService.update(nro_notif, 0, email.Mensaje);
+                return BadRequest(new { message = "Error al obtener los datos" });
+            }
+            _Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
+            //_Notificacion_digitalService.updateSumario(nro_expediente, tipo_reporte);
+           // _Notificacion_digitalService.InsertarNuevoEstado(nro_expediente, id_usuario, tipo_reporte);
+            return Ok(respuesta);
+        }
+
     }
 }
