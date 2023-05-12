@@ -170,7 +170,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     s.NOMBRE_NOTI,s.dominio,s.nro_acta,s.motivos,s.FECHA_ACTA_INFRACCION
                     from sumarios s left join badec b on b.NRO_BAD=s.NRO_BAD
                     left join ESTADOS_SUMARIO e on e.CODIGO_ESTADO=s.COD_ESTADO
-                    where s.cod_estado=2 and s.nro_expediente= @nro_expediente and s.TIPO_SUMARIO=3 and cuit is not null
+                    where s.cod_estado=2 and s.nro_expediente= @nro_expediente and s.TIPO_SUMARIO=3 
                     and (s.es_multa_notificada is null or s.es_multa_notificada<>1)");
 
                 }
@@ -181,7 +181,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     s.NOMBRE_NOTI,s.dominio,s.nro_acta,s.motivos,s.FECHA_ACTA_INFRACCION
                     from sumarios s left join badec b on b.NRO_BAD=s.NRO_BAD
                     left join ESTADOS_SUMARIO e on e.CODIGO_ESTADO=s.COD_ESTADO
-                    where s.cod_estado=5 and s.nro_expediente= @nro_expediente and s.TIPO_SUMARIO=3 and cuit is not null
+                    where s.cod_estado=5 and s.nro_expediente= @nro_expediente and s.TIPO_SUMARIO=3
                     and (s.es_resolucion_notificada is null or s.es_resolucion_notificada<>1)");
 
                 }

@@ -16,7 +16,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
         public int insert(Notificacion_digital obj);
         public int insertNotif(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_expediente);
         public void update(int id_notificacion, int estado_notif, string body_notif);
-        public int InsertarNuevoEstado(int nro_expediente, int cod_usuario, int tipo_reporte);
+        public int InsertarNuevoEstado(int nro_expediente, int cod_usuario, int tipo_reporte, int id_notificacion);
         public void updateSumario(int nro_expediente, int tipo_reporte);
         public void delete(Notificacion_digital obj);
     }

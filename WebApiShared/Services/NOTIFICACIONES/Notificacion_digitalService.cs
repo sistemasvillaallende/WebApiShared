@@ -45,11 +45,11 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
-        public int InsertarNuevoEstado(int nro_expediente, int cod_usuario, int tipo_reporte)
+        public int InsertarNuevoEstado(int nro_expediente, int cod_usuario, int tipo_reporte, int id_notificacion)
         {
             try
             {
-                return Notificacion_digital.InsertarNuevoEstado(nro_expediente,cod_usuario,tipo_reporte);
+                return Notificacion_digital.InsertarNuevoEstado(nro_expediente,cod_usuario,tipo_reporte,id_notificacion);
             }
             catch (Exception ex)
             {

@@ -507,6 +507,8 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             try
             {
                 StringBuilder sql = new StringBuilder();
+                StringBuilder sqlDelete = new StringBuilder();
+                StringBuilder sqlDelete2 = new StringBuilder();
                 if (tipo_reporte==1)
                 {
                     sql.AppendLine("UPDATE  sumarios SET");
@@ -522,8 +524,17 @@ namespace WebApiShared.Entities.NOTIFICACIONES
 
                 }
 
+                if (tipo_reporte == 1)
+                {
+                    sqlDelete.AppendLine(@" delete from CTASCTES_MULTAS where nro_expediente=@nro_expediente 
+                                            and categoria_deuda=4 and pagado=0
+                                        ");
+                    sqlDelete2.AppendLine(@" delete from MULTAS_FACT where nro_expediente=@nro_expediente 
+                                            and categoria_deuda=4 and pagado=0
+                                        ");
+                }
 
-                    using (SqlConnection con = GetConnection())
+                using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
@@ -531,6 +542,20 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.Parameters.AddWithValue("@nro_expediente", nro_expediente);
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
+                    if (tipo_reporte == 1)
+                    {
+                        cmd.CommandText = sqlDelete.ToString();
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@nro_expediente", nro_expediente);
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = sqlDelete2.ToString();
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@nro_expediente", nro_expediente);
+                        cmd.ExecuteNonQuery();
+
+                    }
+
                 }
             }
             catch (Exception ex)
@@ -538,12 +563,13 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-        public static int InsertarNuevoEstado(int nro_expediente,int cod_usuario,int tipo_reporte)
+        public static int InsertarNuevoEstado(int nro_expediente,int cod_usuario,int tipo_reporte, int id_notificacion)
 
         {
             try
             {
                 StringBuilder sql = new StringBuilder();
+                StringBuilder sqlUpDate = new StringBuilder();
 
                 sql.AppendLine(@"INSERT INTO HISTORIAL_SUMARIOS
                   (COD_OFICINA, NRO_EXPEDIENTE, NRO_PASO, CODIGO_ESTADO
@@ -575,7 +601,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                         cmd.Parameters.AddWithValue("@CODIGO_ESTADO", 3);
                         cmd.Parameters.AddWithValue("@FECHA_INICIO_ESTADO", fechaActual);
                         cmd.Parameters.AddWithValue("@FECHA_CAMBIO_ESTADO", nuevaFecha);
-                        cmd.Parameters.AddWithValue("@OBSERVACIONES", "CAUSA NOTIFICADA MEDIANTE CIDI");
+                        cmd.Parameters.AddWithValue("@OBSERVACIONES", "CAUSA NOTIFICADA MEDIANTE CIDI - NRO DE NOTIFICACION DIGITAL: "+id_notificacion);
                         cmd.Parameters.AddWithValue("@USUARIO", usuario_hist);
                         cmd.Connection.Open();
                         
@@ -601,6 +627,8 @@ namespace WebApiShared.Entities.NOTIFICACIONES
 
                     }
                     return cmd.ExecuteNonQuery();
+
+
                 }
             }
             catch (Exception ex)
