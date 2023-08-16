@@ -13,10 +13,13 @@ namespace WebApiShared.Controllers
     {
         private readonly IUsuarioServices _iusuarioService;
         private readonly IUsuarioConOficina _iusuarioConOficinaService;
-        public LoginController(IUsuarioServices iusuarioService, IUsuarioConOficina iusuarioConOficinaService)
+        private readonly IPermisoServices _ipermisoServices;
+        public LoginController(IUsuarioServices iusuarioService, IUsuarioConOficina iusuarioConOficinaService, IPermisoServices ipermisoServices)
         {
             _iusuarioService = iusuarioService;
             _iusuarioConOficinaService = iusuarioConOficinaService;
+            _ipermisoServices = ipermisoServices;
+            
         }
 
         [HttpGet]
@@ -41,6 +44,12 @@ namespace WebApiShared.Controllers
         public IActionResult ValidaUsuarioConOficina(string user, string password)
         {
             var resultado = _iusuarioConOficinaService.ValidUser(user, password);
+            return Ok(resultado);
+        }
+        [HttpGet]
+        public IActionResult GetPermisosCidi(int cod_usuario)
+        {
+            var resultado = _ipermisoServices.GetPermisosCidi(cod_usuario);
             return Ok(resultado);
         }
         [HttpGet]

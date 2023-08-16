@@ -30,6 +30,15 @@ namespace WebApiShared
             services.AddScoped<IUsuarioServices, UsuarioServices>();
             services.AddScoped<IUsuarioConOficina, UsuarioConOficina>();
             services.AddScoped<IResoluciones_multasService,Resoluciones_multasService>();
+            services.AddScoped<IDet_notificacion_estado_proc_autoService, Det_notificacion_estado_proc_autoService>();
+            services.AddScoped<IDet_notificacion_estado_proc_inmService, Det_notificacion_estado_proc_inmService>();
+            services.AddScoped<IDet_notificacion_estado_proc_iycService, Det_notificacion_estado_proc_iycService>();
+            services.AddScoped<INotificacion_estado_proc_autoService, Notificacion_estado_proc_autoService>();
+            services.AddScoped<INotificacion_estado_proc_inmService, Notificacion_estado_proc_inmService>();
+            services.AddScoped<INotificacion_estado_proc_iycService, Notificacion_estado_proc_iycService>();
+            services.AddScoped<ITemplate_notificacionService, Template_notificacionService>();
+            services.AddScoped<IEstados_procuracionService, Estados_procuracionService>();
+            services.AddScoped<IPermisoServices,PermisoServices>();
             services.AddCors();
 
         }

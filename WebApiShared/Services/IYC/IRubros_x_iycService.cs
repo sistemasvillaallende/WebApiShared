@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApiShared.Entities;
-namespace WebApiShared.Services
+
+namespace WebApiShared.Services.IYC
 {
     public interface IRubros_x_iycService
     {

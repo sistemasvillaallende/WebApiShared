@@ -3,4 +3,9 @@
 https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
+  <PropertyGroup>
+    <History>True|2023-08-14T23:56:04.0691871Z;True|2023-08-14T20:56:00.0051343-03:00;True|2023-08-14T19:18:38.7290982-03:00;True|2023-08-11T18:16:34.1610539-03:00;False|2023-08-11T18:16:27.6229780-03:00;True|2023-08-10T21:56:31.5606549-03:00;True|2023-08-10T06:24:11.4928788-03:00;True|2023-08-09T20:57:45.7898931-03:00;True|2023-08-09T20:57:34.8438527-03:00;False|2023-08-09T20:57:26.8520505-03:00;True|2023-07-19T22:21:47.5861767-03:00;False|2023-07-19T22:21:37.4316577-03:00;</History>
+    <LastFailureDetails />
+    <_PublishTargetUrl>D:\Dev\Net2022\WebApiShared\WebApiShared\bin\Release\net6.0\publish\</_PublishTargetUrl>
+  </PropertyGroup>
 </Project>

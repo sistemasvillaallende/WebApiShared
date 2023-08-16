@@ -34,3 +34,8 @@ D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\refint\WebApiShared.dl
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.pdb
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.genruntimeconfig.cache
 D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\ref\WebApiShared.dll
+D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\staticwebassets\msbuild.WebApiShared.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\staticwebassets\msbuild.build.WebApiShared.props
+D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.WebApiShared.props
+D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.WebApiShared.props
+D:\Dev\Net2022\WebApiShared\WebApiShared\obj\Debug\net6.0\staticwebassets.pack.json
