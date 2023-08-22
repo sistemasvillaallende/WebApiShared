@@ -20,11 +20,11 @@ namespace SIIMVA_WEB.Services
                 throw ex;
             }
         }
-        public List<Det_notificacion_auto> read()
+        public List<Det_notificacion_auto> read(int Nro_emision)
         {
             try
             {
-                return Det_notificacion_auto.read();
+                return Det_notificacion_auto.read(Nro_emision);
             }
             catch (Exception ex)
             {

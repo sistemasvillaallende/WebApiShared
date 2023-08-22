@@ -16,9 +16,9 @@ namespace SIIMVA_WEB.Controllers
             _Det_notificacion_autoService = Det_notificacion_autoService;
         }
         [HttpGet]
-        public IActionResult read()
+        public IActionResult read(int Nro_emision)
         {
-            var Det_notificacion_auto = _Det_notificacion_autoService.read();
+            var Det_notificacion_auto = _Det_notificacion_autoService.read(Nro_emision);
             if (Det_notificacion_auto == null)
             {
                 return BadRequest(new { message = "Error al obtener los datos" });

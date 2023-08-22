@@ -6,7 +6,7 @@ namespace SIIMVA_WEB.Services
 {
     public interface IDet_notificacion_autoService
     {
-        public List<Det_notificacion_auto> read();
+        public List<Det_notificacion_auto> read(int Nro_emision);
         public Det_notificacion_auto getByPk(int Nro_emision, int Nro_notificacion, string Dominio);
         public int insert(Det_notificacion_auto obj);
         public void update(Det_notificacion_auto obj);

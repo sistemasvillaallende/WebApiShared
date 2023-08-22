@@ -63,48 +63,48 @@ namespace SIIMVA_WEB
             if (dr.HasRows)
             {
                 int Nro_emision = dr.GetOrdinal("Nro_emision");
-                int Descripcion_noti = dr.GetOrdinal("Descripcion_noti");
+                //int Descripcion_noti = dr.GetOrdinal("Descripcion_noti");
                 int Fecha_emision = dr.GetOrdinal("Fecha_emision");
                 int Fecha_vencimiento = dr.GetOrdinal("Fecha_vencimiento");
                 int Cantidad_reg = dr.GetOrdinal("Cantidad_reg");
-                int Cod_estado_noti = dr.GetOrdinal("Cod_estado_noti");
-                int Categoria_Deuda = dr.GetOrdinal("Categoria_Deuda");
-                int ConPlan = dr.GetOrdinal("ConPlan");
-                int CantCuotas = dr.GetOrdinal("CantCuotas");
-                int ConDeuda = dr.GetOrdinal("ConDeuda");
-                int Total_adeudado = dr.GetOrdinal("Total_adeudado");
-                int Cod_tipo_procuracion = dr.GetOrdinal("Cod_tipo_procuracion");
-                int Bloqueado = dr.GetOrdinal("Bloqueado");
-                int Codigo_procurador = dr.GetOrdinal("Codigo_procurador");
-                int TieneHonorarios = dr.GetOrdinal("TieneHonorarios");
-                int Tipo_descuento = dr.GetOrdinal("Tipo_descuento");
-                int Cod_formulario = dr.GetOrdinal("Cod_formulario");
-                int Fecha_desde = dr.GetOrdinal("Fecha_desde");
-                int Fecha_hasta = dr.GetOrdinal("Fecha_hasta");
-                int Porcentaje = dr.GetOrdinal("Porcentaje");
+                //int Cod_estado_noti = dr.GetOrdinal("Cod_estado_noti");
+                //int Categoria_Deuda = dr.GetOrdinal("Categoria_Deuda");
+                //int ConPlan = dr.GetOrdinal("ConPlan");
+                //int CantCuotas = dr.GetOrdinal("CantCuotas");
+                //int ConDeuda = dr.GetOrdinal("ConDeuda");
+                int Total_adeudado = dr.GetOrdinal("Total");
+                //int Cod_tipo_procuracion = dr.GetOrdinal("Cod_tipo_procuracion");
+                //int Bloqueado = dr.GetOrdinal("Bloqueado");
+                //int Codigo_procurador = dr.GetOrdinal("Codigo_procurador");
+                //int TieneHonorarios = dr.GetOrdinal("TieneHonorarios");
+                //int Tipo_descuento = dr.GetOrdinal("Tipo_descuento");
+                //int Cod_formulario = dr.GetOrdinal("Cod_formulario");
+                //int Fecha_desde = dr.GetOrdinal("Fecha_desde");
+                //int Fecha_hasta = dr.GetOrdinal("Fecha_hasta");
+                //int Porcentaje = dr.GetOrdinal("Porcentaje");
                 while (dr.Read())
                 {
                     obj = new Notificacion_auto();
                     if (!dr.IsDBNull(Nro_emision)) { obj.Nro_emision = dr.GetInt32(Nro_emision); }
-                    if (!dr.IsDBNull(Descripcion_noti)) { obj.Descripcion_noti = dr.GetString(Descripcion_noti); }
+                    //if (!dr.IsDBNull(Descripcion_noti)) { obj.Descripcion_noti = dr.GetString(Descripcion_noti); }
                     if (!dr.IsDBNull(Fecha_emision)) { obj.Fecha_emision = dr.GetDateTime(Fecha_emision); }
                     if (!dr.IsDBNull(Fecha_vencimiento)) { obj.Fecha_vencimiento = dr.GetDateTime(Fecha_vencimiento); }
                     if (!dr.IsDBNull(Cantidad_reg)) { obj.Cantidad_reg = dr.GetInt32(Cantidad_reg); }
-                    if (!dr.IsDBNull(Cod_estado_noti)) { obj.Cod_estado_noti = dr.GetInt32(Cod_estado_noti); }
-                    if (!dr.IsDBNull(Categoria_Deuda)) { obj.Categoria_Deuda = dr.GetInt32(Categoria_Deuda); }
-                    if (!dr.IsDBNull(ConPlan)) { obj.ConPlan = dr.GetBoolean(ConPlan); }
-                    if (!dr.IsDBNull(CantCuotas)) { obj.CantCuotas = dr.GetInt32(CantCuotas); }
-                    if (!dr.IsDBNull(ConDeuda)) { obj.ConDeuda = dr.GetInt32(ConDeuda); }
+                    //if (!dr.IsDBNull(Cod_estado_noti)) { obj.Cod_estado_noti = dr.GetInt32(Cod_estado_noti); }
+                    //if (!dr.IsDBNull(Categoria_Deuda)) { obj.Categoria_Deuda = dr.GetInt32(Categoria_Deuda); }
+                    //if (!dr.IsDBNull(ConPlan)) { obj.ConPlan = dr.GetBoolean(ConPlan); }
+                    //if (!dr.IsDBNull(CantCuotas)) { obj.CantCuotas = dr.GetInt32(CantCuotas); }
+                    //if (!dr.IsDBNull(ConDeuda)) { obj.ConDeuda = dr.GetInt32(ConDeuda); }
                     if (!dr.IsDBNull(Total_adeudado)) { obj.Total_adeudado = dr.GetDecimal(Total_adeudado); }
-                    if (!dr.IsDBNull(Cod_tipo_procuracion)) { obj.Cod_tipo_procuracion = dr.GetInt16(Cod_tipo_procuracion); }
-                    if (!dr.IsDBNull(Bloqueado)) { obj.Bloqueado = dr.GetBoolean(Bloqueado); }
-                    if (!dr.IsDBNull(Codigo_procurador)) { obj.Codigo_procurador = dr.GetInt16(Codigo_procurador); }
-                    if (!dr.IsDBNull(TieneHonorarios)) { obj.TieneHonorarios = dr.GetBoolean(TieneHonorarios); }
-                    if (!dr.IsDBNull(Tipo_descuento)) { obj.Tipo_descuento = dr.GetInt16(Tipo_descuento); }
-                    if (!dr.IsDBNull(Cod_formulario)) { obj.Cod_formulario = dr.GetInt16(Cod_formulario); }
-                    if (!dr.IsDBNull(Fecha_desde)) { obj.Fecha_desde = dr.GetDateTime(Fecha_desde); }
-                    if (!dr.IsDBNull(Fecha_hasta)) { obj.Fecha_hasta = dr.GetDateTime(Fecha_hasta); }
-                    if (!dr.IsDBNull(Porcentaje)) { obj.Porcentaje = dr.GetDecimal(Porcentaje); }
+                    //if (!dr.IsDBNull(Cod_tipo_procuracion)) { obj.Cod_tipo_procuracion = dr.GetInt16(Cod_tipo_procuracion); }
+                    //if (!dr.IsDBNull(Bloqueado)) { obj.Bloqueado = dr.GetBoolean(Bloqueado); }
+                    //if (!dr.IsDBNull(Codigo_procurador)) { obj.Codigo_procurador = dr.GetInt16(Codigo_procurador); }
+                    //if (!dr.IsDBNull(TieneHonorarios)) { obj.TieneHonorarios = dr.GetBoolean(TieneHonorarios); }
+                    //if (!dr.IsDBNull(Tipo_descuento)) { obj.Tipo_descuento = dr.GetInt16(Tipo_descuento); }
+                    //if (!dr.IsDBNull(Cod_formulario)) { obj.Cod_formulario = dr.GetInt16(Cod_formulario); }
+                    //if (!dr.IsDBNull(Fecha_desde)) { obj.Fecha_desde = dr.GetDateTime(Fecha_desde); }
+                    //if (!dr.IsDBNull(Fecha_hasta)) { obj.Fecha_hasta = dr.GetDateTime(Fecha_hasta); }
+                    //if (!dr.IsDBNull(Porcentaje)) { obj.Porcentaje = dr.GetDecimal(Porcentaje); }
                     lst.Add(obj);
                 }
             }
@@ -120,11 +120,7 @@ namespace SIIMVA_WEB
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT Nro_emision, Fecha_emision, 0 AS Cod_Estado_procuracion, 
-                                        'NOTIFICACION EMITIDA' AS Nvo_Estado_Procuracion, 
-                                        Fecha_vencimiento, Cantidad_reg, Total_adeudado AS Total, Porcentaje
-                                        FROM NOTIFICACION_AUTO 
-                                        ORDER BY Fecha_Emision DESC";
+                    cmd.CommandText = @"SELECT Nro_emision, Fecha_emision, 0 AS Cod_Estado_procuracion, 'NOTIFICACION EMITIDA' AS Nvo_Estado_Procuracion, Fecha_vencimiento, Cantidad_reg, Total_adeudado AS Total, Porcentaje FROM NOTIFICACION_AUTO ORDER BY Fecha_Emision DESC";
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);

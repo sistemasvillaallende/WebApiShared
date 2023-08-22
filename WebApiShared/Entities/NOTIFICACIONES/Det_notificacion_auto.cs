@@ -183,7 +183,7 @@ namespace SIIMVA_WEB
             return lst;
         }
 
-        public static List<Det_notificacion_auto> read()
+        public static List<Det_notificacion_auto> read(int Nro_emision)
         {
             try
             {
@@ -192,8 +192,11 @@ namespace SIIMVA_WEB
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT *FROM Det_notificacion_auto";
+                    cmd.CommandText = @"SELECT *FROM DET_NOTIFICACION_AUTO
+                                        WHERE Nro_emision = @Nro_emision";
+                    cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
                     cmd.Connection.Open();
+                    
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);
                     return lst;
