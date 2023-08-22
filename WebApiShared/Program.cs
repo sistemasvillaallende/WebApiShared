@@ -29,7 +29,7 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-app.UseCors("corsapp");
+//app.UseCors("corsapp");
 app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();
