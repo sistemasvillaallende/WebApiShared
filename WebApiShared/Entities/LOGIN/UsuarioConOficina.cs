@@ -36,7 +36,10 @@ namespace WebApiShared.Entities.LOGIN
             StringBuilder stringBuilder = new StringBuilder();
             MD5Encryption md5Encryption = new MD5Encryption();
             user = user.Replace("'", "").Replace(",", "").Replace("=", "");
-            stringBuilder.AppendLine("SELECT U.*, O.nombre_oficina From USUARIOS_V2 U INNER JOIN OFICINAS O ON U.COD_OFICINA = O.codigo_oficina WHERE nombre = @user");
+            stringBuilder.AppendLine(@"SELECT U.*, O.nombre_oficina 
+                                       From USUARIOS_V2 U 
+                                       INNER JOIN OFICINAS O ON U.COD_OFICINA = O.codigo_oficina 
+                                       WHERE nombre = @user");
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Parameters.Add(new SqlParameter("@user", (object)user));
             try
