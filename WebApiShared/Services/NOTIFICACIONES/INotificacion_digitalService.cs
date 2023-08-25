@@ -22,6 +22,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
         public int InsertarNuevoEstadoProc(int nro_procuracion, int tipo_proc, int id_notificacion, int cod_usuario, int cod_estado);
         public void updateSumario(int nro_expediente, int tipo_reporte);
         public void updateProcuracion(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision,int cod_estado_actual);
+        public void updateProcuracionNueva(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual);
 
         public int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion);
 

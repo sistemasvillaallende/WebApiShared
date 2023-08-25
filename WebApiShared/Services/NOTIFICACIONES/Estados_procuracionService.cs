@@ -32,6 +32,17 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
+        public List<Estados_procuracion> ListarEstadosxNotifNuevas(int nro_emision, int subsistema)
+        {
+            try
+            {
+                return Estados_procuracion.ListarEstadosxNotifNuevas(nro_emision, subsistema);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public int insert(Estados_procuracion obj)
         {
             try

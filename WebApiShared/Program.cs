@@ -28,8 +28,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
-//app.UseCors("corsapp");
+app.UseHttpsRedirection();
+app.UseCors("corsapp");
 app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();

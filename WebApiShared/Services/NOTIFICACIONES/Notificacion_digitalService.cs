@@ -135,7 +135,18 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
-
+        
+        public void updateProcuracionNueva(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual)
+        {
+            try
+            {
+                Notificacion_digital.updateProcuracion(nro_procuracion, tipo_proc, nro_notifiicacion, nro_emision, cod_estado_actual);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public  void updateProcuracion(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual)
         {
             try

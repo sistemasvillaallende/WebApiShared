@@ -819,6 +819,102 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
+        public static void updateProcuracionNueva(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual)
+
+        {
+            try
+            {
+                StringBuilder sql = new StringBuilder();
+                StringBuilder sqlUpdProc = new StringBuilder();
+                StringBuilder sqlInsEstado = new StringBuilder();
+                if (tipo_proc == 4)
+                {
+                    sql.AppendLine("UPDATE DET_NOTIFICACION_AUTO SET");
+                    sql.AppendLine(" Notificado_cidi=1");
+                    sql.AppendLine("WHERE  nro_emision= @nro_emision and nro_notificacion= @nro_notificacion");
+                    sql.AppendLine(" and nro_proc= @nro_procuracion");
+
+                    sqlUpdProc.AppendLine(@" update procura_auto 
+                                            set codigo_estado_actual=@cod_estado
+                                            where nro_procuracion= @nro_procuracion
+                                        ");
+
+
+                }
+                /*if (tipo_proc == 1)
+                {
+                    sql.AppendLine("UPDATE Det_Notificacion_Estado_Proc_inm SET ");
+                    sql.AppendLine(" Notificado_cidi=1 ");
+                    sql.AppendLine("WHERE  nro_emision= @nro_emision and nro_notificacion= @nro_notificacion ");
+                    sql.AppendLine(" and nro_procuracion= @nro_procuracion ");
+
+                    sqlUpdProc.AppendLine(@" update procura_tasa
+                                            set codigo_estado_actual=@cod_estado
+                                            where nro_procuracion= @nro_procuracion
+                                        ");
+
+                }
+                if (tipo_proc == 3)
+                {
+                    sql.AppendLine("UPDATE Det_Notificacion_Estado_Proc_iyc SET ");
+                    sql.AppendLine(" Notificado_cidi=1 ");
+                    sql.AppendLine("WHERE  nro_emision= @nro_emision and nro_notificacion= @nro_notificacion ");
+                    sql.AppendLine(" and nro_procuracion= @nro_procuracion ");
+
+                    sqlUpdProc.AppendLine(@" update procura_iyc 
+                                            set codigo_estado_actual=@cod_estado
+                                            where nro_procuracion= @nro_procuracion
+                                        ");
+
+                }*/
+
+                using (SqlConnection con = GetConnection())
+                {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql.ToString();
+                    cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
+                    cmd.Parameters.AddWithValue("@nro_notificacion", nro_notifiicacion);
+                    cmd.Parameters.AddWithValue("@nro_procuracion", nro_procuracion);
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    if (cod_estado_actual == 3)
+                    {
+                        cmd.CommandText = sqlUpdProc.ToString();
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("@nro_procuracion", nro_procuracion);
+                        cmd.Parameters.AddWithValue("@cod_estado", 5);
+
+                        cmd.ExecuteNonQuery();
+
+                    }
+                    if (cod_estado_actual == 59)
+                    {
+                        cmd.CommandText = sqlUpdProc.ToString();
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("nro_procuracion", nro_procuracion);
+                        cmd.Parameters.AddWithValue("@cod_estado", 60);
+                        cmd.ExecuteNonQuery();
+
+                    }
+                    if (cod_estado_actual == 76)
+                    {
+                        cmd.CommandText = sqlUpdProc.ToString();
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.AddWithValue("nro_procuracion", nro_procuracion);
+                        cmd.Parameters.AddWithValue("@cod_estado", 77);
+                        cmd.ExecuteNonQuery();
+
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public static int InsertarNuevoEstado(int nro_expediente,int cod_usuario,int tipo_reporte, int id_notificacion)
 
         {

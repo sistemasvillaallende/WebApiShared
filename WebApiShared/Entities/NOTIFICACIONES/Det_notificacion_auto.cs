@@ -49,7 +49,7 @@ namespace SIIMVA_WEB
         public DateTime Fecha_baja_real { get; set; }
         public int Nro_secuencia { get; set; }
         public int Nro_orden { get; set; }
-
+        public string cuit { get; set; }
         public Det_notificacion_auto()
         {
             Nro_emision = 0;
@@ -90,6 +90,7 @@ namespace SIIMVA_WEB
             Fecha_baja_real = DateTime.Now;
             Nro_secuencia = 0;
             Nro_orden = 0;
+            cuit = string.Empty;
         }
 
         private static List<Det_notificacion_auto> mapeo(SqlDataReader dr)
@@ -136,6 +137,7 @@ namespace SIIMVA_WEB
                 int Fecha_baja_real = dr.GetOrdinal("Fecha_baja_real");
                 int Nro_secuencia = dr.GetOrdinal("Nro_secuencia");
                 int Nro_orden = dr.GetOrdinal("Nro_orden");
+                int cuit = dr.GetOrdinal("cuit");
                 while (dr.Read())
                 {
                     obj = new Det_notificacion_auto();
@@ -177,6 +179,7 @@ namespace SIIMVA_WEB
                     if (!dr.IsDBNull(Fecha_baja_real)) { obj.Fecha_baja_real = dr.GetDateTime(Fecha_baja_real); }
                     if (!dr.IsDBNull(Nro_secuencia)) { obj.Nro_secuencia = dr.GetInt32(Nro_secuencia); }
                     if (!dr.IsDBNull(Nro_orden)) { obj.Nro_orden = dr.GetInt32(Nro_orden); }
+                    if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
                     lst.Add(obj);
                 }
             }
@@ -192,7 +195,9 @@ namespace SIIMVA_WEB
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT *FROM DET_NOTIFICACION_AUTO
+                    cmd.CommandText = @"SELECT *, B.CUIT 
+                                        FROM DET_NOTIFICACION_AUTO A
+                                        INNER JOIN VEHICULOS B ON A.Dominio = B.DOMINIO
                                         WHERE Nro_emision = @Nro_emision";
                     cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
                     cmd.Connection.Open();
