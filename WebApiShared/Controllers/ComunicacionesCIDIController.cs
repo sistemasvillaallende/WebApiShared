@@ -281,7 +281,7 @@ namespace WebApiShared.Controllers
 
             Email email = new Email();
             email.Cuil = cuit;
-            email.Asunto = subject;
+            email.Asunto = "Procuración administrativa Municipalidad de Villa Allende";//subject;
             email.Mensaje = cuerpo;
             email.Firma = "Oficina de Recursos Tributarios";
             email.Ente = "Municipalidad de Villa Allende";
@@ -396,7 +396,7 @@ namespace WebApiShared.Controllers
 
             Email email = new Email();
             email.Cuil = cuit;
-            email.Asunto = subject;
+            email.Asunto = "Procuracion Administrativa Municipalidad de Villa Allende";//subject;
             email.Mensaje = cuerpo;
             email.Firma = "Oficina de Recursos Tributarios";
             email.Ente = "Municipalidad de Villa Allende";

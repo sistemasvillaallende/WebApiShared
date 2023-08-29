@@ -50,6 +50,7 @@ namespace SIIMVA_WEB
         public int Nro_secuencia { get; set; }
         public int Nro_orden { get; set; }
         public string cuit { get; set; }
+        public bool Notificado_cidi { get;  set; }
         public Det_notificacion_auto()
         {
             Nro_emision = 0;
@@ -91,6 +92,7 @@ namespace SIIMVA_WEB
             Nro_secuencia = 0;
             Nro_orden = 0;
             cuit = string.Empty;
+            Notificado_cidi = false;
         }
 
         private static List<Det_notificacion_auto> mapeo(SqlDataReader dr)
@@ -138,6 +140,7 @@ namespace SIIMVA_WEB
                 int Nro_secuencia = dr.GetOrdinal("Nro_secuencia");
                 int Nro_orden = dr.GetOrdinal("Nro_orden");
                 int cuit = dr.GetOrdinal("cuit");
+                int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
                 while (dr.Read())
                 {
                     obj = new Det_notificacion_auto();
@@ -180,6 +183,7 @@ namespace SIIMVA_WEB
                     if (!dr.IsDBNull(Nro_secuencia)) { obj.Nro_secuencia = dr.GetInt32(Nro_secuencia); }
                     if (!dr.IsDBNull(Nro_orden)) { obj.Nro_orden = dr.GetInt32(Nro_orden); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
+                    if (!dr.IsDBNull(Notificado_cidi)) { obj.Notificado_cidi = dr.GetBoolean(Notificado_cidi); }
                     lst.Add(obj);
                 }
             }
