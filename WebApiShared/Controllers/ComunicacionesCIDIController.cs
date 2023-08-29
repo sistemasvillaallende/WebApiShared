@@ -323,9 +323,9 @@ namespace WebApiShared.Controllers
             string nombre = "";
             string dominio = "";
             string nro_catastral = "";
-           //   string imagePath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "imagenes", "firma_proc.jpg");
-     //       string basePath = "D:\\Dev\\Net2022\\WebApiShared\\WebApiShared";
-    //        string imagePath = Path.Combine(basePath, "Imagenes", "firma_proc.jpg");
+            // string imagePath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "imagenes", "firma_proc.jpg");
+            // string basePath = "D:\\Dev\\Net2022\\WebApiShared\\WebApiShared";
+            // string imagePath = Path.Combine(basePath, "Imagenes", "firma_proc.jpg");
 
 
             if (tipo_proc == 1)

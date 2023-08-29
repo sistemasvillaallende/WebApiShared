@@ -204,11 +204,12 @@ namespace SIIMVA_WEB
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT A.*, B.CUIT, C.descripcion_estado AS estado_Actual
+                    cmd.CommandText = @"SELECT A.*, D.CUIT, C.descripcion_estado AS estado_Actual
                                         FROM DET_NOTIFICACION_AUTO A
                                         INNER JOIN VEHICULOS B ON A.Dominio = B.DOMINIO
                                         INNER JOIN ESTADOS_PROCURACION C 
                                         ON A.Codigo_estado_actual=codigo_estado
+                                        INNER JOIN BADEC D ON B.NRO_BAD=D.NRO_BAD
                                         WHERE Nro_emision = @Nro_emision";
                     cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
                     cmd.Connection.Open();
