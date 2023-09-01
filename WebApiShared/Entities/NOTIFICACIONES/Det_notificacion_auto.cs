@@ -52,7 +52,6 @@ namespace SIIMVA_WEB
         public string cuit { get; set; }
         public int notificado_cidi { get; set; }
         public string cuit_valido { get; set; }
-
         public Det_notificacion_auto()
         {
             Nro_emision = 0;
@@ -95,6 +94,8 @@ namespace SIIMVA_WEB
             Nro_orden = 0;
             notificado_cidi= 0;
             cuit = string.Empty;
+            notificado_cidi = 0;
+   
         }
 
         private static List<Det_notificacion_auto> mapeo(SqlDataReader dr)
@@ -143,6 +144,9 @@ namespace SIIMVA_WEB
                 int Nro_orden = dr.GetOrdinal("Nro_orden");
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
                 int cuit = dr.GetOrdinal("cuit");
+                int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
+                int estado_Actual = dr.GetOrdinal("estado_Actual");
+
                 while (dr.Read())
                 {
                     obj = new Det_notificacion_auto();
@@ -186,6 +190,7 @@ namespace SIIMVA_WEB
                     if (!dr.IsDBNull(Nro_orden)) { obj.Nro_orden = dr.GetInt32(Nro_orden); }
                     if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
+             
                     lst.Add(obj);
                 }
             }
@@ -201,9 +206,12 @@ namespace SIIMVA_WEB
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT *, B.CUIT 
+                    cmd.CommandText = @"SELECT A.*, D.CUIT, C.descripcion_estado AS estado_Actual
                                         FROM DET_NOTIFICACION_AUTO A
                                         INNER JOIN VEHICULOS B ON A.Dominio = B.DOMINIO
+                                        INNER JOIN ESTADOS_PROCURACION C 
+                                        ON A.Codigo_estado_actual=codigo_estado
+                                        INNER JOIN BADEC D ON B.NRO_BAD=D.NRO_BAD
                                         WHERE Nro_emision = @Nro_emision";
                     cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
                     cmd.Connection.Open();

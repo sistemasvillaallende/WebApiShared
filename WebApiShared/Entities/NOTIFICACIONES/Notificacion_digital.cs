@@ -615,7 +615,10 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.Parameters.AddWithValue("@cidi_nivel", 2);
                     cmd.Parameters.AddWithValue("@estado_notif", cod_estado);
                     cmd.Parameters.AddWithValue("@cuil", cuil);
-                    cmd.Parameters.AddWithValue("@subject_notif", subject);
+                    if(subject != null)
+                        cmd.Parameters.AddWithValue("@subject_notif", subject);
+                    else
+                        cmd.Parameters.AddWithValue("@subject_notif", " ");
                     cmd.Parameters.AddWithValue("@body_notif", body);
                     cmd.Parameters.AddWithValue("@id_oficina", id_oficina);
                     cmd.Parameters.AddWithValue("@id_usuario", id_usuario);
@@ -822,7 +825,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 if (tipo_proc == 4)
                 {
                     sql.AppendLine("UPDATE DET_NOTIFICACION_AUTO SET");
-                    sql.AppendLine(" Notificado_cidi=1");
+                    sql.AppendLine(" Notificado_cidi=1, Cod_estado_actual=@cod_estado");
                     sql.AppendLine("WHERE  nro_emision= @nro_emision and nro_notificacion= @nro_notificacion");
                     sql.AppendLine(" and nro_proc= @nro_procuracion");
 

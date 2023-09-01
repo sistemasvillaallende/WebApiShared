@@ -140,7 +140,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
         {
             try
             {
-                Notificacion_digital.updateProcuracion(nro_procuracion, tipo_proc, nro_notifiicacion, nro_emision, cod_estado_actual);
+                Notificacion_digital.updateProcuracionNueva(nro_procuracion, tipo_proc, nro_notifiicacion, nro_emision, cod_estado_actual);
             }
             catch (Exception ex)
             {
