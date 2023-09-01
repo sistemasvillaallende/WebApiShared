@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "f81EVyv5NAbcvrCbsRUKYAoZcG2aF2TjCT2Fp8prUQM=",
+  "Source": "WebApiShared",
+  "BasePath": "_content/WebApiShared",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
