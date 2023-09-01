@@ -182,7 +182,79 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
+        public static List<Estados_procuracion> ListarEstadosxNotifNuevas(int nro_emision, int subsistema)
+        {
+            try
+            {
+                List<Estados_procuracion> lst = new List<Estados_procuracion>();
+                using (SqlConnection con = GetConnection())
+                {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
 
+                    if (subsistema == 1)
+                    {
+                        cmd.CommandText = @"SELECT distinct    codigo_estado= (  SELECT ep.codigo_estado
+                                        FROM PROCURA_TASA pa
+                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.Circunscripcion=pa.Circunscripcion
+                                         AND a.seccion=pa.seccion AND a.manzana=pa.manzana AND a.parcela=pa.parcela AND a.p_h=pa.p_h),
+                                        descripcion_estado= (  SELECT ep.descripcion_estado
+                                                                                FROM PROCURA_TASA pa
+                                                                                 JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                                                                AND pa.nro_procuracion=a.Nro_Procuracion ),
+										 emite_notif_cidi=isnull( (  SELECT ep.emite_notif_cidi
+                                                                                FROM PROCURA_TASA pa
+                                                                                 JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                                                                AND pa.nro_procuracion=a.Nro_Procuracion AND a.Circunscripcion=pa.Circunscripcion
+                                         AND a.seccion=pa.seccion AND a.manzana=pa.manzana AND a.parcela=pa.parcela AND a.p_h=pa.p_h),0)
+                    FROM Det_Notificacion_Estado_Proc_INM A (nolock)left join INMUEBLES V ON a.Circunscripcion=v.Circunscripcion
+                                         AND a.seccion=v.seccion AND a.manzana=v.manzana AND a.parcela=v.parcela AND a.p_h=v.p_h
+                    left join badec b  on b.NRO_BAD=a.Nro_Badec
+                    WHERE
+                    nro_emision=" + nro_emision.ToString();
+
+                    }
+                    if (subsistema == 3)
+                    {
+                        cmd.CommandText = @"SELECT distinct    codigo_estado= (  SELECT ep.codigo_estado
+                                        FROM PROCURA_IYC pa
+                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),
+                                        descripcion_estado= (  SELECT ep.descripcion_estado
+                                                                                FROM PROCURA_IYC pa
+                                                                                 JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                                                                AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),
+										 emite_notif_cidi=isnull( (  SELECT ep.emite_notif_cidi
+                                                                                FROM PROCURA_iyc pa
+                                                                                 JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                                                                AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),0)
+                    FROM Det_Notificacion_Estado_Proc_iyc A (nolock)left join indycom V ON V.legajo=A.legajo
+                    left join badec b  on b.NRO_BAD=a.Nro_Badec
+                    WHERE
+                    nro_emision=" + nro_emision.ToString();
+
+                    }
+                    if (subsistema == 4)
+                    {
+                        cmd.CommandText = @"SELECT DISTINCT * FROM ESTADOS_PROCURACION
+                                            WHERE codigo_estado IN (
+	                                        SELECT Codigo_estado_actual FROM  DET_NOTIFICACION_AUTO
+	                                        WHERE nro_emision=@nro_emision)";
+                    }
+
+                    cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
+                    cmd.Connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    lst = mapeo2(dr);
+                    return lst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public static Estados_procuracion getByPk(
         int codigo_estado)

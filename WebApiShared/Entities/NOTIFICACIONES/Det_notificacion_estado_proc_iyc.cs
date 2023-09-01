@@ -31,6 +31,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         public string estado_Actualizado { get; set; }
         public string cuit { get; set; }
         public int notificado_cidi { get; set; }
+        public string cuit_valido { get; set; }
 
         public Det_notificacion_estado_proc_iyc()
         {
@@ -55,6 +56,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             estado_Actualizado = string.Empty;
             cuit = string.Empty;
             notificado_cidi = 0;
+            cuit_valido= string.Empty;
         }
 
         private static List<Det_notificacion_estado_proc_iyc> mapeo(SqlDataReader dr)
@@ -84,6 +86,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 int estado_Actualizado = dr.GetOrdinal("estado_Actualizado");
                 int cuit = dr.GetOrdinal("cuit");
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
+                int cuit_valido = dr.GetOrdinal("cuit_valido");
                 while (dr.Read())
                 {
                     obj = new Det_notificacion_estado_proc_iyc();
@@ -108,6 +111,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(estado_Actualizado)) { obj.estado_Actualizado = dr.GetString(estado_Actualizado).Trim(); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
                     if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
+                    if (!dr.IsDBNull(cuit_valido)) { obj.cuit_valido = dr.GetString(cuit_valido); }
                     lst.Add(obj);
                 }
             }
@@ -142,8 +146,13 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                        estado_Actualizado= (  SELECT ep.descripcion_estado
                                         FROM PROCURA_IYC pa
                                          JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),b.cuit
-                                       ,notificado_cidi=isnull( a.Notificado_cidi,0)
+                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),i.nro_cuit as cuit
+                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
+                 case
+				          when i.nro_cuit ='' then 'CUIT_NO_VALIDADO'
+				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
+				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
+				          END AS cuit_valido
                     FROM DET_NOTIFICACION_ESTADO_PROC_IYC A (nolock)left join INDYCOM i ON i.legajo=A.Legajo
                     left join badec b  on b.NRO_BAD=a.Nro_Badec
                     WHERE
@@ -188,8 +197,13 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                        estado_Actualizado= (  SELECT ep.descripcion_estado
                                         FROM PROCURA_IYC pa
                                          JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),b.cuit
-                                       ,notificado_cidi=isnull( a.Notificado_cidi,0)
+                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),i.nro_cuit as cuit
+                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
+                 case
+				          when i.nro_cuit ='' then 'CUIT_NO_VALIDADO'
+				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
+				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
+				          END AS cuit_valido
                     FROM DET_NOTIFICACION_ESTADO_PROC_IYC A (nolock)left join INDYCOM i ON i.legajo=A.Legajo
                     left join badec b  on b.NRO_BAD=a.Nro_Badec
                     WHERE

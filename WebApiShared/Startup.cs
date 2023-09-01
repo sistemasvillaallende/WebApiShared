@@ -2,6 +2,7 @@
 using WebApiShared.Services;
 using WebApiShared.Services.NOTIFICACIONES;
 using WebApiShared.Services.LOGIN;
+using SIIMVA_WEB.Services;
 
 namespace WebApiShared
 {
@@ -39,6 +40,8 @@ namespace WebApiShared
             services.AddScoped<ITemplate_notificacionService, Template_notificacionService>();
             services.AddScoped<IEstados_procuracionService, Estados_procuracionService>();
             services.AddScoped<IPermisoServices,PermisoServices>();
+            services.AddScoped<INotificacion_autoService, Notificacion_autoService>();
+            services.AddScoped<IDet_notificacion_autoService, Det_notificacion_autoService>();
             services.AddCors();
 
         }

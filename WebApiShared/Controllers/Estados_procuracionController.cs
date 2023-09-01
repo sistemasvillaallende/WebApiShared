@@ -34,7 +34,12 @@ namespace WebApiShared.Controllers
             return Ok(req);
         }
 
-
+        [HttpGet]
+        public IActionResult ListarEstadosxNotifNuevas(int nro_emision, int subsistema)
+        {
+            var req = _Estados_procuracionService.ListarEstadosxNotifNuevas(nro_emision, subsistema);
+            return Ok(req);
+        }
 
 
 

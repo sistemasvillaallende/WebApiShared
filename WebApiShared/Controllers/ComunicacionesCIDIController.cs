@@ -7,6 +7,8 @@ using WebApiShared.Services.NOTIFICACIONES;
 using WebApiShared.Entities.CIDI.Comunicacion;
 using WebApiShared.Entities.NOTIFICACIONES;
 using Microsoft.Extensions.Hosting.Internal;
+using SIIMVA_WEB.Services;
+using SIIMVA_WEB;
 
 namespace WebApiShared.Controllers
 {
@@ -19,15 +21,52 @@ namespace WebApiShared.Controllers
         private IResoluciones_multasService _Resoluciones_multasService;
         private IDet_notificacion_estado_proc_autoService _Det_notificacion_estado_proc_autoService;
         private IDet_notificacion_estado_proc_inmService _Det_notificacion_estado_proc_inmService;
-        public ComunicacionesCIDIController(IComunicacionesService ComunicacionesService, INotificacion_digitalService Notificacion_digitalService, 
-            IResoluciones_multasService resoluciones_multasService,IDet_notificacion_estado_proc_autoService det_Notificacion_Estado_Proc_AutoService,
-            IDet_notificacion_estado_proc_inmService det_Notificacion_Estado_Proc_InmService)
+        private IDet_notificacion_estado_proc_iycService _Det_notificacion_estado_proc_iycService;
+        private IDet_notificacion_autoService _Det_notificacion_autoService;
+
+        public class ModeloDeDatos
+        {
+            public string cuit { get; set; }
+            public string subject { get; set; }
+            public string body { get; set; }
+        }
+        public class ModeloProcuracion
+        {
+            public string cuit { get; set; }
+            public string subject { get; set; }
+            public string body { get; set; }
+
+            public int nro_emision { get; set; }
+            public int nro_notificacion { get; set; }
+            public int nro_procuracion { get; set; }
+            public int id_oficina { get; set; }
+            public int id_usuario { get; set; }
+            public int tipo_proc { get; set; }
+            public int idTemplate { get; set; }
+            public string tituloReporte { get; set; }
+            public int cod_estado_actual { get; set; }
+
+        }
+        public class ModeloDelphi
+        {
+            public string cuit { get; set; }
+            public string id_oficina { get; set; }
+            public string id_usuario { get; set; }
+        }
+
+        public ComunicacionesCIDIController(IComunicacionesService ComunicacionesService, INotificacion_digitalService Notificacion_digitalService,
+            IResoluciones_multasService resoluciones_multasService, IDet_notificacion_estado_proc_autoService det_Notificacion_Estado_Proc_AutoService,
+            IDet_notificacion_estado_proc_inmService det_Notificacion_Estado_Proc_InmService,
+            IDet_notificacion_estado_proc_iycService det_Notificacion_Estado_Proc_IycService,
+            IDet_notificacion_autoService det_Notificacion_AutoService)
         {
             _ComunicacionesService = ComunicacionesService;
             _Notificacion_digitalService = Notificacion_digitalService;
             _Resoluciones_multasService = resoluciones_multasService;
             _Det_notificacion_estado_proc_autoService = det_Notificacion_Estado_Proc_AutoService;
             _Det_notificacion_estado_proc_inmService = det_Notificacion_Estado_Proc_InmService;
+            _Det_notificacion_estado_proc_iycService = det_Notificacion_Estado_Proc_IycService;
+            _Det_notificacion_autoService= det_Notificacion_AutoService;
 
         }
         [HttpGet]
@@ -36,12 +75,12 @@ namespace WebApiShared.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult enviarNotificacionMultas(string cuit,int id_tipo_notif,int id_oficina,int id_usuario,int tipo_reporte,int nro_expediente)
+        public IActionResult enviarNotificacionMultas(string cuit, int id_tipo_notif, int id_oficina, int id_usuario, int tipo_reporte, int nro_expediente)
         {
             string cuerpo = "";
             int nro_notif = 0;
             Resoluciones_multas obj = new Resoluciones_multas();
-            obj = _Resoluciones_multasService.GetDatosExpedienteNotificar(nro_expediente,1);
+            obj = _Resoluciones_multasService.GetDatosExpedienteNotificar(nro_expediente, 1);
 
             Email email = new Email();
             email.Cuil = cuit;
@@ -54,9 +93,9 @@ namespace WebApiShared.Controllers
             email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
             nro_notif = _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, id_tipo_notif, id_oficina, id_usuario, 0, nro_expediente);
-            if (tipo_reporte==1) /* nro*/
+            if (tipo_reporte == 1) /* nro*/
             {
-                  
+
                 cuerpo =
                    @"<html>
                       
@@ -66,10 +105,10 @@ namespace WebApiShared.Controllers
                         <p>Notificación para: " + obj.nombre_noti + @" </p>
                         <p> Nro. de Notificación digital " + nro_notif.ToString() + @"</p>
 
-                          <p>Dominio: " + obj.dominio+@" </p>
-                            <p> Causa: "+obj.nro_causa+@"/"+obj.ANIO+ @"  </p>  
-                            <p>  Acta Nro: " + obj.nro_acta+@"       Fecha de Infracción: "+obj.FECHA_ACTA_INFRACCION+@" Hs.</p>
-                            <p>  Falta Cometida: "+obj.motivos+@" </p>
+                          <p>Dominio: " + obj.dominio + @" </p>
+                            <p> Causa: " + obj.nro_causa + @"/" + obj.ANIO + @"  </p>  
+                            <p>  Acta Nro: " + obj.nro_acta + @"       Fecha de Infracción: " + obj.FECHA_ACTA_INFRACCION + @" Hs.</p>
+                            <p>  Falta Cometida: " + obj.motivos + @" </p>
 
                         <p>Se notifica a Ud. del contenido de la presente y se procede a citarlo y emplazarlo
                            para que en el término de cinco (5) días, formule descargo en los términos de ley 
@@ -77,12 +116,12 @@ namespace WebApiShared.Controllers
 
                         <p>Si acepta la infracción y desea abonarla con los descuentos previstos a tal fin, 
                           puede hacerlo desde el  siguiente vínculo ";
-                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/Multas.aspx?dominio="+obj.dominio+"&nroEpediente=" + obj.NRO_EXPEDIENTE +  @"'>Link para pago</a> </p>";
+                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/Multas.aspx?dominio=" + obj.dominio + "&nroEpediente=" + obj.NRO_EXPEDIENTE + @"'>Link para pago</a> </p>";
                 cuerpo = cuerpo + @" <p>El horario de atención es de lunes a viernes de 7 a 13Hs.
                          Oficina ubicada en Goycoechea 686</p>
                         <p> Tel: 03543-439280 int. 321/322</p>
                          </body> </html> ";
-                    
+
             }
             if (tipo_reporte == 2)
             {
@@ -92,7 +131,7 @@ namespace WebApiShared.Controllers
                 cuerpo =
                @"<html>
                     <head>
-                        <title>Notificacion  de Resolucion                nro notif digital: "+ obj2.nro_acta+@" </title>
+                        <title>Notificacion  de Resolucion                nro notif digital: " + obj2.nro_acta + @" </title>
                     </head>
                     <body>
                        <p> Estimado/a " + obj2.nombre_noti + @" </p>
@@ -121,42 +160,11 @@ namespace WebApiShared.Controllers
                 _Notificacion_digitalService.update(nro_notif, 0, email.Mensaje);
                 return BadRequest(new { message = "Error al Notificar los datos del Cidi,verifique el nro de cuit " });
             }
-             _Notificacion_digitalService.update(nro_notif,1, email.Mensaje);
-            _Notificacion_digitalService.updateSumario(nro_expediente,tipo_reporte);
-            _Notificacion_digitalService.InsertarNuevoEstado(nro_expediente,id_usuario ,tipo_reporte, nro_notif);
+            _Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
+            _Notificacion_digitalService.updateSumario(nro_expediente, tipo_reporte);
+            _Notificacion_digitalService.InsertarNuevoEstado(nro_expediente, id_usuario, tipo_reporte, nro_notif);
             return Ok(respuesta);
         }
-        public class ModeloDeDatos
-        {
-            public string cuit { get; set; }
-            public string subject { get; set; }
-            public string body { get; set; }
-        }
-        public class ModeloProcuracion
-        {
-            public string cuit { get; set; }
-            public string subject { get; set; }
-            public string body { get; set; }
-           
-            public int nro_emision { get; set; }
-            public int nro_notificacion { get; set; }
-            public int nro_procuracion { get; set; }
-            public int id_oficina { get; set; }
-            public int id_usuario { get; set; }
-            public int tipo_proc { get; set; }
-            public int idTemplate { get; set; }
-            public string tituloReporte { get; set; }
-            public int cod_estado_actual { get; set; }
-
-        }
-        public class ModeloDelphi
-        {
-            public string cuit { get; set; }
-            public string id_oficina { get; set; }
-            public string id_usuario { get; set; }
-        }
-
-
         [HttpPost]
         public IActionResult enviarNotificacionGeneral([FromBody] dynamic datos)
         {
@@ -186,7 +194,6 @@ namespace WebApiShared.Controllers
             _Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
             return Ok(respuesta);
         }
-
         [HttpPost]
         public IActionResult enviarNotificacionProcuracion([FromBody] dynamic datos)
         {
@@ -207,27 +214,23 @@ namespace WebApiShared.Controllers
             string cuerpo = "";
             string nombre = "";
             string dominio = "";
+            int legajo;
             string nro_catastral = "";
-           //   string imagePath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "imagenes", "firma_proc.jpg");
-     //       string basePath = "D:\\Dev\\Net2022\\WebApiShared\\WebApiShared";
-    //        string imagePath = Path.Combine(basePath, "Imagenes", "firma_proc.jpg");
-
-
             if (tipo_proc == 1)
             {
                 Det_notificacion_estado_proc_inm objDet = new Det_notificacion_estado_proc_inm();
                 objDet = _Det_notificacion_estado_proc_inmService.getByPk(Nro_Emision, Nro_Notificacion);
                 nombre = objDet.Nombre;
-                nro_catastral = objDet.Circunscripcion.ToString()+"-"+ objDet.Seccion.ToString() + "-" + objDet.Manzana.ToString() + "-" + objDet.Parcela.ToString() + "-" + objDet.P_h.ToString();
+                nro_catastral = objDet.Circunscripcion.ToString() + "-" + objDet.Seccion.ToString() + "-" + objDet.Manzana.ToString() + "-" + objDet.Parcela.ToString() + "-" + objDet.P_h.ToString();
                 cuerpo = @"<html>                    
                            <body>
                            <p style='font-size: 26px;'><u> " + objeto.tituloReporte + @" </u> </p>""
                            <p> IMPUESTO INMOBILIARIO - MUNICIPALIDAD DE VILLA ALLENDE </p>
                            < p> Estimado/a: " + objDet.Nombre + @"  titular del inmueble: " + nro_catastral + @" con procuracion: " + objDet.Nro_procuracion + @"</p>
                            <p> " + body + @"  </p>";
-    
+
                 cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_procuracion + "&cir=" + objDet.Circunscripcion + "&sec=" + objDet.Seccion + "&man=" + objDet.Manzana + "&par=" + objDet.Parcela + "&ph=" + objDet.P_h + @"'>Link para pago</a>";
-              
+
                 cuerpo = cuerpo + @" <p>El horario de atención es de lunes a viernes de 7 a 13Hs.
                          Oficina ubicada en Goycoechea 686</p>
                         <p> Tel: 03543-439280 int. 321/322</p>
@@ -235,6 +238,29 @@ namespace WebApiShared.Controllers
 
 
 
+            }
+            if (tipo_proc == 3)
+            {
+                Det_notificacion_estado_proc_iyc objDet = new Det_notificacion_estado_proc_iyc();
+                objDet = _Det_notificacion_estado_proc_iycService.getByPk(Nro_Emision, Nro_Notificacion);
+                nombre = objDet.Nombre;
+                legajo = objDet.Legajo;
+                cuerpo = @"<html>                    
+                           <body>
+                           <p style='font-size: 26px;'><u> " + objeto.tituloReporte + @" </u> </p>""
+                           <p> INDUSTRIA Y COMERCIO - MUNICIPALIDAD DE VILLA ALLENDE </p>
+                           <p> Estimado/a: " + objDet.Nombre + @"  titular del comercio con Legajo: " + objDet.Legajo + @" con procuracion: " + objDet.Nro_Procuracion + @"</p>
+                           <p> " + body + @"  </p>";
+
+                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionIYC.aspx?nroProc=" + objDet.Nro_Procuracion + "&legajo=" + objDet.Legajo + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
+                if (cod_estado_actual == 76)
+                {
+                    cuerpo = cuerpo + @"
+                             <div style='text-align: right;'>
+                               <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
+                             </div>";
+                }
+                cuerpo = cuerpo + @"      </body> </html> ";
             }
             if (tipo_proc == 4)
             {
@@ -248,25 +274,18 @@ namespace WebApiShared.Controllers
                            <p> IMPUESTO AUTOMOTOR - MUNICIPALIDAD DE VILLA ALLENDE </p>
                            <p> Estimado/a: " + objDet.Nombre + @"  titular del Dominio: " + objDet.Dominio + @" con procuracion: " + objDet.Nro_Procuracion + @"</p>
                            <p> " + body + @"  </p>";
-                if (tipo_proc == 4)
-                {
-                    //   string url = "https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Dominio;
-                    //  Console.WriteLine(url); // Imprimir la URL en la consola para verificar
-                    //  cuerpo = cuerpo + @"<button onclick=window.open('" + url + "')type='button;'>Abrir ventana de pago</button>";
-                    //   cuerpo = cuerpo + @"<button onclick=""window.open('https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Dominio + @"')"">Abrir ventana de pago</button>";
-                    cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Dominio + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
-                    // cuerpo = cuerpo + @"<a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Dominio + @"' style='font-size: 32px;'>Link para pago</a>";
-                    //   cuerpo = cuerpo + @"<button onclick=""window.open('https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Dominio + @"'"">Ir al pago</button>";
-                    // cuerpo = cuerpo + @"< button onclick = '"window.location.href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=' + encodeURIComponent('" + objDet.Nro_Procuracion + "') + '&dominio=' + encodeURIComponent('" + objDet.Dominio + "')" > Ir al pago</ button >
-                }
+
+                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Dominio + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
+
                 if (cod_estado_actual == 76)
-                { cuerpo = cuerpo + @"
+                {
+                    cuerpo = cuerpo + @"
                              <div style='text-align: right;'>
                                <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
                              </div>";
                 }
-          
-            
+
+
 
                 cuerpo = cuerpo + @"      </body> </html> ";
 
@@ -275,9 +294,6 @@ namespace WebApiShared.Controllers
 
 
             }
-              
-            
-          
 
             Email email = new Email();
             email.Cuil = cuit;
@@ -302,9 +318,154 @@ namespace WebApiShared.Controllers
 
             return Ok(respuesta);
         }
+        [HttpPost]
+        public IActionResult enviarNotificacionProcuracionNuevas([FromBody] dynamic datos)
+        {
+
+            var objeto = JsonConvert.DeserializeObject<ModeloProcuracion>(datos.ToString());
+            string cuit = objeto.cuit;
+            string subject = objeto.subject;
+            string body = objeto.body;
+            string tituloReporte = objeto.tituloReporte;
+            int Nro_Emision = objeto.nro_emision;
+            int Nro_Notificacion = objeto.nro_notificacion;
+            int nro_procuracion = objeto.nro_procuracion;
+            int id_oficina = objeto.id_oficina;
+            int id_usuario = objeto.id_usuario;
+            int tipo_proc = objeto.tipo_proc;
+            int cod_estado_actual = objeto.cod_estado_actual;
+            int nro_notif = 0;
+            string cuerpo = "";
+            string nombre = "";
+            string dominio = "";
+            int legajo = 0;
+            string nro_catastral = "";
+
+            if (tipo_proc == 1)
+            {
+                Det_notificacion_estado_proc_inm objDet = new Det_notificacion_estado_proc_inm();
+                objDet = _Det_notificacion_estado_proc_inmService.getByPk(Nro_Emision, Nro_Notificacion);
+                nombre = objDet.Nombre;
+                nro_catastral = objDet.Circunscripcion.ToString() + "-" + objDet.Seccion.ToString() + "-" + objDet.Manzana.ToString() + "-" + objDet.Parcela.ToString() + "-" + objDet.P_h.ToString();
+                cuerpo = @"<html>                    
+                           <body>
+                           <p style='font-size: 26px;'><u> " + objeto.tituloReporte + @" </u> </p>""
+                           <p> IMPUESTO INMOBILIARIO - MUNICIPALIDAD DE VILLA ALLENDE </p>
+                           < p> Estimado/a: " + objDet.Nombre + @"  titular del inmueble: " + nro_catastral + @" con procuracion: " + objDet.Nro_procuracion + @"</p>
+                           <p> " + body + @"  </p>";
+
+                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_procuracion + "&cir=" + objDet.Circunscripcion + "&sec=" + objDet.Seccion + "&man=" + objDet.Manzana + "&par=" + objDet.Parcela + "&ph=" + objDet.P_h + @"'>Link para pago</a>";
+
+                cuerpo = cuerpo + @" <p>El horario de atención es de lunes a viernes de 7 a 13Hs.
+                         Oficina ubicada en Goycoechea 686</p>
+                        <p> Tel: 03543-439280 int. 321/322</p>
+                         </body> </html> ";
+
+
+
+            }
+            if (tipo_proc == 3)
+            {
+                Det_notificacion_estado_proc_iyc objDet = new Det_notificacion_estado_proc_iyc();
+                objDet = _Det_notificacion_estado_proc_iycService.getByPk(Nro_Emision, Nro_Notificacion);
+                nombre = objDet.Nombre;
+                legajo = objDet.Legajo;
+                cuerpo = @"<html>                    
+                           <body>
+                           <p style='font-size: 26px;'><u> " + objeto.tituloReporte + @" </u> </p>""
+                           <p> INDUSTRIA Y COMERCIO - MUNICIPALIDAD DE VILLA ALLENDE </p>
+                           <p> Estimado/a: " + objDet.Nombre + @"  titular del Comercio con Legajo: " + objDet.Legajo + @" con procuracion: " + objDet.Nro_Procuracion + @"</p>
+                           <p> " + body + @"  </p>";
+                if (tipo_proc == 4)
+                {
+                   
+                    cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Legajo + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
+                   
+                }
+                if (cod_estado_actual == 76)
+                {
+                    cuerpo = cuerpo + @"
+                             <div style='text-align: right;'>
+                               <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
+                             </div>";
+                }
+
+
+
+                cuerpo = cuerpo + @"      </body> </html> ";
+
+
+
+
+
+            }
+
+
+            if (tipo_proc == 4)
+            {
+                Det_notificacion_auto objDet = new Det_notificacion_auto();
+                objDet = _Det_notificacion_autoService.getByPk(Nro_Emision, Nro_Notificacion);
+                nombre = objDet.Nombre;
+                dominio = objDet.Dominio;
+                cuerpo = @"<html>                    
+                           <body>
+                           <p style='font-size: 26px;'><u> " + objeto.tituloReporte + @" </u> </p>""
+                           <p> IMPUESTO AUTOMOTOR - MUNICIPALIDAD DE VILLA ALLENDE </p>
+                           <p> Estimado/a: " + objDet.Nombre + @"  titular del Dominio: " + objDet.Dominio + @" con procuracion: " + objDet.Nro_proc + @"</p>
+                           <p> " + body + @"  </p>";
+                if (tipo_proc == 4)
+                {
+                      
+                    cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_proc + "&dominio=" + objDet.Dominio + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
+                   
+                }
+                if (cod_estado_actual == 76)
+                {
+                    cuerpo = cuerpo + @"
+                             <div style='text-align: right;'>
+                               <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
+                             </div>";
+                }
+
+
+
+                cuerpo = cuerpo + @"      </body> </html> ";
+
+
+
+
+
+            }
+
+
+
+
+            Email email = new Email();
+            email.Cuil = cuit;
+            email.Asunto = subject;
+            email.Mensaje = cuerpo;
+            email.Firma = "Oficina de Recursos Tributarios";
+            email.Ente = "Municipalidad de Villa Allende";
+            email.Id_App = Config.CiDiIdAplicacion;
+            email.Pass_App = Config.CiDiPassAplicacion;
+            email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
+            var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
+            nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion);
+            if (respuesta.Resultado != "OK")
+            {
+                _Notificacion_digitalService.update(nro_notif, 0, email.Mensaje);
+                return BadRequest(new { message = "Error al obtener los datos" });
+            }
+            _Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
+            _Notificacion_digitalService.updateProcuracionNueva(nro_procuracion, tipo_proc, Nro_Notificacion, Nro_Emision, cod_estado_actual);
+            _Notificacion_digitalService.InsertarNuevoEstadoProc(nro_procuracion, tipo_proc, nro_notif, id_usuario, cod_estado_actual);
+
+            return Ok(respuesta);
+        }
 
         [HttpPost]
-        public IActionResult enviarNotificacionRebeldia(int id_notificacion ,string cuit,DateTime fecha  )
+        public IActionResult enviarNotificacionRebeldia(int id_notificacion, string cuit, DateTime fecha)
         {
 
             string body = " ";
@@ -326,7 +487,7 @@ namespace WebApiShared.Controllers
             int nro_notif = 0;
             Email email = new Email();
             email.Cuil = cuit;
-            email.Asunto = " NOTIFICACION DE REBELDIA" ;
+            email.Asunto = " NOTIFICACION DE REBELDIA";
             email.Mensaje = body;
             email.Firma = "Juzgado de Faltas";
             email.Ente = "Municipalidad de Villa Allende";
@@ -350,9 +511,9 @@ namespace WebApiShared.Controllers
         public IActionResult enviarNotificacionResolRebeldia(string cuit, int id_tipo_notif, int id_oficina, int id_usuario, int tipo_reporte, int nro_expediente)
         {
 
-           // string fechaTexto = fecha.ToString("dddd, dd 'de' MMMM 'de' yyyy");
+            // string fechaTexto = fecha.ToString("dddd, dd 'de' MMMM 'de' yyyy");
             string fechahoy = DateTime.Now.ToString("dddd, dd 'de' MMMM 'de' yyyy");
-            string   body =
+            string body =
                   @" <html>                  
                       <body>                  
                         <p> JUZGADO ADMINISTRATIVO DE FALTAS </p> 

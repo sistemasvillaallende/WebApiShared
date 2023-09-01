@@ -51,9 +51,10 @@ namespace WebApiShared.Entities.LOGIN
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @" select p.COD_PROCESO,p2.PROCESO as descripcion
                                          from PROCESOS_X_USUARIO_V2 p left join PROCESOS_V2 p2 on p2.COD_PROCESO=p.COD_PROCESO
-                                         where p.COD_USUARIO=110 and p.COD_PROCESO
+                                         where p.COD_USUARIO=@cod_usuario and p.COD_PROCESO
                                          in (select t.cod_permiso from TIPO_NOTIF_DIGITAL t) ";
                     cmd.Connection.Open();
+                    cmd.Parameters.AddWithValue("@cod_usuario", cod_usuario);
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);
                     return lst;

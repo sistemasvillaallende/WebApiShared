@@ -58,6 +58,46 @@ namespace WebApiShared.Entities
             finally { cn.Close(); }
         }
 
+        public static Int32 SigEstado(string tableName, string campo, string campoid, int idTabla)
+        {
+            int id = 0;
+
+            StringBuilder strSQL = new StringBuilder();
+
+            strSQL.AppendLine("SELECT ISNULL(" + campo + ",0) As codigo");
+            strSQL.AppendLine("FROM " + tableName + " Where " + campoid + "=" + idTabla);
+
+            SqlCommand cmd = new SqlCommand();
+            SqlConnection cn = null;
+
+            //cmd.Parameters.Add(new SqlParameter("@campo", campo));
+            //cmd.Parameters.Add(new SqlParameter("@table", tableName));
+
+            try
+            {
+                cn = DALBase.GetConnection();
+
+                cmd.Connection = cn;
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = strSQL.ToString();
+                cmd.Connection.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                    id = dr.GetInt32(0);
+
+                return id ;
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine("Error, no se pudo obtener el código, " + ex.Message);
+                throw ex;
+
+            }
+            finally { cn.Close(); }
+        }
+
         public static Int32 CantDiasvenc(string tableName, string campo, string campoid, int idTabla)
         {
             int id = 0;
