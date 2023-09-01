@@ -139,7 +139,7 @@ namespace SIIMVA_WEB
             try
             {
                 StringBuilder sql = new StringBuilder();
-                sql.AppendLine("SELECT *FROM Notificacion_auto WHERE");
+                sql.AppendLine("SELECT * FROM Notificacion_auto WHERE");
                 sql.AppendLine("Nro_emision = @Nro_emision");
                 Notificacion_auto obj = null;
                 using (SqlConnection con = GetConnection())

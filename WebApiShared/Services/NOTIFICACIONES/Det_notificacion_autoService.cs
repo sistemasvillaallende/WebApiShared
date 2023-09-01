@@ -9,11 +9,11 @@ namespace SIIMVA_WEB.Services
 {
     public class Det_notificacion_autoService : IDet_notificacion_autoService
     {
-        public Det_notificacion_auto getByPk(int Nro_emision, int Nro_notificacion, string Dominio)
+        public Det_notificacion_auto getByPk(int Nro_emision, int Nro_notificacion)
         {
             try
             {
-                return Det_notificacion_auto.getByPk(Nro_emision, Nro_notificacion, Dominio);
+                return Det_notificacion_auto.getByPk(Nro_emision, Nro_notificacion);
             }
             catch (Exception ex)
             {

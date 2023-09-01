@@ -50,8 +50,8 @@ namespace SIIMVA_WEB
         public int Nro_secuencia { get; set; }
         public int Nro_orden { get; set; }
         public string cuit { get; set; }
-        public bool Notificado_cidi { get;  set; }
-        public string estado_Actual { get; set; }
+        public int notificado_cidi { get; set; }
+        public string cuit_valido { get; set; }
         public Det_notificacion_auto()
         {
             Nro_emision = 0;
@@ -92,9 +92,10 @@ namespace SIIMVA_WEB
             Fecha_baja_real = DateTime.Now;
             Nro_secuencia = 0;
             Nro_orden = 0;
+            notificado_cidi= 0;
             cuit = string.Empty;
-            Notificado_cidi = false;
-            estado_Actual = string.Empty;   
+            notificado_cidi = 0;
+            cuit_valido = string.Empty;
         }
 
         private static List<Det_notificacion_auto> mapeo(SqlDataReader dr)
@@ -141,10 +142,11 @@ namespace SIIMVA_WEB
                 int Fecha_baja_real = dr.GetOrdinal("Fecha_baja_real");
                 int Nro_secuencia = dr.GetOrdinal("Nro_secuencia");
                 int Nro_orden = dr.GetOrdinal("Nro_orden");
+                int notificado_cidi = dr.GetOrdinal("notificado_cidi");
                 int cuit = dr.GetOrdinal("cuit");
                 int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
                 int estado_Actual = dr.GetOrdinal("estado_Actual");
-
+                nt cuit_valido = dr.GetOrdinal("cuit_valido");
                 while (dr.Read())
                 {
                     obj = new Det_notificacion_auto();
@@ -186,9 +188,9 @@ namespace SIIMVA_WEB
                     if (!dr.IsDBNull(Fecha_baja_real)) { obj.Fecha_baja_real = dr.GetDateTime(Fecha_baja_real); }
                     if (!dr.IsDBNull(Nro_secuencia)) { obj.Nro_secuencia = dr.GetInt32(Nro_secuencia); }
                     if (!dr.IsDBNull(Nro_orden)) { obj.Nro_orden = dr.GetInt32(Nro_orden); }
+                    if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
-                    if (!dr.IsDBNull(Notificado_cidi)) { obj.Notificado_cidi = dr.GetBoolean(Notificado_cidi); }
-                    if (!dr.IsDBNull(estado_Actual)) { obj.estado_Actual = dr.GetString(estado_Actual); }
+                    if (!dr.IsDBNull(cuit_valido)) { obj.cuit_valido = dr.GetString(cuit_valido); }
                     lst.Add(obj);
                 }
             }
@@ -225,16 +227,72 @@ namespace SIIMVA_WEB
             }
         }
 
+        public static List<Det_notificacion_auto> listardetalle(int Nro_emision)
+        {
+            try
+            {
+                List<Det_notificacion_auto> lst = new List<Det_notificacion_auto>();
+                using (SqlConnection con = GetConnection())
+                {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = @"SELECT
+                      a.Nro_Emision,a.Nro_Notificacion,a.nro_proc,a.dominio,a.nro_badec,
+                      a.nombre, a.vencimiento,a.Nro_cedulon,
+                      Debe=((SELECT SUM(DEBE)
+		   	                    FROM CTASCTES_AUTOMOTORES C
+			                    JOIN DEUDAS_PROC_AUTO D ON
+				                    D.nro_procuracion=a.nro_proc AND
+                                    D.nro_transaccion=C.nro_transaccion
+                                     )) -
+				                       (SELECT SUM(haber)
+				                        FROM CTASCTES_AUTOMOTORES C
+				                        JOIN DEUDAS_PROC_AUTO D ON
+						                    D.nro_procuracion=a.nro_proc AND
+						                    D.nro_transaccion=C.nro_transaccion) ,
+                       a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
+                       estado_Actual= (  SELECT ep.descripcion_estado
+                                        FROM PROCURA_AUTO pa
+                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                        AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
+                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
+                         case
+				          when v.cuit ='' then 'CUIT_NO_VALIDADO'
+				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
+				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
+				          END AS cuit_valido
+                    FROM DET_NOTIFICACION_AUTO A (nolock)left join VEHICULOS V ON V.DOMINIO=A.DOMINIO        
+                    WHERE
+                    nro_emision= @Nro_emision";
+                    cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
+                    cmd.Connection.Open();
+
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    lst = mapeo(dr);
+                    return lst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static Det_notificacion_auto getByPk(
-        int Nro_emision, int Nro_notificacion, string Dominio)
+        int Nro_emision, int Nro_notificacion)
         {
             try
             {
                 StringBuilder sql = new StringBuilder();
-                sql.AppendLine("SELECT *FROM Det_notificacion_auto WHERE");
-                sql.AppendLine("Nro_emision = @Nro_emision");
-                sql.AppendLine("AND Nro_notificacion = @Nro_notificacion");
-                sql.AppendLine("AND Dominio = @Dominio");
+                sql.AppendLine("SELECT d.*, ");
+                sql.AppendLine(" estado_Actualizado= (  SELECT ep.descripcion_estado ");
+                sql.AppendLine("        FROM PROCURA_AUTO pa  ");
+                sql.AppendLine("        JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual ");
+                sql.AppendLine("      AND pa.nro_procuracion=d.Nro_Procuracion AND d.Dominio=pa.dominio),b.cuit ");
+                sql.AppendLine("FROM Det_notificacion_auto d ");
+                sql.AppendLine("WHERE d.Nro_emision = @Nro_emision");
+                sql.AppendLine("AND d.Nro_notificacion = @Nro_notificacion");
+     
                 Det_notificacion_auto obj = null;
                 using (SqlConnection con = GetConnection())
                 {
@@ -243,7 +301,6 @@ namespace SIIMVA_WEB
                     cmd.CommandText = sql.ToString();
                     cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
                     cmd.Parameters.AddWithValue("@Nro_notificacion", Nro_notificacion);
-                    cmd.Parameters.AddWithValue("@Dominio", Dominio);
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     List<Det_notificacion_auto> lst = mapeo(dr);
