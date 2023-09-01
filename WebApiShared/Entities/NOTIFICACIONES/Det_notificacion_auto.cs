@@ -146,7 +146,7 @@ namespace SIIMVA_WEB
                 int cuit = dr.GetOrdinal("cuit");
                 int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
                 int estado_Actual = dr.GetOrdinal("estado_Actual");
-                nt cuit_valido = dr.GetOrdinal("cuit_valido");
+                int cuit_valido = dr.GetOrdinal("cuit_valido");
                 while (dr.Read())
                 {
                     obj = new Det_notificacion_auto();
