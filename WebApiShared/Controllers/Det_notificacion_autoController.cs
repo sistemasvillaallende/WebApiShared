@@ -25,7 +25,27 @@ namespace SIIMVA_WEB.Controllers
             }
             return Ok(Det_notificacion_auto);
         }
+        [HttpGet]
+        public IActionResult listarDetalle(int Nro_emision)
+        {
+            var Det_notificacion_auto = _Det_notificacion_autoService.listarDetalle(Nro_emision);
+            if (Det_notificacion_auto == null)
+            {
+                return BadRequest(new { message = "Error al obtener los datos" });
+            }
+            return Ok(Det_notificacion_auto);
+        }
 
+        [HttpGet]
+        public IActionResult listarDetallexEstado(int Nro_emision,int cod_estado)
+        {
+            var Det_notificacion_auto = _Det_notificacion_autoService.listarDetallexEstado(Nro_emision,cod_estado);
+            if (Det_notificacion_auto == null)
+            {
+                return BadRequest(new { message = "Error al obtener los datos" });
+            }
+            return Ok(Det_notificacion_auto);
+        }
 
 
 
