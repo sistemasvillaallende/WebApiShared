@@ -147,8 +147,8 @@ namespace SIIMVA_WEB
                 //int Nro_orden = dr.GetOrdinal("Nro_orden");
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
                 int cuit = dr.GetOrdinal("cuit");
-                //int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
-                int estado_actual = dr.GetOrdinal("estado_actual");
+                int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
+                int estado_actual = dr.GetOrdinal("estado_Actual");
                 int cuit_valido = dr.GetOrdinal("cuit_valido");
                 while (dr.Read())
                 {
