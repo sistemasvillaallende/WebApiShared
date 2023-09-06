@@ -15,8 +15,19 @@ namespace WebApiShared.Controllers
         {
             _BarriosService = BarriosService;
         }
+
         [HttpGet]
-        public IActionResult getByPk(
+        public IActionResult getByPk()
+        {
+            var Barrios = _BarriosService.read();
+            if (Barrios == null)
+            {
+                return BadRequest(new { message = "Error al obtener los datos" });
+            }
+            return Ok(Barrios);
+        }
+       // [HttpGet]
+        /*public IActionResult getByPk(
         int COD_BARRIO)
         {
             var Barrios = _BarriosService.getByPk(COD_BARRIO);
@@ -25,7 +36,7 @@ namespace WebApiShared.Controllers
                 return BadRequest(new { message = "Error al obtener los datos" });
             }
             return Ok(Barrios);
-        }
+        }*/
         [HttpGet]
         public IActionResult read()
         {

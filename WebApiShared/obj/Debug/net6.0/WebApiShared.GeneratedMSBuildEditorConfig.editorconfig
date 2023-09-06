@@ -9,9 +9,17 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebApiShared
 build_property.RootNamespace = WebApiShared
+<<<<<<< HEAD
 build_property.ProjectDir = D:\Dev\NET2022\WebApiShared\WebApiShared\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = D:\Dev\NET2022\WebApiShared\WebApiShared
+=======
+build_property.ProjectDir = D:\Dev\Net2022\WebApiShared\WebApiShared\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\Dev\Net2022\WebApiShared\WebApiShared
+>>>>>>> 26aaee67ceeb904c083b0f154b73e9dcf27e39af
 build_property._RazorSourceGeneratorDebug = 

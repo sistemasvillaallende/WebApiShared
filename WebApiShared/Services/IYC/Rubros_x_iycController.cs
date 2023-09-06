@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using Newtonsoft.Json;
-using WebApiShared.Services;
+using WebApiShared.Services.IYC;
 
 namespace WebApiShared.Controllers
 {

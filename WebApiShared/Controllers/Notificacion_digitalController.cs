@@ -19,18 +19,7 @@ namespace WebApiShared.Controllers
         {
             _Notificacion_digitalService = Notificacion_digitalService;
         }
-        //[HttpGet]
-        //public IActionResult getByPk(int idsolic
-        //)
-        //{
-        //    var Notificacion_digital = _Notificacion_digitalService.getByPk();
-        //    if (Notificacion_digital == null)
-        //    {
-        //        return BadRequest(new { message = "Error al obtener los datos" });
-        //    }
-        //    return Ok(Notificacion_digital);
-        //}
-
+        
         [HttpGet]
         public IActionResult ListarNotificaciones()
         {
@@ -46,6 +35,20 @@ namespace WebApiShared.Controllers
         }
 
         [HttpGet]
+        public IActionResult ListNotifxOficina(int cod_oficina)
+        {
+            var req = _Notificacion_digitalService.ListNotifxOficina(cod_oficina);
+            return Ok(req);
+        }
+
+        [HttpGet]
+        public IActionResult GetOficinas(int cod_usuario)
+        {
+            var req = _Notificacion_digitalService.GetOficinas(cod_usuario);
+            return Ok(req);
+        }
+
+        [HttpGet]
         public IActionResult listNotifxcuil(string cuil)
         {
             var req = _Notificacion_digitalService.ListNotifxcuil(cuil);
@@ -57,8 +60,7 @@ namespace WebApiShared.Controllers
         {
             var req = _Notificacion_digitalService.ListNotifxEstado(cod_estado);
             return Ok(req);
-        }
-
+        }      
     }
 }
 
