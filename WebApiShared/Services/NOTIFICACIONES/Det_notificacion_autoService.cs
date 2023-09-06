@@ -31,6 +31,30 @@ namespace SIIMVA_WEB.Services
                 throw ex;
             }
         }
+        public  List<Det_notificacion_auto> listarDetalle(int Nro_emision)
+        {
+            try
+            {
+                return Det_notificacion_auto.listarDetalle(Nro_emision);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<Det_notificacion_auto> listarDetallexEstado(int Nro_emision,int cod_estado)
+        {
+            try
+            {
+                return Det_notificacion_auto.listarDetallexEstado(Nro_emision,cod_estado);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public int insert(Det_notificacion_auto obj)
         {
             try

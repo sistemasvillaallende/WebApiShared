@@ -35,7 +35,7 @@ namespace SIIMVA_WEB
         public bool TieneHonorarios { get; set; }
         public Int16 Tipo_descuento { get; set; }
         public Int16 Cod_formulario { get; set; }
-        public Int16 Codigo_estado_actual { get; set; }
+        public Int32 Codigo_estado_actual { get; set; }
         public Int16 ParaImprimir { get; set; }
         public Int16 CedulonSi { get; set; }
         public int Nro_cedulon { get; set; }
@@ -52,6 +52,8 @@ namespace SIIMVA_WEB
         public string cuit { get; set; }
         public int notificado_cidi { get; set; }
         public string cuit_valido { get; set; }
+        public string estado_actual { get; set; }
+
         public Det_notificacion_auto()
         {
             Nro_emision = 0;
@@ -96,6 +98,7 @@ namespace SIIMVA_WEB
             cuit = string.Empty;
             notificado_cidi = 0;
             cuit_valido = string.Empty;
+            estado_actual= string.Empty;
         }
 
         private static List<Det_notificacion_auto> mapeo(SqlDataReader dr)
@@ -109,43 +112,43 @@ namespace SIIMVA_WEB
                 int Dominio = dr.GetOrdinal("Dominio");
                 int Nro_badec = dr.GetOrdinal("Nro_badec");
                 int Nombre = dr.GetOrdinal("Nombre");
-                int Nom_barrio_dom_esp = dr.GetOrdinal("Nom_barrio_dom_esp");
-                int Nom_calle_dom_esp = dr.GetOrdinal("Nom_calle_dom_esp");
-                int Nro_dom_esp = dr.GetOrdinal("Nro_dom_esp");
-                int Ciudad_dom_esp = dr.GetOrdinal("Ciudad_dom_esp");
-                int Provincia_dom_esp = dr.GetOrdinal("Provincia_dom_esp");
-                int Pais_dom_esp = dr.GetOrdinal("Pais_dom_esp");
-                int Cod_postal_esp = dr.GetOrdinal("Cod_postal_esp");
+               // int Nom_barrio_dom_esp = dr.GetOrdinal("Nom_barrio_dom_esp");
+               // int Nom_calle_dom_esp = dr.GetOrdinal("Nom_calle_dom_esp");
+               // int Nro_dom_esp = dr.GetOrdinal("Nro_dom_esp");
+               // int Ciudad_dom_esp = dr.GetOrdinal("Ciudad_dom_esp");
+               // int Provincia_dom_esp = dr.GetOrdinal("Provincia_dom_esp");
+               // int Pais_dom_esp = dr.GetOrdinal("Pais_dom_esp");
+               // int Cod_postal_esp = dr.GetOrdinal("Cod_postal_esp");
                 int Nro_proc = dr.GetOrdinal("Nro_proc");
-                int Fecha_vencimiento = dr.GetOrdinal("Fecha_vencimiento");
-                int Periodo = dr.GetOrdinal("Periodo");
+             //   int Fecha_vencimiento = dr.GetOrdinal("vencimiento");
+             //   int Periodo = dr.GetOrdinal("Periodo");
                 int Debe = dr.GetOrdinal("Debe");
-                int Nro_plan = dr.GetOrdinal("Nro_plan");
+              //  int Nro_plan = dr.GetOrdinal("Nro_plan");
                 int Vencimiento = dr.GetOrdinal("Vencimiento");
-                int Cod_tipo_procuracion = dr.GetOrdinal("Cod_tipo_procuracion");
-                int Bloqueado = dr.GetOrdinal("Bloqueado");
-                int Codigo_procurador = dr.GetOrdinal("Codigo_procurador");
-                int TieneHonorarios = dr.GetOrdinal("TieneHonorarios");
-                int Tipo_descuento = dr.GetOrdinal("Tipo_descuento");
-                int Cod_formulario = dr.GetOrdinal("Cod_formulario");
+               // int Cod_tipo_procuracion = dr.GetOrdinal("Cod_tipo_procuracion");
+              //  int Bloqueado = dr.GetOrdinal("Bloqueado");
+            //    int Codigo_procurador = dr.GetOrdinal("Codigo_procurador");
+            //   int TieneHonorarios = dr.GetOrdinal("TieneHonorarios");
+              //  int Tipo_descuento = dr.GetOrdinal("Tipo_descuento");
+               // int Cod_formulario = dr.GetOrdinal("Cod_formulario");
                 int Codigo_estado_actual = dr.GetOrdinal("Codigo_estado_actual");
-                int ParaImprimir = dr.GetOrdinal("ParaImprimir");
-                int CedulonSi = dr.GetOrdinal("CedulonSi");
+               // int ParaImprimir = dr.GetOrdinal("ParaImprimir");
+               // int CedulonSi = dr.GetOrdinal("CedulonSi");
                 int Nro_cedulon = dr.GetOrdinal("Nro_cedulon");
                 int Barcode39 = dr.GetOrdinal("Barcode39");
                 int Barcodeint25 = dr.GetOrdinal("Barcodeint25");
-                int pagado = dr.GetOrdinal("pagado");
+                //int pagado = dr.GetOrdinal("pagado");
                 int monto_original = dr.GetOrdinal("monto_original");
                 int interes = dr.GetOrdinal("interes");
                 int descuento = dr.GetOrdinal("descuento");
                 int importe_pagar = dr.GetOrdinal("importe_pagar");
-                int Fecha_baja_real = dr.GetOrdinal("Fecha_baja_real");
-                int Nro_secuencia = dr.GetOrdinal("Nro_secuencia");
-                int Nro_orden = dr.GetOrdinal("Nro_orden");
+                //int Fecha_baja_real = dr.GetOrdinal("Fecha_baja_real");
+               // int Nro_secuencia = dr.GetOrdinal("Nro_secuencia");
+                //int Nro_orden = dr.GetOrdinal("Nro_orden");
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
                 int cuit = dr.GetOrdinal("cuit");
                 int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
-                int estado_Actual = dr.GetOrdinal("estado_Actual");
+                int estado_actual = dr.GetOrdinal("estado_Actual");
                 int cuit_valido = dr.GetOrdinal("cuit_valido");
                 while (dr.Read())
                 {
@@ -155,42 +158,43 @@ namespace SIIMVA_WEB
                     if (!dr.IsDBNull(Dominio)) { obj.Dominio = dr.GetString(Dominio); }
                     if (!dr.IsDBNull(Nro_badec)) { obj.Nro_badec = dr.GetInt32(Nro_badec); }
                     if (!dr.IsDBNull(Nombre)) { obj.Nombre = dr.GetString(Nombre); }
-                    if (!dr.IsDBNull(Nom_barrio_dom_esp)) { obj.Nom_barrio_dom_esp = dr.GetString(Nom_barrio_dom_esp); }
-                    if (!dr.IsDBNull(Nom_calle_dom_esp)) { obj.Nom_calle_dom_esp = dr.GetString(Nom_calle_dom_esp); }
-                    if (!dr.IsDBNull(Nro_dom_esp)) { obj.Nro_dom_esp = dr.GetString(Nro_dom_esp); }
-                    if (!dr.IsDBNull(Ciudad_dom_esp)) { obj.Ciudad_dom_esp = dr.GetString(Ciudad_dom_esp); }
-                    if (!dr.IsDBNull(Provincia_dom_esp)) { obj.Provincia_dom_esp = dr.GetString(Provincia_dom_esp); }
-                    if (!dr.IsDBNull(Pais_dom_esp)) { obj.Pais_dom_esp = dr.GetString(Pais_dom_esp); }
-                    if (!dr.IsDBNull(Cod_postal_esp)) { obj.Cod_postal_esp = dr.GetString(Cod_postal_esp); }
+                   // if (!dr.IsDBNull(Nom_barrio_dom_esp)) { obj.Nom_barrio_dom_esp = dr.GetString(Nom_barrio_dom_esp); }
+                   // if (!dr.IsDBNull(Nom_calle_dom_esp)) { obj.Nom_calle_dom_esp = dr.GetString(Nom_calle_dom_esp); }
+                   // if (!dr.IsDBNull(Nro_dom_esp)) { obj.Nro_dom_esp = dr.GetString(Nro_dom_esp); }
+                   // if (!dr.IsDBNull(Ciudad_dom_esp)) { obj.Ciudad_dom_esp = dr.GetString(Ciudad_dom_esp); }
+                  //  if (!dr.IsDBNull(Provincia_dom_esp)) { obj.Provincia_dom_esp = dr.GetString(Provincia_dom_esp); }
+                 //   if (!dr.IsDBNull(Pais_dom_esp)) { obj.Pais_dom_esp = dr.GetString(Pais_dom_esp); }
+                 //   if (!dr.IsDBNull(Cod_postal_esp)) { obj.Cod_postal_esp = dr.GetString(Cod_postal_esp); }
                     if (!dr.IsDBNull(Nro_proc)) { obj.Nro_proc = dr.GetInt32(Nro_proc); }
-                    if (!dr.IsDBNull(Fecha_vencimiento)) { obj.Fecha_vencimiento = dr.GetDateTime(Fecha_vencimiento); }
-                    if (!dr.IsDBNull(Periodo)) { obj.Periodo = dr.GetString(Periodo); }
+                  //  if (!dr.IsDBNull(Fecha_vencimiento)) { obj.Fecha_vencimiento = dr.GetDateTime(Fecha_vencimiento); }
+                  //  if (!dr.IsDBNull(Periodo)) { obj.Periodo = dr.GetString(Periodo); }
                     if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetDecimal(Debe); }
-                    if (!dr.IsDBNull(Nro_plan)) { obj.Nro_plan = dr.GetInt32(Nro_plan); }
+                  //  if (!dr.IsDBNull(Nro_plan)) { obj.Nro_plan = dr.GetInt32(Nro_plan); }
                     if (!dr.IsDBNull(Vencimiento)) { obj.Vencimiento = dr.GetDateTime(Vencimiento); }
-                    if (!dr.IsDBNull(Cod_tipo_procuracion)) { obj.Cod_tipo_procuracion = dr.GetInt16(Cod_tipo_procuracion); }
-                    if (!dr.IsDBNull(Bloqueado)) { obj.Bloqueado = dr.GetBoolean(Bloqueado); }
-                    if (!dr.IsDBNull(Codigo_procurador)) { obj.Codigo_procurador = dr.GetInt16(Codigo_procurador); }
-                    if (!dr.IsDBNull(TieneHonorarios)) { obj.TieneHonorarios = dr.GetBoolean(TieneHonorarios); }
-                    if (!dr.IsDBNull(Tipo_descuento)) { obj.Tipo_descuento = dr.GetInt16(Tipo_descuento); }
-                    if (!dr.IsDBNull(Cod_formulario)) { obj.Cod_formulario = dr.GetInt16(Cod_formulario); }
-                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt16(Codigo_estado_actual); }
-                    if (!dr.IsDBNull(ParaImprimir)) { obj.ParaImprimir = dr.GetInt16(ParaImprimir); }
-                    if (!dr.IsDBNull(CedulonSi)) { obj.CedulonSi = dr.GetInt16(CedulonSi); }
+                    //if (!dr.IsDBNull(Cod_tipo_procuracion)) { obj.Cod_tipo_procuracion = dr.GetInt16(Cod_tipo_procuracion); }
+                    //if (!dr.IsDBNull(Bloqueado)) { obj.Bloqueado = dr.GetBoolean(Bloqueado); }
+                   // if (!dr.IsDBNull(Codigo_procurador)) { obj.Codigo_procurador = dr.GetInt16(Codigo_procurador); }
+                   // if (!dr.IsDBNull(TieneHonorarios)) { obj.TieneHonorarios = dr.GetBoolean(TieneHonorarios); }
+                  //  if (!dr.IsDBNull(Tipo_descuento)) { obj.Tipo_descuento = dr.GetInt16(Tipo_descuento); }
+                  //  if (!dr.IsDBNull(Cod_formulario)) { obj.Cod_formulario = dr.GetInt16(Cod_formulario); }
+                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt32(Codigo_estado_actual); }
+                 //   if (!dr.IsDBNull(ParaImprimir)) { obj.ParaImprimir = dr.GetInt16(ParaImprimir); }
+                  //  if (!dr.IsDBNull(CedulonSi)) { obj.CedulonSi = dr.GetInt16(CedulonSi); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
                     if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
                     if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
-                    if (!dr.IsDBNull(pagado)) { obj.pagado = dr.GetInt16(pagado); }
+               //     if (!dr.IsDBNull(pagado)) { obj.pagado = dr.GetInt16(pagado); }
                     if (!dr.IsDBNull(monto_original)) { obj.monto_original = dr.GetDecimal(monto_original); }
                     if (!dr.IsDBNull(interes)) { obj.interes = dr.GetDecimal(interes); }
                     if (!dr.IsDBNull(descuento)) { obj.descuento = dr.GetDecimal(descuento); }
                     if (!dr.IsDBNull(importe_pagar)) { obj.importe_pagar = dr.GetDecimal(importe_pagar); }
-                    if (!dr.IsDBNull(Fecha_baja_real)) { obj.Fecha_baja_real = dr.GetDateTime(Fecha_baja_real); }
-                    if (!dr.IsDBNull(Nro_secuencia)) { obj.Nro_secuencia = dr.GetInt32(Nro_secuencia); }
-                    if (!dr.IsDBNull(Nro_orden)) { obj.Nro_orden = dr.GetInt32(Nro_orden); }
+                 //   if (!dr.IsDBNull(Fecha_baja_real)) { obj.Fecha_baja_real = dr.GetDateTime(Fecha_baja_real); }
+                  //  if (!dr.IsDBNull(Nro_secuencia)) { obj.Nro_secuencia = dr.GetInt32(Nro_secuencia); }
+                  //  if (!dr.IsDBNull(Nro_orden)) { obj.Nro_orden = dr.GetInt32(Nro_orden); }
                     if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
                     if (!dr.IsDBNull(cuit_valido)) { obj.cuit_valido = dr.GetString(cuit_valido); }
+                    if (!dr.IsDBNull(estado_actual)) { obj.estado_actual = dr.GetString(estado_actual); }
                     lst.Add(obj);
                 }
             }
@@ -206,7 +210,7 @@ namespace SIIMVA_WEB
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT A.*, D.CUIT, C.descripcion_estado AS estado_Actual
+                    cmd.CommandText = @"SELECT A.*, D.CUIT, C.descripcion_estado AS estado_Actual,cuit_valido=''
                                         FROM DET_NOTIFICACION_AUTO A
                                         INNER JOIN VEHICULOS B ON A.Dominio = B.DOMINIO
                                         INNER JOIN ESTADOS_PROCURACION C 
@@ -227,7 +231,7 @@ namespace SIIMVA_WEB
             }
         }
 
-        public static List<Det_notificacion_auto> listardetalle(int Nro_emision)
+        public static List<Det_notificacion_auto> listarDetalle(int Nro_emision)
         {
             try
             {
@@ -238,7 +242,11 @@ namespace SIIMVA_WEB
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @"SELECT
                       a.Nro_Emision,a.Nro_Notificacion,a.nro_proc,a.dominio,a.nro_badec,
-                      a.nombre, a.vencimiento,a.Nro_cedulon,
+                      a.nombre, a.vencimiento,a.Nro_cedulon,codigo_estado_actual= (  SELECT ep.codigo_estado
+                                        FROM PROCURA_AUTO pa
+                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                        AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
+                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
                       Debe=((SELECT SUM(DEBE)
 		   	                    FROM CTASCTES_AUTOMOTORES C
 			                    JOIN DEUDAS_PROC_AUTO D ON
@@ -251,7 +259,7 @@ namespace SIIMVA_WEB
 						                    D.nro_procuracion=a.nro_proc AND
 						                    D.nro_transaccion=C.nro_transaccion) ,
                        a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
-                       estado_Actual= (  SELECT ep.descripcion_estado
+                       estado_actual= (  SELECT ep.descripcion_estado
                                         FROM PROCURA_AUTO pa
                                          JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
                                         AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
@@ -278,6 +286,64 @@ namespace SIIMVA_WEB
             }
         }
 
+        public static List<Det_notificacion_auto> listarDetallexEstado(int Nro_emision, int cod_estado)
+        {
+            try
+            {
+                List<Det_notificacion_auto> lst = new List<Det_notificacion_auto>();
+                using (SqlConnection con = GetConnection())
+                {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = @"SELECT
+                      a.Nro_Emision,a.Nro_Notificacion,a.nro_proc,a.dominio,a.nro_badec,
+                      a.nombre, a.vencimiento,a.Nro_cedulon,codigo_estado_actual= (  SELECT ep.codigo_estado
+                                        FROM PROCURA_AUTO pa
+                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                        AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
+                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
+                      Debe=((SELECT SUM(DEBE)
+		   	                    FROM CTASCTES_AUTOMOTORES C
+			                    JOIN DEUDAS_PROC_AUTO D ON
+				                    D.nro_procuracion=a.nro_proc AND
+                                    D.nro_transaccion=C.nro_transaccion
+                                     )) -
+				                       (SELECT SUM(haber)
+				                        FROM CTASCTES_AUTOMOTORES C
+				                        JOIN DEUDAS_PROC_AUTO D ON
+						                    D.nro_procuracion=a.nro_proc AND
+						                    D.nro_transaccion=C.nro_transaccion) ,
+                       a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
+                       estado_actual= (  SELECT ep.descripcion_estado
+                                        FROM PROCURA_AUTO pa
+                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                        AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
+                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
+                         case
+				          when v.cuit ='' then 'CUIT_NO_VALIDADO'
+				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
+				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
+				          END AS cuit_valido
+                    FROM DET_NOTIFICACION_AUTO A (nolock)left join VEHICULOS V ON V.DOMINIO=A.DOMINIO        
+                    WHERE
+                     nro_emision=@nro_emision AND  (  SELECT ep.codigo_estado
+                    FROM PROCURA_AUTO pa
+                     JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                    AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio)=" + cod_estado.ToString();
+                    cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
+                    cmd.Connection.Open();
+
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    lst = mapeo(dr);
+                    return lst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static Det_notificacion_auto getByPk(
         int Nro_emision, int Nro_notificacion)
         {
@@ -285,10 +351,10 @@ namespace SIIMVA_WEB
             {
                 StringBuilder sql = new StringBuilder();
                 sql.AppendLine("SELECT d.*, ");
-                sql.AppendLine(" estado_Actualizado= (  SELECT ep.descripcion_estado ");
+                sql.AppendLine(" estado_actual= (  SELECT ep.descripcion_estado ");
                 sql.AppendLine("        FROM PROCURA_AUTO pa  ");
                 sql.AppendLine("        JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual ");
-                sql.AppendLine("      AND pa.nro_procuracion=d.Nro_Procuracion AND d.Dominio=pa.dominio),b.cuit ");
+                sql.AppendLine("      AND pa.nro_procuracion=d.Nro_Proc AND d.Dominio=pa.dominio),cuit ='',cuit_valido='' ");
                 sql.AppendLine("FROM Det_notificacion_auto d ");
                 sql.AppendLine("WHERE d.Nro_emision = @Nro_emision");
                 sql.AppendLine("AND d.Nro_notificacion = @Nro_notificacion");

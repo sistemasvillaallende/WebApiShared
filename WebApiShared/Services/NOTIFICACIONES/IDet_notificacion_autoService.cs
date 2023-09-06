@@ -11,6 +11,8 @@ namespace SIIMVA_WEB.Services
         public int insert(Det_notificacion_auto obj);
         public void update(Det_notificacion_auto obj);
         public void delete(Det_notificacion_auto obj);
+        public List<Det_notificacion_auto> listarDetalle(int Nro_emision);
+        public List<Det_notificacion_auto> listarDetallexEstado(int Nro_emision, int cod_estado);
     }
 }
 
