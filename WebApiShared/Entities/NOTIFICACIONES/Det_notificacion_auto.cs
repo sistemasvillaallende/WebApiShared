@@ -35,7 +35,7 @@ namespace SIIMVA_WEB
         public bool TieneHonorarios { get; set; }
         public Int16 Tipo_descuento { get; set; }
         public Int16 Cod_formulario { get; set; }
-        public Int16 Codigo_estado_actual { get; set; }
+        public Int32 Codigo_estado_actual { get; set; }
         public Int16 ParaImprimir { get; set; }
         public Int16 CedulonSi { get; set; }
         public int Nro_cedulon { get; set; }
@@ -131,7 +131,7 @@ namespace SIIMVA_WEB
             //   int TieneHonorarios = dr.GetOrdinal("TieneHonorarios");
               //  int Tipo_descuento = dr.GetOrdinal("Tipo_descuento");
                // int Cod_formulario = dr.GetOrdinal("Cod_formulario");
-             //   int Codigo_estado_actual = dr.GetOrdinal("Codigo_estado_actual");
+                int Codigo_estado_actual = dr.GetOrdinal("Codigo_estado_actual");
                // int ParaImprimir = dr.GetOrdinal("ParaImprimir");
                // int CedulonSi = dr.GetOrdinal("CedulonSi");
                 int Nro_cedulon = dr.GetOrdinal("Nro_cedulon");
@@ -177,7 +177,7 @@ namespace SIIMVA_WEB
                    // if (!dr.IsDBNull(TieneHonorarios)) { obj.TieneHonorarios = dr.GetBoolean(TieneHonorarios); }
                   //  if (!dr.IsDBNull(Tipo_descuento)) { obj.Tipo_descuento = dr.GetInt16(Tipo_descuento); }
                   //  if (!dr.IsDBNull(Cod_formulario)) { obj.Cod_formulario = dr.GetInt16(Cod_formulario); }
-                 //   if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt16(Codigo_estado_actual); }
+                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt32(Codigo_estado_actual); }
                  //   if (!dr.IsDBNull(ParaImprimir)) { obj.ParaImprimir = dr.GetInt16(ParaImprimir); }
                   //  if (!dr.IsDBNull(CedulonSi)) { obj.CedulonSi = dr.GetInt16(CedulonSi); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
@@ -210,7 +210,7 @@ namespace SIIMVA_WEB
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT A.*, D.CUIT, C.descripcion_estado AS estado_Actual
+                    cmd.CommandText = @"SELECT A.*, D.CUIT, C.descripcion_estado AS estado_Actual,cuit_valido=''
                                         FROM DET_NOTIFICACION_AUTO A
                                         INNER JOIN VEHICULOS B ON A.Dominio = B.DOMINIO
                                         INNER JOIN ESTADOS_PROCURACION C 
@@ -242,7 +242,11 @@ namespace SIIMVA_WEB
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @"SELECT
                       a.Nro_Emision,a.Nro_Notificacion,a.nro_proc,a.dominio,a.nro_badec,
-                      a.nombre, a.vencimiento,a.Nro_cedulon,
+                      a.nombre, a.vencimiento,a.Nro_cedulon,codigo_estado_actual= (  SELECT ep.codigo_estado
+                                        FROM PROCURA_AUTO pa
+                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                        AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
+                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
                       Debe=((SELECT SUM(DEBE)
 		   	                    FROM CTASCTES_AUTOMOTORES C
 			                    JOIN DEUDAS_PROC_AUTO D ON
@@ -293,7 +297,11 @@ namespace SIIMVA_WEB
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @"SELECT
                       a.Nro_Emision,a.Nro_Notificacion,a.nro_proc,a.dominio,a.nro_badec,
-                      a.nombre, a.vencimiento,a.Nro_cedulon,
+                      a.nombre, a.vencimiento,a.Nro_cedulon,codigo_estado_actual= (  SELECT ep.codigo_estado
+                                        FROM PROCURA_AUTO pa
+                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                        AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
+                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
                       Debe=((SELECT SUM(DEBE)
 		   	                    FROM CTASCTES_AUTOMOTORES C
 			                    JOIN DEUDAS_PROC_AUTO D ON
@@ -343,10 +351,10 @@ namespace SIIMVA_WEB
             {
                 StringBuilder sql = new StringBuilder();
                 sql.AppendLine("SELECT d.*, ");
-                sql.AppendLine(" estado_Actualizado= (  SELECT ep.descripcion_estado ");
+                sql.AppendLine(" estado_actual= (  SELECT ep.descripcion_estado ");
                 sql.AppendLine("        FROM PROCURA_AUTO pa  ");
                 sql.AppendLine("        JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual ");
-                sql.AppendLine("      AND pa.nro_procuracion=d.Nro_Procuracion AND d.Dominio=pa.dominio),b.cuit ");
+                sql.AppendLine("      AND pa.nro_procuracion=d.Nro_Proc AND d.Dominio=pa.dominio),cuit ='',cuit_valido='' ");
                 sql.AppendLine("FROM Det_notificacion_auto d ");
                 sql.AppendLine("WHERE d.Nro_emision = @Nro_emision");
                 sql.AppendLine("AND d.Nro_notificacion = @Nro_notificacion");
