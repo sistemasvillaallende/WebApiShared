@@ -1,39 +1,25 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using WebApiShared.Entities.CIDI.Comunicacion;
 
 namespace WebApiShared.Entities
 {
     public class ws_valida_inmueble: DALBase
     {
-        public int circunscripcion { get; set; }
-        public int seccion { get; set; }
-        public int manzana { get; set; }
-        public int parcela { get; set; }
-        public int p_h { get; set; }
-        public string nom_barrio { get; set; }
-        public string nom_calle { get; set; }
-        public int nro_dom_esp { get; set; }
+        public string Denominacion { get; set; }
+        public string Titular { get; set; }
+        public string Direccion { get; set; }
         public string lat { get; set; }
-        public string _long { get; set; }
-        public string cuil { get; set; }
-        public string apellido { get; set; }
-        public string nombre { get; set; }
+        public string lng { get; set; }
+        
 
         public ws_valida_inmueble() {
-            circunscripcion = 0;
-            seccion = 0;
-            manzana = 0;
-            parcela = 0;
-            p_h = 0;
-            nom_barrio = string.Empty;
-            nom_calle = string.Empty;
-            nro_dom_esp = 0;
+            Direccion = string.Empty;
+            Titular = string.Empty;
+            Denominacion = string.Empty;
             lat = string.Empty;
-            _long = string.Empty;
-            cuil = string.Empty;
-            apellido = string.Empty;
-            nombre = string.Empty;
+            lng = string.Empty;
         }
         private static List<ws_valida_inmueble> mapeo(SqlDataReader dr)
         {
@@ -58,23 +44,72 @@ namespace WebApiShared.Entities
                 while (dr.Read())
                 {
                     obj = new ws_valida_inmueble();
-                    if (!dr.IsDBNull(circunscripcion)) { obj.circunscripcion = dr.GetInt32(circunscripcion); }
-                    if (!dr.IsDBNull(seccion)) { obj.seccion = dr.GetInt32(seccion); }
-                    if (!dr.IsDBNull(manzana)) { obj.manzana = dr.GetInt32(manzana); }
-                    if (!dr.IsDBNull(circunscripcion)) { obj.circunscripcion = dr.GetInt32(circunscripcion); }
-                    if (!dr.IsDBNull(p_h)) { obj.p_h = dr.GetInt32(p_h); }
-                    if (!dr.IsDBNull(nom_barrio)) { obj.nom_barrio = dr.GetString(nom_barrio); }
-                    if (!dr.IsDBNull(nom_calle)) { obj.nom_calle = dr.GetString(nom_calle); }
-                    if (!dr.IsDBNull(nro_dom_esp)) { obj.nro_dom_esp = dr.GetInt32(nro_dom_esp); }
+                    if (!dr.IsDBNull(circunscripcion)) 
+                    {
+                        obj.Denominacion =
+                            armoDenominacion(dr.GetInt32(circunscripcion),
+                            dr.GetInt32(seccion),
+                            dr.GetInt32(manzana),
+                            dr.GetInt32(parcela),
+                            dr.GetInt32(p_h)); 
+                            }
+                    obj.Direccion = string.Format("{0} {1}, Barrio: {3}",
+                        dr.GetString(nom_calle), dr.GetInt32(nro_dom_esp), dr.GetString(nom_barrio));
+                    obj.Titular = string.Format("{0}", "{1}",
+                        dr.GetString(apellido), dr.GetString(nombre));
+
                     if (!dr.IsDBNull(lat)) { obj.lat = dr.GetString(lat); }
-                    if (!dr.IsDBNull(_long)) { obj._long = dr.GetString(_long); }
-                    if (!dr.IsDBNull(cuil)) { obj.cuil = dr.GetString(cuil); }
-                    if (!dr.IsDBNull(apellido)) { obj.apellido = dr.GetString(apellido); }
-                    if (!dr.IsDBNull(nombre)) { obj.nombre = dr.GetString(nombre); }
+                    if (!dr.IsDBNull(_long)) { obj.lng = dr.GetString(_long); }
+
                     lst.Add(obj);
+
                 }
             }
             return lst;
+        }
+        public static string armoDenominacion(int cir, int sec, int man, int par, int p_h)
+        {
+            try
+            {
+                StringBuilder denominacion = new StringBuilder();
+
+                if (cir < 10)
+                    denominacion.AppendFormat("CIR: 0{0} - ", cir);
+                if (cir > 9 && cir < 100)
+                    denominacion.AppendFormat("CIR: {0} - ", cir);
+
+                if (sec < 10)
+                    denominacion.AppendFormat("SEC: 0{0} - ", sec);
+                if (sec > 9 && sec < 100)
+                    denominacion.AppendFormat("SEC: {0} - ", sec);
+
+                if (man < 10)
+                    denominacion.AppendFormat("MAN: 00{0} - ", man);
+                if (man > 9 && man < 100)
+                    denominacion.AppendFormat("MAN: 0{0} - ", man);
+                if (man > 99)
+                    denominacion.AppendFormat("MAN: {0} - ", man);
+
+                if (par < 10)
+                    denominacion.AppendFormat("PAR: 00{0} - ", par);
+                if (par > 9 && par < 100)
+                    denominacion.AppendFormat("PAR: 0{0} - ", par);
+                if (par > 99)
+                    denominacion.AppendFormat("PAR: {0} - ", par);
+
+                if (p_h < 10)
+                    denominacion.AppendFormat("P_H: 00{0}", p_h);
+                if (p_h > 9 && p_h < 100)
+                    denominacion.AppendFormat("P_H: 0{0}", p_h);
+                if (p_h > 99)
+                    denominacion.AppendFormat("P_H: {0}", p_h);
+
+                return denominacion.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public static ws_valida_inmueble getByPk(int circunscripcion, int seccion, int manzana,
             int parcela, int p_h)
