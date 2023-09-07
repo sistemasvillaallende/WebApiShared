@@ -4,7 +4,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <History>True|2023-09-07T15:05:40.9570074Z;True|2023-09-07T11:00:10.4830401-03:00;True|2023-09-07T01:04:42.9853940-03:00;False|2023-09-07T01:04:05.0301821-03:00;</History>
+    <History>True|2023-09-07T15:12:04.7423896Z;True|2023-09-07T12:05:40.9570074-03:00;True|2023-09-07T11:00:10.4830401-03:00;True|2023-09-07T01:04:42.9853940-03:00;False|2023-09-07T01:04:05.0301821-03:00;</History>
     <LastFailureDetails />
     <_PublishTargetUrl>D:\Municipalidad\WebApiShared\WebApiShared\bin\Release\net6.0\publish\</_PublishTargetUrl>
   </PropertyGroup>
