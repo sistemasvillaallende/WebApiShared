@@ -53,7 +53,7 @@ namespace WebApiShared.Entities
                             dr.GetInt32(parcela),
                             dr.GetInt32(p_h)); 
                             }
-                    obj.Direccion = string.Format("{0} {1}, Barrio: {3}",
+                    obj.Direccion = string.Format("{0} {1}, Barrio: {2}",
                         dr.GetString(nom_calle), dr.GetInt32(nro_dom_esp), dr.GetString(nom_barrio));
                     obj.Titular = string.Format("{0}", "{1}",
                         dr.GetString(apellido), dr.GetString(nombre));
