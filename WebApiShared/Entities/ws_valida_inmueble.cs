@@ -55,7 +55,7 @@ namespace WebApiShared.Entities
                             }
                     obj.Direccion = string.Format("{0} {1}, Barrio: {2}",
                         dr.GetString(nom_calle), dr.GetInt32(nro_dom_esp), dr.GetString(nom_barrio));
-                    obj.Titular = string.Format("{0}", "{1}",
+                    obj.Titular = string.Format("{0}, {1}",
                         dr.GetString(apellido), dr.GetString(nombre));
 
                     if (!dr.IsDBNull(lat)) { obj.lat = dr.GetString(lat); }
