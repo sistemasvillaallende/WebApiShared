@@ -35,7 +35,7 @@ namespace SIIMVA_WEB
         public bool TieneHonorarios { get; set; }
         public Int16 Tipo_descuento { get; set; }
         public Int16 Cod_formulario { get; set; }
-        public Int32 Codigo_estado_actual { get; set; }
+        public Int16 Codigo_estado_actual { get; set; }
         public Int16 ParaImprimir { get; set; }
         public Int16 CedulonSi { get; set; }
         public int Nro_cedulon { get; set; }
@@ -177,7 +177,7 @@ namespace SIIMVA_WEB
                    // if (!dr.IsDBNull(TieneHonorarios)) { obj.TieneHonorarios = dr.GetBoolean(TieneHonorarios); }
                   //  if (!dr.IsDBNull(Tipo_descuento)) { obj.Tipo_descuento = dr.GetInt16(Tipo_descuento); }
                   //  if (!dr.IsDBNull(Cod_formulario)) { obj.Cod_formulario = dr.GetInt16(Cod_formulario); }
-                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt32(Codigo_estado_actual); }
+                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt16(Codigo_estado_actual); }
                  //   if (!dr.IsDBNull(ParaImprimir)) { obj.ParaImprimir = dr.GetInt16(ParaImprimir); }
                   //  if (!dr.IsDBNull(CedulonSi)) { obj.CedulonSi = dr.GetInt16(CedulonSi); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
