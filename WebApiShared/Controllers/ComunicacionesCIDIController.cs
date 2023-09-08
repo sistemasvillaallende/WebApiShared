@@ -309,7 +309,7 @@ namespace WebApiShared.Controllers
             email.Pass_App = Config.CiDiPassAplicacion;
             email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
-            /*var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
+            var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
             nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion);
             if (respuesta.Resultado != "OK")
             {
@@ -319,7 +319,7 @@ namespace WebApiShared.Controllers
             _Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
             _Notificacion_digitalService.updateProcuracion(nro_procuracion, tipo_proc, Nro_Notificacion, Nro_Emision, cod_estado_actual);
             _Notificacion_digitalService.InsertarNuevoEstadoProc(nro_procuracion, tipo_proc, nro_notif, id_usuario, cod_estado_actual);
-            */
+           
             return Ok();//Ok(respuesta);
         }
         [HttpPost]
