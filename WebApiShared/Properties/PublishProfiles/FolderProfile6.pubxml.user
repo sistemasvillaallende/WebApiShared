@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\WebApiSharedPublish</_PublishTargetUrl>
-    <History>True|2023-09-05T12:26:09.6750649Z;True|2023-09-05T09:19:25.2720670-03:00;</History>
+    <History>True|2023-09-06T20:32:34.3406258Z;True|2023-09-06T17:22:20.1781208-03:00;True|2023-09-06T09:55:33.6485812-03:00;True|2023-09-05T09:26:09.6750649-03:00;True|2023-09-05T09:19:25.2720670-03:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
