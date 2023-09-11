@@ -232,7 +232,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 sql.AppendLine(" estado_Actualizado= (  SELECT ep.descripcion_estado ");
                 sql.AppendLine("        FROM PROCURA_AUTO pa  ");                                
                 sql.AppendLine("        JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual ");
-                sql.AppendLine("      AND pa.nro_procuracion=d.Nro_Procuracion AND d.Dominio=pa.dominio),b.cuit ");
+                sql.AppendLine("      AND pa.nro_procuracion=d.Nro_Procuracion AND d.Dominio=pa.dominio),cuit ='',cuit_valido='' ");   
                 sql.AppendLine(" FROM Det_notificacion_estado_proc_auto  d ");
                 sql.AppendLine(" left join badec b  on b.NRO_BAD = d.Nro_Badec ");
                 sql.AppendLine(" WHERE d.Nro_Emision = @Nro_Emision");
