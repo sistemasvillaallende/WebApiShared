@@ -270,8 +270,6 @@
           "lib/net6.0/Newtonsoft.Json.dll": {
             "related": ".xml"
           }
-<<<<<<< HEAD
-=======
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
@@ -299,7 +297,6 @@
             "assetType": "native",
             "rid": "fedora.24-x64"
           }
->>>>>>> 26aaee67ceeb904c083b0f154b73e9dcf27e39af
         }
       },
       "runtime.native.System.Data.SqlClient.sni/4.7.0": {
@@ -3472,11 +3469,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-<<<<<<< HEAD
         "C:\\Program Files\\dotnet\\sdk\\7.0.306\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
-=======
-        "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
->>>>>>> 26aaee67ceeb904c083b0f154b73e9dcf27e39af
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3551,12 +3544,16 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
->>>>>>> 26aaee67ceeb904c083b0f154b73e9dcf27e39af
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problema al leer el archivo de caché D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
