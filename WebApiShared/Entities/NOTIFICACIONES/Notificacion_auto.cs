@@ -120,7 +120,17 @@ namespace SIIMVA_WEB
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT Nro_emision, Fecha_emision, 0 AS Cod_Estado_procuracion, 'NOTIFICACION EMITIDA' AS Nvo_Estado_Procuracion, Fecha_vencimiento, Cantidad_reg, Total_adeudado AS Total, Porcentaje FROM NOTIFICACION_AUTO ORDER BY Fecha_Emision DESC";
+                    cmd.CommandText = @"SELECT 
+                                            Nro_emision, 
+                                            Fecha_emision, 
+                                            0 AS Cod_Estado_procuracion, 
+                                            'NOTIFICACION EMITIDA' AS Nvo_Estado_Procuracion, 
+                                            Fecha_vencimiento, 
+                                            Cantidad_reg, 
+                                            Total_adeudado AS Total, 
+                                            Porcentaje 
+                                        FROM NOTIFICACION_AUTO 
+                                        ORDER BY Fecha_Emision DESC";
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);
