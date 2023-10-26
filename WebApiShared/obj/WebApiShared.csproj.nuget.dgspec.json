@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {}
+    "D:\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {}
   },
   "projects": {
-    "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {
+    "D:\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
+        "projectUniqueName": "D:\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
         "projectName": "WebApiShared",
-        "projectPath": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
-        "packagesPath": "C:\\Users\\mandres\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\obj\\",
+        "projectPath": "D:\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
+        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
+        "outputPath": "D:\\NET2022\\WebApiShared\\WebApiShared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mandres\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Martin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\sdk\\7.0.306\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -84,8 +83,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -97,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.317\\RuntimeIdentifierGraph.json"
         }
       }
     }

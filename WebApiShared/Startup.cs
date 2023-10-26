@@ -27,14 +27,10 @@ namespace WebApiShared
             services.AddScoped<IComunicacionesService, ComunicacionesService>();
             services.AddScoped<IBarriosService, BarriosService>();
             services.AddScoped<ICallesService, CallesService>();
-<<<<<<< HEAD
-
-            services.AddScoped<INotificacion_digitalService, Notificacion_digitalService>();
-=======
             services.AddScoped<INotificacion_digitalService, Notificacion_digitalService>();
             services.AddScoped<IUsuarioServices, UsuarioServices>();
             services.AddScoped<IUsuarioConOficina, UsuarioConOficina>();
-            services.AddScoped<IResoluciones_multasService,Resoluciones_multasService>();
+            services.AddScoped<IResoluciones_multasService, Resoluciones_multasService>();
             services.AddScoped<IDet_notificacion_estado_proc_autoService, Det_notificacion_estado_proc_autoService>();
             services.AddScoped<IDet_notificacion_estado_proc_inmService, Det_notificacion_estado_proc_inmService>();
             services.AddScoped<IDet_notificacion_estado_proc_iycService, Det_notificacion_estado_proc_iycService>();
@@ -43,15 +39,11 @@ namespace WebApiShared
             services.AddScoped<INotificacion_estado_proc_iycService, Notificacion_estado_proc_iycService>();
             services.AddScoped<ITemplate_notificacionService, Template_notificacionService>();
             services.AddScoped<IEstados_procuracionService, Estados_procuracionService>();
-            services.AddScoped<IPermisoServices,PermisoServices>();
+            services.AddScoped<IPermisoServices, PermisoServices>();
             services.AddScoped<INotificacion_autoService, Notificacion_autoService>();
             services.AddScoped<IDet_notificacion_autoService, Det_notificacion_autoService>();
-<<<<<<< HEAD
->>>>>>> 26aaee67ceeb904c083b0f154b73e9dcf27e39af
-=======
             services.AddScoped<IWs_valida_InmuebleService, Ws_valida_inmuebleService>();
             services.AddScoped<IWs_valida_comercioService, Ws_valida_comercioService>();
->>>>>>> 8e223cb3efe9a42798c8de6fb1ae51a7639e8421
             services.AddCors();
 
         }
