@@ -326,14 +326,16 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @"SELECT n.id_notificacion, desc_tipo_notif= tn.descripcion,n.fecha_notif,n.cuil,n.nombre,
-                                        case 
-                                        when n.estado_notif = 0 then 'NO NOTIFICADO'
-                                        WHEN N.estado_notif = 1 THEN 'NOTIFICADO'
-                                        END AS ESTADO,n.subject_notif,n.body_notif,usuario = u.NOMBRE,oficina = o.nombre_oficina
-                                        FROM NOTIFICACION_DIGITAL N inner join TIPO_NOTIF_DIGITAL tn on tn.tipo_notificacion = n.tipo_notificacion
-                                        left join USUARIOS_V2 u on u.COD_USUARIO = n.id_usuario
-                                        left join OFICINAS o on o.codigo_oficina = n.id_oficina
-                                         WHERE n.id_oficina=" + cod_oficina.ToString();
+                                        CASE
+                                          when n.estado_notif = 0 then 'NO NOTIFICADO'
+                                          when N.estado_notif = 1 THEN 'NOTIFICADO'
+                                        END AS ESTADO,
+                                        n.subject_notif,n.body_notif,usuario = u.NOMBRE,oficina = o.nombre_oficina
+                                        FROM NOTIFICACION_DIGITAL N 
+                                        INNER JOIN TIPO_NOTIF_DIGITAL tn on tn.tipo_notificacion = n.tipo_notificacion
+                                        LEFT JOIN USUARIOS_V2 u on u.COD_USUARIO = n.id_usuario
+                                        LEFT JOIN join OFICINAS o on o.codigo_oficina = n.id_oficina
+                                        WHERE n.id_oficina=" + cod_oficina.ToString();
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     if (dr.HasRows)
@@ -363,7 +365,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-
         public static List<Notificacion_digital> GetOficinas(int cod_usuario)
         {
             try
@@ -375,17 +376,15 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @"
-                                        select  o.codigo_oficina as id_oficina,o.nombre_oficina as oficina ,ordern=1
-                                        from USUARIOS_V2 u left join OFICINAS o on o.codigo_oficina=u.COD_OFICINA 
-                                        where u.COD_USUARIO=" + cod_usuario.ToString();
-                    cmd.CommandText = cmd.CommandText + @"
-                                        union
-                                        select o.codigo_oficina as id_oficina,o.nombre_oficina as oficina ,orden=2 from OFICINAS o
-                                        left join USUARIOS_X_OFICINA uo on uo.COD_OFICINA=o.codigo_oficina
-                                        where  uo.COD_USUARIO=" + cod_usuario.ToString();
-                    cmd.CommandText = cmd.CommandText + @" order by 3 ";
-
-
+                                        SELECT o.codigo_oficina as id_oficina,o.nombre_oficina as oficina ,orden=1
+                                        FROM USUARIOS_V2 u left join OFICINAS o on o.codigo_oficina=u.COD_OFICINA 
+                                        WHERE u.COD_USUARIO=@cod_usuario
+                                        UNION
+                                        SELECT o.codigo_oficina as id_oficina,o.nombre_oficina as oficina ,orden=2 from OFICINAS o
+                                        LEFT JOIN USUARIOS_X_OFICINA uo on uo.COD_OFICINA=o.codigo_oficina
+                                        WHERE  uo.COD_USUARIO=@cod_usuario
+                                        ORDER BY 3 ";
+                    cmd.Parameters.AddWithValue("@cod_usuario", cod_usuario);
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     if (dr.HasRows)
@@ -406,13 +405,12 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-        public static Notificacion_digital getByPk(
-        )
+        public static Notificacion_digital getByPk()
         {
             try
             {
                 StringBuilder sql = new StringBuilder();
-                sql.AppendLine("SELECT *FROM Notificacion_digital WHERE");
+                sql.AppendLine("SELECT * FROM Notificacion_digital WHERE");
                 Notificacion_digital obj = null;
                 using (SqlConnection con = GetConnection())
                 {
@@ -429,10 +427,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
-
         public static int insert(Notificacion_digital obj)
         {
             try
@@ -496,7 +493,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-
         public static int insertNotif(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_expediente)
         {
             try
@@ -563,7 +559,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-
         public static int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion)
         {
             try
@@ -633,7 +628,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-
         public static void update(int id_notificacion, int estado_notif, string body_notif)
 
         {
@@ -658,10 +652,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
-
         public static void updateSumario(int nro_expediente, int tipo_reporte)
 
         {
@@ -725,7 +718,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-
         public static void updateProcuracion(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual)
 
         {
@@ -797,7 +789,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
         public static void updateProcuracionNueva(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual)
@@ -828,7 +820,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     sql.AppendLine(" Notificado_cidi=1, Codigo_estado_actual=@cod_estado");
                     sql.AppendLine("WHERE  nro_emision= @nro_emision and nro_notificacion= @nro_notificacion");
                     sql.AppendLine(" and nro_proc= @nro_procuracion");
-
                     sqlUpdProc.AppendLine(@" update procura_auto 
                                             set codigo_estado_actual=@cod_estado
                                             where nro_procuracion= @nro_procuracion
@@ -880,8 +871,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.Parameters.AddWithValue("@nro_procuracion", nro_procuracion);
                     cmd.Parameters.AddWithValue("@cod_estado", estado_sig);
                     cmd.ExecuteNonQuery();
-
-
                 }
             }
             catch (Exception ex)
@@ -898,20 +887,12 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 StringBuilder sqlUpDate = new StringBuilder();
 
                 sql.AppendLine(@"INSERT INTO HISTORIAL_SUMARIOS
-                  (COD_OFICINA, NRO_EXPEDIENTE, NRO_PASO, CODIGO_ESTADO
-                   , FECHA_INICIO_ESTADO, FECHA_CAMBIO_ESTADO, OBSERVACIONES, USUARIO)
-                  VALUES
-                 (@COD_OFICINA, @NRO_EXPEDIENTE, @NRO_PASO, @CODIGO_ESTADO
-                 ,@FECHA_INICIO_ESTADO,@FECHA_CAMBIO_ESTADO,@OBSERVACIONES ,@USUARIO)
-                 ");
-
-
+                              (COD_OFICINA, NRO_EXPEDIENTE, NRO_PASO, CODIGO_ESTADO, FECHA_INICIO_ESTADO, FECHA_CAMBIO_ESTADO, OBSERVACIONES, USUARIO)
+                              VALUES
+                              (@COD_OFICINA, @NRO_EXPEDIENTE, @NRO_PASO, @CODIGO_ESTADO, @FECHA_INICIO_ESTADO,@FECHA_CAMBIO_ESTADO,@OBSERVACIONES ,@USUARIO)");
                 int sig = DALBase.SigPaso("HISTORIAL_SUMARIOS", "nro_paso", "nro_expediente", nro_expediente);
                 string usuario_hist = DALBase.GetNombre("USUARIOS_V2", "NOMBRE", "COD_USUARIO", cod_usuario);
                 DateTime fechaActual = DateTime.Now;
-
-
-
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
@@ -930,9 +911,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                         cmd.Parameters.AddWithValue("@OBSERVACIONES", "CAUSA NOTIFICADA MEDIANTE CIDI - NRO DE NOTIFICACION DIGITAL: " + id_notificacion);
                         cmd.Parameters.AddWithValue("@USUARIO", usuario_hist);
                         cmd.Connection.Open();
-
-
-
                     }
                     if (tipo_reporte == 2)
                     {
@@ -962,7 +940,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-
         public static int InsertarNuevoEstadoProc(int nro_procuracion, int tipo_proc, int id_notificacion, int cod_usuario, int cod_estado)
 
         {
@@ -1039,7 +1016,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-
         public static void delete(Notificacion_digital obj)
         {
             try
@@ -1061,6 +1037,77 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
+
+        //public static int NotificaProcuracionMasiva(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion,
+        //    int subsistema, int nro_emision, int cod_estado_actual)
+        //{
+        //    try
+        //    {
+        //        StringBuilder sql = new StringBuilder();
+        //        sql.AppendLine("INSERT INTO Notificacion_digital(");
+        //        // sql.AppendLine("id_notificacion");
+        //        sql.AppendLine(" tipo_notificacion");
+        //        //  sql.AppendLine(", nro_emision");
+        //        sql.AppendLine(", fecha_notif");
+        //        //sql.AppendLine(", desc_notif");
+        //        sql.AppendLine(", cidi_nivel");
+        //        sql.AppendLine(", estado_notif");
+        //        sql.AppendLine(", cuil");
+        //        sql.AppendLine(", subject_notif");
+        //        sql.AppendLine(", body_notif");
+        //        sql.AppendLine(", id_oficina");
+        //        sql.AppendLine(", id_usuario");
+        //        sql.AppendLine(", nro_procuracion");
+        //        //  sql.AppendLine(", nombre");
+        //        sql.AppendLine(")");
+        //        sql.AppendLine("VALUES");
+        //        sql.AppendLine("(");
+        //        // sql.AppendLine("@id_notificacion");
+        //        sql.AppendLine(" @tipo_notificacion");
+        //        // sql.AppendLine(", @nro_emision");
+        //        sql.AppendLine(", @fecha_notif");
+        //        //sql.AppendLine(", @desc_notif");
+        //        sql.AppendLine(", @cidi_nivel");
+        //        sql.AppendLine(", @estado_notif");
+        //        sql.AppendLine(", @cuil");
+        //        sql.AppendLine(", @subject_notif");
+        //        sql.AppendLine(", @body_notif");
+        //        sql.AppendLine(", @id_oficina");
+        //        sql.AppendLine(", @id_usuario");
+        //        sql.AppendLine(", @nro_procuracion");
+        //        //sql.AppendLine(", @nombre");
+        //        sql.AppendLine(") SELECT SCOPE_IDENTITY()");
+        //        using (SqlConnection con = GetConnection())
+        //        {
+        //            SqlCommand cmd = con.CreateCommand();
+        //            cmd.CommandType = CommandType.Text;
+        //            cmd.CommandText = sql.ToString();
+        //            //  cmd.Parameters.AddWithValue("@id_notificacion", obj.id_notificacion);
+        //            cmd.Parameters.AddWithValue("@tipo_notificacion", id_tipo_notif);
+        //            //  cmd.Parameters.AddWithValue("@nro_emision", obj.nro_emision);
+        //            cmd.Parameters.AddWithValue("@fecha_notif", DateTime.Now);
+        //            // cmd.Parameters.AddWithValue("@desc_notif", obj.desc_notif);
+        //            cmd.Parameters.AddWithValue("@cidi_nivel", 2);
+        //            cmd.Parameters.AddWithValue("@estado_notif", cod_estado);
+        //            cmd.Parameters.AddWithValue("@cuil", cuil);
+        //            if (subject != null)
+        //                cmd.Parameters.AddWithValue("@subject_notif", subject);
+        //            else
+        //                cmd.Parameters.AddWithValue("@subject_notif", " ");
+        //            cmd.Parameters.AddWithValue("@body_notif", body);
+        //            cmd.Parameters.AddWithValue("@id_oficina", id_oficina);
+        //            cmd.Parameters.AddWithValue("@id_usuario", id_usuario);
+        //            cmd.Parameters.AddWithValue("@nro_procuracion", nro_procuracion);
+        //            // cmd.Parameters.AddWithValue("@nombre", obj.nombre);
+        //            cmd.Connection.Open();
+        //            return Convert.ToInt32(cmd.ExecuteScalar());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
     }
 }

@@ -35,6 +35,10 @@ namespace WebApiShared.Controllers
         public IActionResult listarDetalle(int nro_emision)
         {
             var Det_notificacion_estado_proc_iyc = _Det_notificacion_estado_proc_iycService.ListarDetalle(nro_emision);
+            if (Det_notificacion_estado_proc_iyc.Count == 0)
+            {
+                return Ok(new { message = "No se encontraron Datos..." });
+            }
             return Ok(Det_notificacion_estado_proc_iyc);
         }
 
@@ -42,6 +46,10 @@ namespace WebApiShared.Controllers
         public IActionResult listarDetallexEstado(int nro_emision, int cod_estado)
         {
             var Det_notificacion_estado_proc_iyc = _Det_notificacion_estado_proc_iycService.ListarDetallexEstado(nro_emision, cod_estado);
+            if (Det_notificacion_estado_proc_iyc.Count == 0)
+            {
+                return Ok(new { message = "No se encontraron Datos..." });
+            }
             return Ok(Det_notificacion_estado_proc_iyc);
         }
 

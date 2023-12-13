@@ -8,7 +8,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
     public interface INotificacion_digitalService
     {
         public List<Notificacion_digital> read();
-        //   public Notificacion_digital getByPk();
+        //public Notificacion_digital getByPk();
         public List<Notificacion_digital> listNotifxTipoNotif(int tipo_notificacion);
         public List<Notificacion_digital> ListarNotificaciones();
         public List<Notificacion_digital> ListNotifxcuil(string cuil);
@@ -21,13 +21,13 @@ namespace WebApiShared.Services.NOTIFICACIONES
         public int InsertarNuevoEstado(int nro_expediente, int cod_usuario, int tipo_reporte, int id_notificacion);
         public int InsertarNuevoEstadoProc(int nro_procuracion, int tipo_proc, int id_notificacion, int cod_usuario, int cod_estado);
         public void updateSumario(int nro_expediente, int tipo_reporte);
-        public void updateProcuracion(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision,int cod_estado_actual);
+        public void updateProcuracion(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual);
         public void updateProcuracionNueva(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual);
-
         public int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion);
-
-
         public void delete(Notificacion_digital obj);
+        public void NotificaProcuracionMasiva(string cuil, string subject, string body, int id_tipo_notificacion, int id_oficina, int id_usuario, int cod_estado_inicial,
+            int nro_procuracion, int subsistema, int nro_emision, int cod_estado_actual);
+
     }
 }
 

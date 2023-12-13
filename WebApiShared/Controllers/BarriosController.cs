@@ -26,7 +26,7 @@ namespace WebApiShared.Controllers
             }
             return Ok(Barrios);
         }
-       // [HttpGet]
+        // [HttpGet]
         /*public IActionResult getByPk(
         int COD_BARRIO)
         {

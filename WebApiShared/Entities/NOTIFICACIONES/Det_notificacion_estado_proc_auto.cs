@@ -222,8 +222,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-        public static Det_notificacion_estado_proc_auto getByPk(
-        int Nro_Emision, int Nro_Notificacion)
+        public static Det_notificacion_estado_proc_auto getByPk(int Nro_Emision, int Nro_Notificacion)
         {
             try
             {

@@ -227,9 +227,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     left join badec b  on b.NRO_BAD=a.Nro_Badec
                     WHERE
                     nro_emision=" + nro_emision.ToString() + @" AND  (SELECT ep.codigo_estado
-                    FROM PROCURA_TASA pa
-                     JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                    AND pa.nro_procuracion=a.Nro_Procuracion)=" + cod_estado.ToString();
+                                                                      FROM PROCURA_TASA pa
+                                                                      JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                                                      AND pa.nro_procuracion=a.Nro_Procuracion)=" + cod_estado.ToString();
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);

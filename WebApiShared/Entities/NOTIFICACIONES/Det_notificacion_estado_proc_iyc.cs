@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 namespace WebApiShared.Entities.NOTIFICACIONES
 {
     public class Det_notificacion_estado_proc_iyc : DALBase
@@ -27,11 +28,13 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         public decimal Interes { get; set; }
         public decimal Descuento { get; set; }
         public decimal Importe_pagar { get; set; }
-
         public string estado_Actualizado { get; set; }
         public string cuit { get; set; }
         public int notificado_cidi { get; set; }
         public string cuit_valido { get; set; }
+        public string des_com { get; set; }
+        public string nom_fantasia { get; set; }
+
 
         public Det_notificacion_estado_proc_iyc()
         {
@@ -56,7 +59,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             estado_Actualizado = string.Empty;
             cuit = string.Empty;
             notificado_cidi = 0;
-            cuit_valido= string.Empty;
+            cuit_valido = string.Empty;
+            des_com = string.Empty;
+            nom_fantasia = string.Empty;
         }
 
         private static List<Det_notificacion_estado_proc_iyc> mapeo(SqlDataReader dr)
@@ -87,6 +92,8 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 int cuit = dr.GetOrdinal("cuit");
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
                 int cuit_valido = dr.GetOrdinal("cuit_valido");
+                int des_com = dr.GetOrdinal("des_com");
+                int nom_fantasia = dr.GetOrdinal("nom_fantasia");
                 while (dr.Read())
                 {
                     obj = new Det_notificacion_estado_proc_iyc();
@@ -112,51 +119,60 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
                     if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
                     if (!dr.IsDBNull(cuit_valido)) { obj.cuit_valido = dr.GetString(cuit_valido); }
+                    if (!dr.IsDBNull(des_com)) { obj.des_com = dr.GetString(des_com); }
+                    if (!dr.IsDBNull(nom_fantasia)) { obj.nom_fantasia = dr.GetString(nom_fantasia); }
                     lst.Add(obj);
                 }
             }
             return lst;
         }
-
         public static List<Det_notificacion_estado_proc_iyc> ListarDetalle(int nro_emision)
         {
             try
             {
+                string strSQL = @"SELECT 
+                                a.nro_emision, a.nro_notificacion, a.nro_procuracion, a.legajo, a.nro_badec,
+                                a.nombre, a.estado_actual, a.fecha_inicio_estado, 
+                                a.fecha_fin_estado, a.vencimiento, a.nro_cedulon,
+                                debe=((SELECT SUM(DEBE)
+		   	                                FROM CTASCTES_INDYCOM C
+			                                JOIN DEUDAS_PROC_IYC D ON
+				                                D.nro_procuracion=a.nro_procuracion AND
+					                            D.nro_transaccion=C.nro_transaccion))-
+				                       (SELECT SUM(haber)
+				                        FROM CTASCTES_INDYCOM C
+				                        JOIN DEUDAS_PROC_IYC D ON
+						                    D.nro_procuracion=a.nro_procuracion AND
+						                    D.nro_transaccion=C.nro_transaccion),
+                                a.barcode39, a.barcodeint25,
+                                a.monto_original, a.interes, 
+                                a.descuento, a.importe_pagar,
+                                estado_Actualizado= (SELECT ep.descripcion_estado
+												     FROM PROCURA_IYC pa
+                                                     JOIN ESTADOS_PROCURACION ep ON 
+												        ep.codigo_estado=pa.codigo_estado_actual AND
+                                                        pa.nro_procuracion=a.nro_procuracion AND 
+													    a.legajo=pa.legajo),
+	                            i.nro_cuit as cuit,
+                                notificado_cidi=isnull( a.Notificado_cidi,0),
+	                            CASE
+		                            WHEN i.nro_cuit ='' then 'CUIT_NO_VALIDADO'
+		                            WHEN (SELECT count(*) from VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 THEN 'CUIT_VALIDADO'
+		                            WHEN (SELECT count(*) from VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 THEN 'CUIT_NO_VALIDADO'
+	                            END AS cuit_valido,
+                                i.des_com, 
+                                i.nom_fantasia 
+                                FROM DET_NOTIFICACION_ESTADO_PROC_IYC a (nolock) 
+                                LEFT JOIN INDYCOM i ON i.legajo=a.legajo
+                                LEFT JOIN BADEC b ON b.nro_bad=a.nro_badec
+                                WHERE nro_emision=@nro_emision";
                 List<Det_notificacion_estado_proc_iyc> lst = new List<Det_notificacion_estado_proc_iyc>();
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @" SELECT
-                      a.Nro_Emision,a.Nro_Notificacion,a.nro_procuracion,a.legajo,a.nro_badec,
-                      a.nombre,a.Estado_Actual,a.Fecha_Inicio_Estado,a.Fecha_Fin_Estado, a.vencimiento,a.Nro_cedulon,
-                      Debe=((SELECT SUM(DEBE)
-		   	                    FROM CTASCTES_INDYCOM C
-			                    JOIN DEUDAS_PROC_IYC D ON
-				                    D.nro_procuracion=a.nro_procuracion AND
-                                    D.nro_transaccion=C.nro_transaccion
-                                     )) -
-				                       (SELECT SUM(haber)
-				                        FROM CTASCTES_INDYCOM C
-				                        JOIN DEUDAS_PROC_IYC D ON
-						                    D.nro_procuracion=a.nro_procuracion AND
-
-						                    D.nro_transaccion=C.nro_transaccion) ,
-                       a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
-                       estado_Actualizado= (  SELECT ep.descripcion_estado
-                                        FROM PROCURA_IYC pa
-                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),i.nro_cuit as cuit
-                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
-                 case
-				          when i.nro_cuit ='' then 'CUIT_NO_VALIDADO'
-				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
-				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
-				          END AS cuit_valido
-                    FROM DET_NOTIFICACION_ESTADO_PROC_IYC A (nolock)left join INDYCOM i ON i.legajo=A.Legajo
-                    left join badec b  on b.NRO_BAD=a.Nro_Badec
-                    WHERE
-                    nro_emision=" + nro_emision.ToString();
+                    cmd.CommandText = strSQL;
+                    cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);
@@ -165,52 +181,126 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
+        //********************************************************************************************************//
+        public static List<Det_notificacion_estado_proc_iyc> DetalleProcuracionByPk(int nro_emision, int nro_procuracion)
+        {
+            try
+            {
+                string strSQL = @"SELECT 
+                                a.nro_emision, a.nro_notificacion, a.nro_procuracion, a.legajo, a.nro_badec,
+                                a.nombre, a.estado_actual, a.fecha_inicio_estado, 
+                                a.fecha_fin_estado, a.vencimiento, a.nro_cedulon,
+                                Debe=((SELECT SUM(DEBE)
+		   	                                FROM CTASCTES_INDYCOM C
+			                                JOIN DEUDAS_PROC_IYC D ON
+				                                D.nro_procuracion=a.nro_procuracion AND
+					                            D.nro_transaccion=C.nro_transaccion)) -
+				                            (SELECT SUM(haber)
+				                            FROM CTASCTES_INDYCOM C
+				                            JOIN DEUDAS_PROC_IYC D ON
+					                           D.nro_procuracion=a.nro_procuracion AND
+					                           D.nro_transaccion=C.nro_transaccion),
+                                a.barcode39, a.barcodeint25,
+                                a.monto_original, a.interes, 
+                                a.descuento, a.importe_pagar,
+                                estado_Actualizado= (SELECT ep.descripcion_estado
+												     FROM PROCURA_IYC pa
+                                                     JOIN ESTADOS_PROCURACION ep ON 
+												        ep.codigo_estado=pa.codigo_estado_actual AND
+                                                        pa.nro_procuracion=a.nro_procuracion AND 
+													    a.legajo=pa.legajo),
+	                            i.nro_cuit as cuit,
+                                notificado_cidi=isnull( a.Notificado_cidi,0),
+	                            CASE
+		                            WHEN i.nro_cuit='' then 'CUIT_NO_VALIDADO'
+		                            WHEN (SELECT count(*) from VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 THEN 'CUIT_VALIDADO'
+		                            WHEN (SELECT count(*) from VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 THEN 'CUIT_NO_VALIDADO'
+	                            END AS cuit_valido,
+                                i.des_com, i.nom_fantasia 
+                                FROM DET_NOTIFICACION_ESTADO_PROC_IYC a (nolock) 
+                                LEFT JOIN INDYCOM i ON i.legajo=a.legajo
+                                LEFT JOIN BADEC b  on b.nro_bad=a.nro_badec
+                                WHERE nro_emision=@nro_emision AND nro_procuracion=@nro_procuracion";
+                List<Det_notificacion_estado_proc_iyc> lst = new List<Det_notificacion_estado_proc_iyc>();
+                using (SqlConnection con = GetConnection())
+                {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = strSQL;
+                    cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
+                    cmd.Parameters.AddWithValue("@nro_procuracion", nro_procuracion);
+                    cmd.Connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    lst = mapeo(dr);
+                    return lst;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        //**********************************************************************************************************************//
         public static List<Det_notificacion_estado_proc_iyc> ListarDetallexEstado(int nro_emision, int cod_estado)
         {
             try
             {
+                string strSQL = @"SELECT
+                                    a.nro_emision,
+                                    a.nro_notificacion,a.nro_procuracion,
+                                    a.legajo,a.nro_badec,
+                                    a.nombre,a.estado_actual,
+                                    a.fecha_inicio_estado,
+                                    a.fecha_fin_estado, 
+                                    a.vencimiento,a.nro_cedulon,
+                                    debe=((SELECT SUM(DEBE)
+		   	                                    FROM CTASCTES_INDYCOM C
+			                                    JOIN DEUDAS_PROC_IYC D ON
+				                                   D.nro_procuracion=a.nro_procuracion AND
+                                                   D.nro_transaccion=C.nro_transaccion)) -
+				                                (SELECT SUM(haber)
+				                                 FROM CTASCTES_INDYCOM C
+				                                 JOIN DEUDAS_PROC_IYC D ON
+						                           D.nro_procuracion=a.nro_procuracion AND
+						                           D.nro_transaccion=C.nro_transaccion),
+                                    a.barcode39, 
+                                    a.barcodeint25,
+	                                a.monto_original, 
+                                    a.interes, 
+	                                a.descuento, 
+                                    a.importe_pagar,
+                                    estado_actualizado=(SELECT ep.descripcion_estado
+                                                        FROM PROCURA_IYC pa
+                                                        JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),
+	                                i.nro_cuit as cuit,
+	                                notificado_cidi=isnull( a.Notificado_cidi,0),
+                                    CASE
+                                      WHEN i.nro_cuit ='' then 'CUIT_NO_VALIDADO'
+                                      WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit)))>0 then 'CUIT_VALIDADO'
+                                      WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit)))=0 then 'CUIT_NO_VALIDADO'
+                                    END AS cuit_valido,
+                                    i.des_com, 
+                                    i.nom_fantasia 
+                                    FROM DET_NOTIFICACION_ESTADO_PROC_IYC A (nolock)
+	                                LEFT JOIN INDYCOM i ON i.legajo=A.Legajo
+                                    LEFT JOIN BADEC b ON b.nro_bad=a.nro_badec
+                                    WHERE A.nro_emision=@nro_emision AND 
+			                              (SELECT pa.codigo_estado_actual
+			                               FROM PROCURA_IYC pa
+                                           WHERE pa.nro_procuracion=a.nro_procuracion AND a.legajo=pa.legajo)=@cod_estado";
                 List<Det_notificacion_estado_proc_iyc> lst = new List<Det_notificacion_estado_proc_iyc>();
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @" SELECT
-                      a.Nro_Emision,a.Nro_Notificacion,a.nro_procuracion,a.legajo,a.nro_badec,
-                      a.nombre,a.Estado_Actual,a.Fecha_Inicio_Estado,a.Fecha_Fin_Estado, a.vencimiento,a.Nro_cedulon,
-                      Debe=((SELECT SUM(DEBE)
-		   	                    FROM CTASCTES_INDYCOM C
-			                    JOIN DEUDAS_PROC_IYC D ON
-				                    D.nro_procuracion=a.nro_procuracion AND
-                                    D.nro_transaccion=C.nro_transaccion
-                                     )) -
-				                       (SELECT SUM(haber)
-				                        FROM CTASCTES_INDYCOM C
-				                        JOIN DEUDAS_PROC_IYC D ON
-						                    D.nro_procuracion=a.nro_procuracion AND
-
-						                    D.nro_transaccion=C.nro_transaccion) ,
-                       a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
-                       estado_Actualizado= (  SELECT ep.descripcion_estado
-                                        FROM PROCURA_IYC pa
-                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),i.nro_cuit as cuit
-                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
-                 case
-				          when i.nro_cuit ='' then 'CUIT_NO_VALIDADO'
-				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
-				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
-				          END AS cuit_valido
-                    FROM DET_NOTIFICACION_ESTADO_PROC_IYC A (nolock)left join INDYCOM i ON i.legajo=A.Legajo
-                    left join badec b  on b.NRO_BAD=a.Nro_Badec
-                    WHERE
-                    nro_emision=" + nro_emision.ToString() + @" AND (SELECT ep.codigo_estado
-                    FROM PROCURA_IYC pa
-                     JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                    AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo)=" + cod_estado.ToString();
+                    cmd.CommandText = strSQL;
+                    cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
+                    cmd.Parameters.AddWithValue("@cod_estado", cod_estado);
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);
@@ -219,20 +309,23 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
-
         public static List<Det_notificacion_estado_proc_iyc> read()
         {
             try
             {
+                string sql = @"SELECT a.*, b.des_comercio, b.nombre_fantasia 
+                               FROM Det_notificacion_estado_proc_iyc a
+                               LEFT JOIN INDYCOM b on
+                                a.legajo=b.legajo";
                 List<Det_notificacion_estado_proc_iyc> lst = new List<Det_notificacion_estado_proc_iyc>();
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT * FROM Det_notificacion_estado_proc_iyc";
+                    cmd.CommandText = sql;
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);
@@ -241,27 +334,28 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
-        public static Det_notificacion_estado_proc_iyc getByPk(
-        int Nro_Emision, int Nro_Notificacion)
+        public static Det_notificacion_estado_proc_iyc getByPk(int nro_emision, int nro_notificacion)
         {
             try
             {
-                StringBuilder sql = new StringBuilder();
-                sql.AppendLine("SELECT *FROM Det_notificacion_estado_proc_iyc WHERE");
-                sql.AppendLine("Nro_Emision = @Nro_Emision");
-                sql.AppendLine("AND Nro_Notificacion = @Nro_Notificacion");
+                string sql = @"SELECT a.*, b.des_comercio, b.nombre_fantasia 
+                               FROM Det_notificacion_estado_proc_iyc a
+                               LEFT JOIN INDYCOM b on
+                                 a.legajo=b.legajo
+                               WHERE a.nro_emision = @nro_emision
+                               AND a.nro_notificacion = @nro_notificacion";
                 Det_notificacion_estado_proc_iyc obj = null;
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = sql.ToString();
-                    cmd.Parameters.AddWithValue("@Nro_Emision", Nro_Emision);
-                    cmd.Parameters.AddWithValue("@Nro_Notificacion", Nro_Notificacion);
+                    cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
+                    cmd.Parameters.AddWithValue("@nro_notificacion", nro_notificacion);
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     List<Det_notificacion_estado_proc_iyc> lst = mapeo(dr);
@@ -272,7 +366,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 

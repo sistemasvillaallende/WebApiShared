@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Transactions;
 using Microsoft.Extensions.Options;
 using WebApiShared.Entities.NOTIFICACIONES;
 
@@ -48,18 +49,18 @@ namespace WebApiShared.Services.NOTIFICACIONES
         {
             try
             {
-                return Notificacion_digital.InsertarNuevoEstado(nro_expediente,cod_usuario,tipo_reporte,id_notificacion);
+                return Notificacion_digital.InsertarNuevoEstado(nro_expediente, cod_usuario, tipo_reporte, id_notificacion);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public  int InsertarNuevoEstadoProc(int nro_procuracion, int tipo_proc, int id_notificacion, int cod_usuario, int cod_estado)
+        public int InsertarNuevoEstadoProc(int nro_procuracion, int tipo_proc, int id_notificacion, int cod_usuario, int cod_estado)
         {
             try
             {
-                return Notificacion_digital.InsertarNuevoEstadoProc(nro_procuracion, tipo_proc,  id_notificacion,  cod_usuario,  cod_estado);
+                return Notificacion_digital.InsertarNuevoEstadoProc(nro_procuracion, tipo_proc, id_notificacion, cod_usuario, cod_estado);
             }
             catch (Exception ex)
             {
@@ -101,7 +102,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
             }
         }
 
-        public  List<Notificacion_digital> GetOficinas(int cod_usuario)
+        public List<Notificacion_digital> GetOficinas(int cod_usuario)
         {
             try
             {
@@ -124,18 +125,18 @@ namespace WebApiShared.Services.NOTIFICACIONES
             }
         }
 
-        public  void updateSumario(int nro_expediente, int tipo_reporte)
+        public void updateSumario(int nro_expediente, int tipo_reporte)
         {
             try
             {
-                Notificacion_digital.updateSumario(nro_expediente,tipo_reporte);
+                Notificacion_digital.updateSumario(nro_expediente, tipo_reporte);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        
+
         public void updateProcuracionNueva(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual)
         {
             try
@@ -147,11 +148,11 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
-        public  void updateProcuracion(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual)
+        public void updateProcuracion(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual)
         {
             try
             {
-                Notificacion_digital.updateProcuracion(nro_procuracion, tipo_proc, nro_notifiicacion, nro_emision,cod_estado_actual);
+                Notificacion_digital.updateProcuracion(nro_procuracion, tipo_proc, nro_notifiicacion, nro_emision, cod_estado_actual);
             }
             catch (Exception ex)
             {
@@ -173,7 +174,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
         {
             try
             {
-                return Notificacion_digital.insertNotif(cuil,subject,body,id_tipo_notif,id_oficina,id_usuario, cod_estado,nro_expediente);
+                return Notificacion_digital.insertNotif(cuil, subject, body, id_tipo_notif, id_oficina, id_usuario, cod_estado, nro_expediente);
             }
             catch (Exception ex)
             {
@@ -181,7 +182,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
             }
         }
 
-        public  int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion)
+        public int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion)
         {
             try
             {
@@ -200,7 +201,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
         public void delete(Notificacion_digital obj)
@@ -220,7 +221,35 @@ namespace WebApiShared.Services.NOTIFICACIONES
             throw new NotImplementedException();
         }
 
-       
+        public void NotificaProcuracionMasiva(string cuil, string subject, string body, int id_tipo_notificacion, int id_oficina, int id_usuario, int cod_estado_inicial,
+            int nro_procuracion, int subsistema, int nro_emision, int cod_estado_actual)
+        {
+            try
+            {
+                int nro_notificacion = 0;
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    //nro_notificacion = Notificacion_digital.NotificaProcuracionMasiva(cuil, subject, body, id_tipo_notificacion, id_oficina, id_usuario, cod_estado_inicial, nro_procuracion,
+                        //subsistema, nro_emision, cod_estado_actual);
+                    nro_notificacion = Notificacion_digital.insertNotifProc(cuil, subject, body, 1, id_oficina, id_usuario, 0, nro_procuracion);
+                    Notificacion_digital.update(nro_notificacion, 0, body);
+                    //_Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
+                    //Falta reemplazar el metodo de arriba
+                    //_Notificacion_digitalService.updateProcuracion(nro_procuracion, tipo_proc, Nro_Notificacion, Nro_Emision, cod_estado_actual);
+                    Notificacion_digital.updateProcuracion(nro_procuracion, subsistema, nro_notificacion, nro_emision, cod_estado_actual);
+                    //_Notificacion_digitalService.InsertarNuevoEstadoProc(nro_procuracion, tipo_proc, nro_notif, id_usuario, cod_estado_actual);
+                    Notificacion_digital.InsertarNuevoEstadoProc(nro_procuracion, subsistema, nro_notificacion, id_usuario, cod_estado_actual);
+                    scope.Complete();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+
     }
 }
 
