@@ -66,13 +66,10 @@ namespace WebApiShared
                     }
                 });
             }
-
             //app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Taskman API V1"); });
-
             app.UseRouting();
             // if (env.EnvironmentName == "Development")
             // {
-
             app.UseCors(x => x
                .AllowAnyOrigin()
                .AllowAnyMethod()
