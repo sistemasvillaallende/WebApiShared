@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "Z0QZV0DwJH6+DdFzVbe8DmgAOWZvRjxJhsCTMQV56ZaUOqB7v3oRJJl2pkMIBly2B6KbXNXBqA9KgZ7sj4RHrQ==",
+=======
+  "dgSpecHash": "1FAxqxtt7kfVzWB+FAZGRpdyN+ct12ulTmP3GvpLQzeLgxLNMEnqaap7EOlwoof9IpJs2maE0qyokaUpeEVpHg==",
+>>>>>>> 8f057549ea3c3fb227065e52cd0620a7cde25be5
   "success": true,
   "projectFilePath": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
   "expectedPackageFiles": [
