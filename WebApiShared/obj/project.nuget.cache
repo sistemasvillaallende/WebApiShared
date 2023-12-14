@@ -1,5 +1,6 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
 <<<<<<< HEAD
   "dgSpecHash": "Z0QZV0DwJH6+DdFzVbe8DmgAOWZvRjxJhsCTMQV56ZaUOqB7v3oRJJl2pkMIBly2B6KbXNXBqA9KgZ7sj4RHrQ==",
 =======
@@ -7,6 +8,11 @@
 >>>>>>> 8f057549ea3c3fb227065e52cd0620a7cde25be5
   "success": true,
   "projectFilePath": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
+=======
+  "dgSpecHash": "sweNbruD2wZwO0D7/5cHZDUjvT0zgtak6Mc8FKl3MImgEVhUWOCWRe9PGBFXG5C3JdaDS/cz/Kq/zlhnQmULvg==",
+  "success": true,
+  "projectFilePath": "D:\\MuniNueva\\WebApiShared\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
+>>>>>>> Stashed changes
   "expectedPackageFiles": [
     "C:\\Users\\mandres\\.nuget\\packages\\ciphertrust.cadp.netcore\\8.11.0\\ciphertrust.cadp.netcore.8.11.0.nupkg.sha512",
     "C:\\Users\\mandres\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",

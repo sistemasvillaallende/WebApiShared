@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< Updated upstream
     "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {}
   },
   "projects": {
@@ -12,6 +13,19 @@
         "projectPath": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
         "packagesPath": "C:\\Users\\mandres\\.nuget\\packages\\",
         "outputPath": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\obj\\",
+=======
+    "D:\\MuniNueva\\WebApiShared\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {}
+  },
+  "projects": {
+    "D:\\MuniNueva\\WebApiShared\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\MuniNueva\\WebApiShared\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
+        "projectName": "WebApiShared",
+        "projectPath": "D:\\MuniNueva\\WebApiShared\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
+        "packagesPath": "C:\\Users\\Martin\\.nuget\\packages\\",
+        "outputPath": "D:\\MuniNueva\\WebApiShared\\WebApiShared\\WebApiShared\\obj\\",
+>>>>>>> Stashed changes
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mandres\\AppData\\Roaming\\NuGet\\NuGet.Config",
