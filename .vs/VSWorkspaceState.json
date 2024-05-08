@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\WebApiShared",
+    "\\WebApiShared\\Controllers"
   ],
+  "SelectedNode": "\\WebApiShared",
   "PreviewInSolutionExplorer": false
 }
