@@ -875,7 +875,9 @@ namespace WebApiShared.Controllers
             email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
             var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
-            //********************************************************************************************************************************************//
+            
+
+//********************************************************************************************************************************************//
             //nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion);
             //if (respuesta.Resultado != "OK")
             //{
