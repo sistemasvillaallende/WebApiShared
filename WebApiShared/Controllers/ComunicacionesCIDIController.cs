@@ -187,6 +187,7 @@ namespace WebApiShared.Controllers
             _Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
             return Ok(respuesta);
         }
+
         [HttpPost]
         public IActionResult enviarNotificacionProcuracion([FromBody] dynamic datos)
         {
@@ -246,13 +247,13 @@ namespace WebApiShared.Controllers
                            <p> " + body + @"  </p>";
 
                 cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionIYC.aspx?nroProc=" + objDet.Nro_Procuracion + "&legajo=" + objDet.Legajo + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
-                if (cod_estado_actual == 76)
-                {
-                    cuerpo = cuerpo + @"
-                             <div style='text-align: right;'>
-                               <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
-                             </div>";
-                }
+                //if (cod_estado_actual == 76)
+                //{
+                //    cuerpo = cuerpo + @"
+                //             <div style='text-align: right;'>
+                //               <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
+                //             </div>";
+                //}
                 cuerpo = cuerpo + @"      </body> </html> ";
             }
             if (tipo_proc == 4)
@@ -274,13 +275,13 @@ namespace WebApiShared.Controllers
                 cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Dominio + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
 
 
-                if (cod_estado_actual == 76)
-                {
-                    cuerpo = cuerpo + @"
-                             <div style='text-align: right;'>
-                               <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
-                             </div>";
-                }
+                //if (cod_estado_actual == 76)
+                //{
+                //    cuerpo = cuerpo + @"
+                //             <div style='text-align: right;'>
+                //               <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
+                //             </div>";
+                //}
 
 
 
@@ -375,14 +376,14 @@ namespace WebApiShared.Controllers
                 {
                     cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Legajo + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
                 }
-                if (cod_estado_actual == 76)
-                {
-                    //cuerpo = cuerpo + @"
-                    //         <div style='text-align: right;'>
-                    //           <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
-                    //         </div>";
-                    cuerpo = cuerpo + @"";
-                }
+                //if (cod_estado_actual == 76)
+                //{
+                //    //cuerpo = cuerpo + @"
+                //    //         <div style='text-align: right;'>
+                //    //           <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
+                //    //         </div>";
+                //    cuerpo = cuerpo + @"";
+                //}
                 cuerpo = cuerpo + @"      </body> </html> ";
             }
             if (tipo_proc == 4)
@@ -761,9 +762,6 @@ namespace WebApiShared.Controllers
 
         //    //public void NotificaProcuracionMasiva(string cuil, string subject, string body, int id_tipo_notificacion, int id_oficina, int id_usuario, int cod_estado_inicial,
         //    //int nro_procuracion, int subsistema, int nro_emision, int cod_estado_actual)
-
-
-
         //    return Ok();//(respuesta);
         //}
 
@@ -782,7 +780,7 @@ namespace WebApiShared.Controllers
             int id_usuario = objeto.id_usuario;
             int tipo_proc = objeto.tipo_proc;
             int cod_estado_actual = objeto.cod_estado_actual;
-            int nro_notif = 0;
+            //int nro_notif = 0;
             string cuerpo = "";
             string nombre = "";
             string dominio = "";
@@ -790,7 +788,7 @@ namespace WebApiShared.Controllers
             int subsistema = tipo_proc;
             string nro_catastral = "";
 
-            if (tipo_proc == 1)
+            if (subsistema == 1)
             {
                 Det_notificacion_estado_proc_inm objDet = new Det_notificacion_estado_proc_inm();
                 objDet = _Det_notificacion_estado_proc_inmService.getByPk(nro_emision, nro_notificacion);
@@ -811,7 +809,7 @@ namespace WebApiShared.Controllers
                          </body> </html> ";
 
             }
-            if (tipo_proc == 3)
+            if (subsistema == 3)
             {
                 Det_notificacion_estado_proc_iyc objDet = new Det_notificacion_estado_proc_iyc();
                 objDet = _Det_notificacion_estado_proc_iycService.getByPk(nro_emision, nro_notificacion);
@@ -821,24 +819,24 @@ namespace WebApiShared.Controllers
                            <body>
                            <p style='font-size: 26px;'><u> " + objeto.tituloReporte + @" </u> </p>""
                            <p> INDUSTRIA Y COMERCIO - MUNICIPALIDAD DE VILLA ALLENDE </p>
-                           <p> Estimado/a: " + objDet.Nombre + @"  titular del Comercio :" + objDet.nom_fantasia + ", Legajo: " + objDet.Legajo + @" con procuracion: " + objDet.Nro_Procuracion + @"</p>
+                           <p> Estimado/a: " + objDet.Nombre + @"  Titular del Comercio :" + objDet.nom_fantasia + ", Legajo: " + objDet.Legajo + @" con procuracion: " + objDet.Nro_Procuracion + @"</p>
                            <p> " + body + @"  </p>";
-                if (tipo_proc == 4)
-                {
-                    cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Legajo + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
-                }
-                if (cod_estado_actual == 76)
-                {
-                    //cuerpo = cuerpo + @"
-                    //         <div style='text-align: right;'>
-                    //           <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
-                    //         </div>";
-                    cuerpo = cuerpo + @"";
-                }
+                //if (tipo_proc == 4)
+                //{
+                cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionIyc.aspx?nroProc=" + objDet.Nro_Procuracion + "&legajo=" + objDet.Legajo + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
+                //}
+                //if (cod_estado_actual == 76)
+                //{
+                //    //cuerpo = cuerpo + @"
+                //    //         <div style='text-align: right;'>
+                //    //           <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
+                //    //         </div>";
+                //    cuerpo = cuerpo + @"";
+                //}
                 cuerpo = cuerpo + @"      </body> </html> ";
             }
 
-            if (tipo_proc == 4)
+            if (subsistema == 4)
             {
                 Det_notificacion_auto objDet = new Det_notificacion_auto();
                 objDet = _Det_notificacion_autoService.getByPk(nro_emision, nro_notificacion);
@@ -850,18 +848,18 @@ namespace WebApiShared.Controllers
                            <p> IMPUESTO AUTOMOTOR - MUNICIPALIDAD DE VILLA ALLENDE </p>
                            <p> Estimado/a: " + objDet.Nombre + @"  titular del Dominio: " + objDet.Dominio + @" con procuracion: " + objDet.Nro_proc + @"</p>
                            <p> " + body + @"  </p>";
-                if (tipo_proc == 4)
+                if (subsistema == 4)
                 {
                     cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_proc + "&dominio=" + objDet.Dominio + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
                 }
-                if (cod_estado_actual == 76)
-                {
-                    //cuerpo = cuerpo + @"
-                    //         <div style='text-align: right;'>
-                    //           <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
-                    //         </div>";
-                    cuerpo = cuerpo + @"";
-                }
+                //if (cod_estado_actual == 76)
+                //{
+                //    //cuerpo = cuerpo + @"
+                //    //         <div style='text-align: right;'>
+                //    //           <img src='https://i.ibb.co/xssVqrZ/firma-ariana.jpg' alt='Firma'  style='width: 200px; height: 150px;'>
+                //    //         </div>";
+                //    cuerpo = cuerpo + @"";
+                //}
                 cuerpo = cuerpo + @"      </body> </html> ";
             }
             Email email = new Email();
@@ -875,6 +873,9 @@ namespace WebApiShared.Controllers
             email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
             var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
+            //Comento los metodos de abajo y lo reemplazo por un solo metodo que se llama
+            //NotificaProcuracionMasiva y dentro hace lo que hace los 3 metodos juntos
+            //y esta transaccionado
             //********************************************************************************************************************************************//
             //nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion);
             //if (respuesta.Resultado != "OK")
@@ -893,6 +894,7 @@ namespace WebApiShared.Controllers
                 _Notificacion_digitalService.NotificaProcuracionMasiva(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 1, nro_procuracion,
                     subsistema, nro_emision, cod_estado_actual);
             return Ok();
+
         }
 
 

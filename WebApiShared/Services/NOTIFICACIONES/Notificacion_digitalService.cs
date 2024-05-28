@@ -230,8 +230,15 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 using (TransactionScope scope = new TransactionScope())
                 {
                     //nro_notificacion = Notificacion_digital.NotificaProcuracionMasiva(cuil, subject, body, id_tipo_notificacion, id_oficina, id_usuario, cod_estado_inicial, nro_procuracion,
-                        //subsistema, nro_emision, cod_estado_actual);
-                    nro_notificacion = Notificacion_digital.insertNotifProc(cuil, subject, body, 1, id_oficina, id_usuario, 0, nro_procuracion);
+                    //subsistema, nro_emision, cod_estado_actual);                   
+                    //08/05/2024
+                    //en el parametro cod_estado_inicial
+                    //tenia un 0
+                    //pero ahora traigo el valor desde la llamada del Controller enviarNotificacionProcuracionNuevasIYC
+                    //por las dudas si falla lo volvemos a 0
+                    //no entiendo un choto pq tenia fijo el 0.
+                    //Si dsp anda bien borro todo lo comentado!
+                    nro_notificacion = Notificacion_digital.insertNotifProc(cuil, subject, body, 1, id_oficina, id_usuario, cod_estado_inicial, nro_procuracion);
                     Notificacion_digital.update(nro_notificacion, 0, body);
                     //_Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
                     //Falta reemplazar el metodo de arriba
