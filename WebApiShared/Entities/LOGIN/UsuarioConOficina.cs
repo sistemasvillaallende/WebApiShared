@@ -25,7 +25,7 @@ namespace WebApiShared.Entities.LOGIN
 
         public int cod_oficina { get; set; }
 
-        public string nombre_oficina { get; set; }
+        public string? nombre_oficina { get; set; }
         public string cuit { get; set; }
 
 
