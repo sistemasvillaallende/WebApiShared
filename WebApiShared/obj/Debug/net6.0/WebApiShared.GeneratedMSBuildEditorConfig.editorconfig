@@ -9,11 +9,19 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebApiShared
 build_property.RootNamespace = WebApiShared
+<<<<<<< HEAD
 build_property.ProjectDir = d:\Dev\NET2022\WebApiShared\WebApiShared\
+=======
+build_property.ProjectDir = D:\MuniNueva\DEV\NotificacionesProcCIDI\WebApiShared\WebApiShared\
+>>>>>>> f02af622a5274a8051cca8878f6608c944eb6b4b
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+<<<<<<< HEAD
 build_property.MSBuildProjectDirectory = d:\Dev\NET2022\WebApiShared\WebApiShared
+=======
+build_property.MSBuildProjectDirectory = D:\MuniNueva\DEV\NotificacionesProcCIDI\WebApiShared\WebApiShared
+>>>>>>> f02af622a5274a8051cca8878f6608c944eb6b4b
 build_property._RazorSourceGeneratorDebug = 
