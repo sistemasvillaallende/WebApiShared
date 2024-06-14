@@ -40,9 +40,9 @@ D:\MuniNueva\DEV\NotificacionesProcCIDI\WebApiShared\WebApiShared\obj\Debug\net6
 D:\MuniNueva\DEV\NotificacionesProcCIDI\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.pdb
 D:\MuniNueva\DEV\NotificacionesProcCIDI\WebApiShared\WebApiShared\obj\Debug\net6.0\WebApiShared.genruntimeconfig.cache
 D:\MuniNueva\DEV\NotificacionesProcCIDI\WebApiShared\WebApiShared\obj\Debug\net6.0\ref\WebApiShared.dll
+D:\Dev\NET2022\WebApiShared\WebApiShared\bin\Debug\net6.0\web.config
 D:\Dev\NET2022\WebApiShared\WebApiShared\bin\Debug\net6.0\appsettings.Development.json
 D:\Dev\NET2022\WebApiShared\WebApiShared\bin\Debug\net6.0\appsettings.json
-D:\Dev\NET2022\WebApiShared\WebApiShared\bin\Debug\net6.0\web.config
 D:\Dev\NET2022\WebApiShared\WebApiShared\bin\Debug\net6.0\WebApiShared.exe
 D:\Dev\NET2022\WebApiShared\WebApiShared\bin\Debug\net6.0\WebApiShared.deps.json
 D:\Dev\NET2022\WebApiShared\WebApiShared\bin\Debug\net6.0\WebApiShared.runtimeconfig.json

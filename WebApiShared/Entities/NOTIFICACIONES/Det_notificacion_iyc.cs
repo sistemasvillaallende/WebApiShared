@@ -35,7 +35,7 @@ namespace SIIMVA_WEB
         public bool TieneHonorarios { get; set; }
         public Int16 Tipo_descuento { get; set; }
         public Int16 Cod_formulario { get; set; }
-        public Int16 Codigo_estado_actual { get; set; }
+        public Int32 Codigo_estado_actual { get; set; }
         public Int16 paraimprimir { get; set; }
         public Int16 CedulonSi { get; set; }
         public int Nro_cedulon { get; set; }
@@ -148,7 +148,7 @@ namespace SIIMVA_WEB
                 //int nro_secuencia = dr.GetOrdinal("nro_secuencia");
                 //int nro_orden = dr.GetOrdinal("nro_orden");
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
-                int cuit = dr.GetOrdinal("cuit");
+                int cuit = dr.GetOrdinal("nro_cuit");
                 int estado_actual = dr.GetOrdinal("estado_Actual");
                 int cuit_valido = dr.GetOrdinal("cuit_valido");
 
@@ -181,7 +181,7 @@ namespace SIIMVA_WEB
                     //if (!dr.IsDBNull(TieneHonorarios)) { obj.TieneHonorarios = dr.GetBoolean(TieneHonorarios); }
                     //if (!dr.IsDBNull(Tipo_descuento)) { obj.Tipo_descuento = dr.GetInt16(Tipo_descuento); }
                     //if (!dr.IsDBNull(Cod_formulario)) { obj.Cod_formulario = dr.GetInt16(Cod_formulario); }
-                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt16(Codigo_estado_actual); }
+                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt32(Codigo_estado_actual); }
                     //if (!dr.IsDBNull(paraimprimir)) { obj.paraimprimir = dr.GetInt16(paraimprimir); }
                     //if (!dr.IsDBNull(CedulonSi)) { obj.CedulonSi = dr.GetInt16(CedulonSi); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
@@ -243,14 +243,14 @@ namespace SIIMVA_WEB
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @"SELECT
                                           a.nro_emision, a.nro_notificacion, a.nro_proc,
-                                          a.dominio,a.nro_badec,
+                                          a.legajo,a.nro_badec,
                                           a.nombre, a.vencimiento, a.nro_cedulon,
                                           codigo_estado_actual=(SELECT ep.codigo_estado
                                                                 FROM PROCURA_IYC pi
                                                                 JOIN ESTADOS_PROCURACION ep ON 
                                                                   ep.codigo_estado=pi.codigo_estado_actual AND
-                                                                  pa.nro_procuracion=a.Nro_Proc AND a.legajo=pi.legajo),
-                                         i.cuit,
+                                                                  pi.nro_procuracion=a.Nro_Proc AND a.legajo=pi.legajo),
+                                         i.nro_cuit,
                                          notificado_cidi=isnull(a.notificado_cidi,0),
                                          debe=((SELECT SUM(DEBE)
 		   	                                    FROM CTASCTES_INDYCOM C
@@ -271,9 +271,9 @@ namespace SIIMVA_WEB
                                                          pi.nro_procuracion=a.nro_proc AND a.legajo=pi.legajo),
                                         notificado_cidi=isnull(a.notificado_cidi,0),
                                         CASE
-				                          WHEN v.cuit ='' then 'CUIT_NO_VALIDADO'
-				                          WHEN (SELECT count(*) FROM VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.cuit))=LTRIM(RTRIM(vd.cuit )))>0 THEN 'CUIT_VALIDADO'
-				                          WHEN (SELECT count(*) FROM VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.cuit))=LTRIM(RTRIM(vd.cuit )))=0 THEN 'CUIT_NO_VALIDADO'
+				                          WHEN i.nro_cuit ='' then 'CUIT_NO_VALIDADO'
+				                          WHEN (SELECT count(*) FROM VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 THEN 'CUIT_VALIDADO'
+				                          WHEN (SELECT count(*) FROM VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 THEN 'CUIT_NO_VALIDADO'
 				                          END AS cuit_valido
                                        FROM DET_NOTIFICACION_IYC A (nolock) 
                                        LEFT JOIN INDYCOM i ON i.legajo=A.legajo        
@@ -301,7 +301,7 @@ namespace SIIMVA_WEB
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @"SELECT
                                           a.nro_emision, a.nro_notificacion, 
-                                          a.nro_proc, a.dominio, a.nro_badec,
+                                          a.nro_proc, a.legajo, a.nro_badec,
                                           a.nombre, a.vencimiento, a.nro_cedulon,
                                           codigo_estado_actual= (SELECT ep.codigo_estado
                                                             FROM PROCURA_IYC pi
@@ -309,7 +309,7 @@ namespace SIIMVA_WEB
                                                             ep.codigo_estado=pi.codigo_estado_actual AND
                                                             pi.nro_procuracion=a.nro_proc AND 
                                                             a.legajo=pi.legajo),
-                                          i.cuit,
+                                          i.nro_cuit,
                                           notificado_cidi=ISNULL(a.notificado_cidi,0),
                                           debe=((SELECT SUM(DEBE)
 		   	                                     FROM CTASCTES_INDYCOM C
@@ -329,9 +329,9 @@ namespace SIIMVA_WEB
                                                            pi.nro_procuracion=a.nro_proc AND a.legajo=pi.legajo),
                                            notificado_cidi=isnull(a.notificado_cidi,0),
                                            CASE
-				                              WHEN i.cuit ='' then 'CUIT_NO_VALIDADO'
-				                              WHEN (SELECT count(*) FROM VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
-				                              WHEN (SELECT count(*) FROM VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
+				                              WHEN i.nro_cuit ='' then 'CUIT_NO_VALIDADO'
+				                              WHEN (SELECT count(*) FROM VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
+				                              WHEN (SELECT count(*) FROM VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
 				                           END AS cuit_valido
                                         FROM DET_NOTIFICACION_IYC A (nolock) 
                                         LEFT JOIN INDYCOM i ON i.legajo= A.legajo        
@@ -339,7 +339,7 @@ namespace SIIMVA_WEB
                                                                             FROM PROCURA_IYC pi
                                                                             JOIN ESTADOS_PROCURACION ep ON 
                                                                             ep.codigo_estado=pi.codigo_estado_actual AND
-                                                                            pa.nro_procuracion=a.nro_proc AND 
+                                                                            pi.nro_procuracion=a.nro_proc AND 
                                                                             a.legajo=pi.legajo)=" + cod_estado.ToString();
                     cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
                     cmd.Connection.Open();
