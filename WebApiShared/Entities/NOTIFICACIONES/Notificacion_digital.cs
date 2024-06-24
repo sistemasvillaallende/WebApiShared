@@ -325,16 +325,24 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT n.id_notificacion, desc_tipo_notif= tn.descripcion,n.fecha_notif,n.cuil,n.nombre,
-                                        CASE
-                                          when n.estado_notif = 0 then 'NO NOTIFICADO'
-                                          when N.estado_notif = 1 THEN 'NOTIFICADO'
-                                        END AS ESTADO,
-                                        n.subject_notif,n.body_notif,usuario = u.NOMBRE,oficina = o.nombre_oficina
+                    cmd.CommandText = @"SELECT 
+                                            n.id_notificacion, 
+                                            desc_tipo_notif= tn.descripcion,
+                                            n.fecha_notif,
+                                            n.cuil,
+                                            n.nombre,
+                                            CASE
+                                              when n.estado_notif = 0 then 'NO NOTIFICADO'
+                                              when N.estado_notif = 1 THEN 'NOTIFICADO'
+                                            END AS ESTADO,
+                                            n.subject_notif,
+                                            n.body_notif,
+                                            usuario = u.NOMBRE,
+                                            oficina = o.nombre_oficina
                                         FROM NOTIFICACION_DIGITAL N 
-                                        INNER JOIN TIPO_NOTIF_DIGITAL tn on tn.tipo_notificacion = n.tipo_notificacion
-                                        LEFT JOIN USUARIOS_V2 u on u.COD_USUARIO = n.id_usuario
-                                        LEFT JOIN join OFICINAS o on o.codigo_oficina = n.id_oficina
+                                            INNER JOIN TIPO_NOTIF_DIGITAL tn on tn.tipo_notificacion = n.tipo_notificacion
+                                            LEFT JOIN USUARIOS_V2 u on u.COD_USUARIO = n.id_usuario
+                                            LEFT JOIN join OFICINAS o on o.codigo_oficina = n.id_oficina
                                         WHERE n.id_oficina=" + cod_oficina.ToString();
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();

@@ -1,11 +1,23 @@
 ﻿using Newtonsoft.Json;
 using WebApiShared.Entities.CIDI;
 using WebApiShared.Entities.CIDI.Documentos;
+using WebApiShared.Entities.LOGIN;
 
 namespace WebApiShared.Services.CIDI
 {
     public class UsuariosService : IUsuariosServices
     {
+        public static string getUser(string cuit)
+        {
+            try
+            {
+                return SeguridadDal.getUser(cuit);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public string ObtenerUsuario(string HashCookie)
         {
             try
@@ -42,6 +54,11 @@ namespace WebApiShared.Services.CIDI
                 Entities.CIDI.Usuario Usuario = Entities.CIDI.Config.LlamarWebAPI<Entities.CIDI.Entrada,
                     Entities.CIDI.Usuario>(Entities.CIDI.APICuenta.Usuario.Obtener_Usuario_Basicos_Domicilio, entrada);
                 Usuario.foto = TraerFotoPerfil(HashCookie, Usuario.CUIL);
+
+                Usuario.Empleado = CIDI.UsuariosService.getUser(Usuario.CUIL);
+
+
+
                 return Usuario;
 
             }

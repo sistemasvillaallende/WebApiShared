@@ -287,14 +287,26 @@ namespace WebApiShared.Controllers
 
                 cuerpo = cuerpo + @"      </body> </html> ";
 
+            }
 
+            var cookieValue = Request.Cookies["VA.CiDi"];
+            string hash = "";
+            if (cookieValue != null)
+            {
+                var cookieValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(cookieValue);
 
-
+                // Acceder a valores específicos
+                if (cookieValues.TryGetValue("SesionHash", out var userName))
+                {
+                    // Aquí puedes usar el valor de "UserName"
+                    hash = userName;
+                }
 
             }
 
             Email email = new Email();
-            email.Cuil = cuit;
+            email.HashCookie = "34424C56707A693148527047383346625765504F30753058597A593D";
+            email.Cuil = "23271734999";//cuit;
             email.Asunto = "Procuración administrativa Municipalidad de Villa Allende";//subject;
             email.Mensaje = cuerpo;
             email.Firma = "Oficina de Recursos Tributarios";
@@ -415,7 +427,23 @@ namespace WebApiShared.Controllers
                 cuerpo = cuerpo + @"      </body> </html> ";
             }
 
+            var cookieValue = Request.Cookies["VA.CiDi"];
+            string hash = "";
+            if (cookieValue != null)
+            {
+                var cookieValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(cookieValue);
+
+                // Acceder a valores específicos
+                if (cookieValues.TryGetValue("SesionHash", out var userName))
+                {
+                    // Aquí puedes usar el valor de "UserName"
+                    hash = userName;
+                }
+
+            }
+
             Email email = new Email();
+            email.HashCookie = hash;
             email.Cuil = cuit;
             email.Asunto = "Procuracion Administrativa Municipalidad de Villa Allende";//subject;
             email.Mensaje = cuerpo;
@@ -501,7 +529,23 @@ namespace WebApiShared.Controllers
                       </body>
                     </html> ";
             int nro_notif = 0;
+
+            var cookieValue = Request.Cookies["VA.CiDi"];
+            string hash = "";
+            if (cookieValue != null)
+            {
+                var cookieValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(cookieValue);
+
+                // Acceder a valores específicos
+                if (cookieValues.TryGetValue("SesionHash", out var userName))
+                {
+                    // Aquí puedes usar el valor de "UserName"
+                    hash = userName;
+                }
+
+            }
             Email email = new Email();
+            email.HashCookie = hash;
             email.Cuil = cuit;
             email.Asunto = "NOTIFICACION DE RESOLUCION DE REBELDIA";
             email.Mensaje = body;
@@ -862,7 +906,23 @@ namespace WebApiShared.Controllers
                 //}
                 cuerpo = cuerpo + @"      </body> </html> ";
             }
+            var cookieValue = Request.Cookies["VA.CiDi"];
+            string hash = "";
+            if (cookieValue != null)
+            {
+                var cookieValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(cookieValue);
+
+                // Acceder a valores específicos
+                if (cookieValues.TryGetValue("SesionHash", out var userName))
+                {
+                    // Aquí puedes usar el valor de "UserName"
+                    hash = userName;
+                }
+
+            }
+
             Email email = new Email();
+            email.HashCookie = hash;
             email.Cuil = cuit;
             email.Asunto = "Procuracion Administrativa Municipalidad de Villa Allende";//subject;
             email.Mensaje = cuerpo;

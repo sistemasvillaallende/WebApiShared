@@ -42,3 +42,10 @@
 *.json
 *.cache
 *.props
+/.vs
+.vs/ProjectEvaluation/webapishared.metadata.v7.bin
+.vs/ProjectEvaluation/webapishared.projects.v7.bin
+.vs/ProjectEvaluation/webapishared.metadata.v7.bin
+/.vs/ProjectEvaluation
+/.vs/ProjectEvaluation
+/.vs
