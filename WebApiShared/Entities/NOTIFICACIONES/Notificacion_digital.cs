@@ -342,7 +342,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                                         FROM NOTIFICACION_DIGITAL N 
                                             INNER JOIN TIPO_NOTIF_DIGITAL tn on tn.tipo_notificacion = n.tipo_notificacion
                                             LEFT JOIN USUARIOS_V2 u on u.COD_USUARIO = n.id_usuario
-                                            LEFT JOIN join OFICINAS o on o.codigo_oficina = n.id_oficina
+                                            LEFT JOIN OFICINAS o on o.codigo_oficina = n.id_oficina
                                         WHERE n.id_oficina=" + cod_oficina.ToString();
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();

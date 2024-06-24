@@ -43,7 +43,7 @@ namespace WebApiShared.Controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true,
+                Secure = false,
                 Expires = DateTime.Now.AddDays(7)
             };
 
