@@ -27,6 +27,28 @@ namespace WebApiShared.Controllers
         {
             var usu =
                 _usuarioService.ObtenerUsuario2(Hash);
+
+            // Definir los valores que deseas almacenar en la cookie
+            var cookieValues = new Dictionary<string, string>
+        {
+            { "NombreFormateado", usu.NombreFormateado },
+            { "CuilFormateado", usu.CuilFormateado },
+            { "SesionHash",Hash }
+        };
+
+            // Serializar los valores a una cadena JSON
+            var cookieValue = JsonConvert.SerializeObject(cookieValues);
+
+            // Configurar las opciones de la cookie (opcional)
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = false,
+                Expires = DateTime.Now.AddDays(7)
+            };
+
+            // Establecer la cookie
+            Response.Cookies.Append("VA.CiDi", cookieValue, cookieOptions);
             return Ok(usu);
         }
     }

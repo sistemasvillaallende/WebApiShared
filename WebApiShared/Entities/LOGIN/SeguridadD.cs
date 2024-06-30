@@ -6,6 +6,9 @@ using WebApiShared.Helpers;
 using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using WebApiShared.Entities.CIDI;
+using Newtonsoft.Json;
 
 namespace WebApiShared.Entities.LOGIN
 {
@@ -78,6 +81,41 @@ namespace WebApiShared.Entities.LOGIN
                 if (lst.Count != 0)
                     obj = lst[0];
                 return obj;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public static string getUser(string cuit)
+        {
+            try
+            {
+                string strSQL = @"SELECT nombre, cod_usuario FROM USUARIOS_V2
+                                  WHERE cuit = @cuit";
+                string ret = string.Empty;
+                using SqlConnection con = GetConnection();
+                SqlCommand cmd = con.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = strSQL;
+                cmd.Parameters.AddWithValue("@cuit", cuit);
+                cmd.Connection.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                Udemo objU = new();
+
+
+              
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        if (!dr.IsDBNull(0)) { objU.nombre = dr.GetString(0).Trim(); }
+                        if (!dr.IsDBNull(1)) { objU.cod_usuario = dr.GetInt32(1); }
+                    }
+                    ret = JsonConvert.SerializeObject(objU);
+                }
+                return ret;
             }
             catch (Exception)
             {

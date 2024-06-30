@@ -287,33 +287,34 @@ namespace WebApiShared.Controllers
 
                 cuerpo = cuerpo + @"      </body> </html> ";
 
-
-
-
-
             }
-
-            Email email = new Email();
-            email.Cuil = cuit;
-            email.Asunto = "Procuración administrativa Municipalidad de Villa Allende";//subject;
-            email.Mensaje = cuerpo;
-            email.Firma = "Oficina de Recursos Tributarios";
-            email.Ente = "Municipalidad de Villa Allende";
-            email.Id_App = Config.CiDiIdAplicacion;
-            email.Pass_App = Config.CiDiPassAplicacion;
-            email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
-            var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
-            nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion);
-            if (respuesta.Resultado != "OK")
+            string hash = "";
+            if (Request.Headers.TryGetValue("hash", out var Hash))
             {
-                _Notificacion_digitalService.update(nro_notif, 0, email.Mensaje);
-                return BadRequest(new { message = "Error al obtener los datos" });
+                hash = Hash.ToString();
+                cuit = "23271734999";
+                Email email = new Email();
+                email.HashCookie = hash;// "34424C56707A693148527047383346625765504F30753058597A593D";
+                email.Cuil = "23271734999";//cuit;
+                email.Asunto = "Procuración administrativa Municipalidad de Villa Allende";//subject;
+                email.Mensaje = cuerpo;
+                email.Firma = "Oficina de Recursos Tributarios";
+                email.Ente = "Municipalidad de Villa Allende";
+                email.Id_App = Config.CiDiIdAplicacion;
+                email.Pass_App = Config.CiDiPassAplicacion;
+                email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
+                var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
+                nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion);
+                if (respuesta.Resultado != "OK")
+                {
+                    _Notificacion_digitalService.update(nro_notif, 0, email.Mensaje);
+                    return BadRequest(new { message = "Error al obtener los datos" });
+                }
+                _Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
+                _Notificacion_digitalService.updateProcuracion(nro_procuracion, tipo_proc, Nro_Notificacion, Nro_Emision, cod_estado_actual);
+                _Notificacion_digitalService.InsertarNuevoEstadoProc(nro_procuracion, tipo_proc, nro_notif, id_usuario, cod_estado_actual);
             }
-            _Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
-            _Notificacion_digitalService.updateProcuracion(nro_procuracion, tipo_proc, Nro_Notificacion, Nro_Emision, cod_estado_actual);
-            _Notificacion_digitalService.InsertarNuevoEstadoProc(nro_procuracion, tipo_proc, nro_notif, id_usuario, cod_estado_actual);
-
             return Ok();//Ok(respuesta);
         }
         [HttpPost]
@@ -415,7 +416,23 @@ namespace WebApiShared.Controllers
                 cuerpo = cuerpo + @"      </body> </html> ";
             }
 
+            var cookieValue = Request.Cookies["VA.CiDi"];
+            string hash = "";
+            if (cookieValue != null)
+            {
+                var cookieValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(cookieValue);
+
+                // Acceder a valores específicos
+                if (cookieValues.TryGetValue("SesionHash", out var userName))
+                {
+                    // Aquí puedes usar el valor de "UserName"
+                    hash = userName;
+                }
+
+            }
+
             Email email = new Email();
+            email.HashCookie = hash;
             email.Cuil = cuit;
             email.Asunto = "Procuracion Administrativa Municipalidad de Villa Allende";//subject;
             email.Mensaje = cuerpo;
@@ -501,7 +518,23 @@ namespace WebApiShared.Controllers
                       </body>
                     </html> ";
             int nro_notif = 0;
+
+            var cookieValue = Request.Cookies["VA.CiDi"];
+            string hash = "";
+            if (cookieValue != null)
+            {
+                var cookieValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(cookieValue);
+
+                // Acceder a valores específicos
+                if (cookieValues.TryGetValue("SesionHash", out var userName))
+                {
+                    // Aquí puedes usar el valor de "UserName"
+                    hash = userName;
+                }
+
+            }
             Email email = new Email();
+            email.HashCookie = hash;
             email.Cuil = cuit;
             email.Asunto = "NOTIFICACION DE RESOLUCION DE REBELDIA";
             email.Mensaje = body;
@@ -862,7 +895,23 @@ namespace WebApiShared.Controllers
                 //}
                 cuerpo = cuerpo + @"      </body> </html> ";
             }
+            var cookieValue = Request.Cookies["VA.CiDi"];
+            string hash = "";
+            if (cookieValue != null)
+            {
+                var cookieValues = JsonConvert.DeserializeObject<Dictionary<string, string>>(cookieValue);
+
+                // Acceder a valores específicos
+                if (cookieValues.TryGetValue("SesionHash", out var userName))
+                {
+                    // Aquí puedes usar el valor de "UserName"
+                    hash = userName;
+                }
+
+            }
+
             Email email = new Email();
+            email.HashCookie = hash;
             email.Cuil = cuit;
             email.Asunto = "Procuracion Administrativa Municipalidad de Villa Allende";//subject;
             email.Mensaje = cuerpo;
