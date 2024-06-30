@@ -227,8 +227,9 @@ namespace WebApiShared.Services.NOTIFICACIONES
             try
             {
                 int nro_notificacion = 0;
-                using (TransactionScope scope = new TransactionScope())
-                {
+                //using (TransactionScope scope = new TransactionScope())
+                //{
+
                     //nro_notificacion = Notificacion_digital.NotificaProcuracionMasiva(cuil, subject, body, id_tipo_notificacion, id_oficina, id_usuario, cod_estado_inicial, nro_procuracion,
                     //subsistema, nro_emision, cod_estado_actual);                   
                     //08/05/2024
@@ -246,8 +247,9 @@ namespace WebApiShared.Services.NOTIFICACIONES
                     Notificacion_digital.updateProcuracion(nro_procuracion, subsistema, nro_notificacion, nro_emision, cod_estado_actual);
                     //_Notificacion_digitalService.InsertarNuevoEstadoProc(nro_procuracion, tipo_proc, nro_notif, id_usuario, cod_estado_actual);
                     Notificacion_digital.InsertarNuevoEstadoProc(nro_procuracion, subsistema, nro_notificacion, id_usuario, cod_estado_actual);
-                    scope.Complete();
-                }
+                    
+                //scope.Complete();
+                //}
             }
             catch (Exception ex)
             {
