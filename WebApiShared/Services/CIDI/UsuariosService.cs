@@ -52,7 +52,7 @@ namespace WebApiShared.Services.CIDI
                 entrada.TokenValue = Entities.CIDI.Config.ObtenerToken_SHA1(entrada.TimeStamp);
 
                 Entities.CIDI.Usuario Usuario = Entities.CIDI.Config.LlamarWebAPI<Entities.CIDI.Entrada,
-                    Entities.CIDI.Usuario>(Entities.CIDI.APICuenta.Usuario.Obtener_Usuario_Basicos_Domicilio, entrada);
+                    Entities.CIDI.Usuario>(Entities.CIDI.APICuenta.Usuario.Obtener_Usuario_Aplicacion, entrada);
                 Usuario.foto = TraerFotoPerfil(HashCookie, Usuario.CUIL);
 
                 Usuario.Empleado = CIDI.UsuariosService.getUser(Usuario.CUIL);
