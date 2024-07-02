@@ -193,7 +193,7 @@ namespace WebApiShared.Controllers
         {
 
             var objeto = JsonConvert.DeserializeObject<ModeloProcuracion>(datos.ToString());
-            string cuit = objeto.cuit;
+            string cuit = "20290299498";//objeto.cuit;
             string subject = objeto.subject;
             string body = objeto.body;
             string tituloReporte = objeto.tituloReporte;
@@ -322,7 +322,7 @@ namespace WebApiShared.Controllers
         {
 
             var objeto = JsonConvert.DeserializeObject<ModeloProcuracion>(datos.ToString());
-            string cuit = objeto.cuit;
+            string cuit = "20290299498";//objeto.cuit;
             string subject = objeto.subject;
             string body = objeto.body;
             string tituloReporte = objeto.tituloReporte;
