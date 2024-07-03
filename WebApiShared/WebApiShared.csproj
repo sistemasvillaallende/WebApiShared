@@ -18,10 +18,4 @@
     <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="CryptoManagerV4.0">
-      <HintPath>C:\NET2018\Vecino\PortalServicios\bin\CryptoManagerV4.0.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
