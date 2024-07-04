@@ -41,7 +41,9 @@ namespace WebApiShared
             services.AddScoped<IEstados_procuracionService, Estados_procuracionService>();
             services.AddScoped<IPermisoServices, PermisoServices>();
             services.AddScoped<INotificacion_autoService, Notificacion_autoService>();
+            services.AddScoped<INotificacion_iycService, Notificacion_iycService>();
             services.AddScoped<IDet_notificacion_autoService, Det_notificacion_autoService>();
+            services.AddScoped<IDet_notificacion_iycService, Det_notificacion_iycService>();
             services.AddScoped<IWs_valida_InmuebleService, Ws_valida_inmuebleService>();
             services.AddScoped<IWs_valida_comercioService, Ws_valida_comercioService>();
             services.AddCors();
