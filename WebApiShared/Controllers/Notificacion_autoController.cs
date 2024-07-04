@@ -25,13 +25,6 @@ namespace SIIMVA_WEB.Controllers
             }
             return Ok(Notificacion_auto);
         }
-
-
-
-
-
-
-
     }
 }
 
