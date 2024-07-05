@@ -170,7 +170,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(Nro_proc)) { obj.Nro_proc = dr.GetInt32(Nro_proc); }
                     //if (!dr.IsDBNull(Fecha_vencimiento)) { obj.Fecha_vencimiento = dr.GetDateTime(Fecha_vencimiento); }
                     //if (!dr.IsDBNull(Periodo)) { obj.Periodo = dr.GetString(Periodo); }
-                    if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetDecimal(Debe); }
+                    if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetInt32(Debe); }
                     //if (!dr.IsDBNull(Nro_plan)) { obj.Nro_plan = dr.GetInt32(Nro_plan); }
                     if (!dr.IsDBNull(Vencimiento)) { obj.Vencimiento = dr.GetDateTime(Vencimiento); }
                     //if (!dr.IsDBNull(Cod_tipo_procuracion)) { obj.Cod_tipo_procuracion = dr.GetInt16(Cod_tipo_procuracion); }
@@ -186,10 +186,10 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
                     if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
                     //if (!dr.IsDBNull(pagado)) { obj.pagado = dr.GetInt16(pagado); }
-                    if (!dr.IsDBNull(monto_original)) { obj.monto_original = dr.GetDecimal(monto_original); }
-                    if (!dr.IsDBNull(interes)) { obj.interes = dr.GetDecimal(interes); }
-                    if (!dr.IsDBNull(descuento)) { obj.descuento = dr.GetDecimal(descuento); }
-                    if (!dr.IsDBNull(importe_pagar)) { obj.importe_pagar = dr.GetDecimal(importe_pagar); }
+                    if (!dr.IsDBNull(monto_original)) { obj.monto_original = dr.GetInt32(monto_original); }
+                    if (!dr.IsDBNull(interes)) { obj.interes = dr.GetInt32(interes); }
+                    if (!dr.IsDBNull(descuento)) { obj.descuento = dr.GetInt32(descuento); }
+                    if (!dr.IsDBNull(importe_pagar)) { obj.importe_pagar = dr.GetInt32(importe_pagar); }
                     //if (!dr.IsDBNull(fecha_baja_real)) { obj.fecha_baja_real = dr.GetDateTime(fecha_baja_real); }
                     //if (!dr.IsDBNull(nro_secuencia)) { obj.nro_secuencia = dr.GetInt32(nro_secuencia); }
                     //if (!dr.IsDBNull(nro_orden)) { obj.nro_orden = dr.GetInt32(nro_orden); }                    
@@ -243,38 +243,37 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT
-                      a.Nro_Emision,a.Nro_Notificacion,a.nro_proc,a.legajo,a.nro_badec,
-                      a.nombre, a.vencimiento,a.nro_cedulon,codigo_estado_actual= ISNULL((SELECT ep.codigo_estado
-                                        FROM PROCURA_IYC pa
-                                        JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.nro_proc AND a.legajo=pa.legajo),0), v.nro_cuit as cuit
-                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
-                      Debe=((SELECT SUM(DEBE)
-		   	                    FROM CTASCTES_INDYCOM C
-			                    JOIN DEUDAS_PROC_IYC D ON
-				                    D.nro_procuracion=a.nro_proc AND
-                                    D.nro_transaccion=C.nro_transaccion
-                                     )) -
-				                       (SELECT SUM(haber)
-				                        FROM CTASCTES_INDYCOM C
-				                        JOIN DEUDAS_PROC_IYC D ON
-						                    D.nro_procuracion=a.nro_proc AND
-						                    D.nro_transaccion=C.nro_transaccion) ,
-                       a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
-                       estado_actual= (SELECT ep.descripcion_estado
-                                       FROM PROCURA_IYC pa
-                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.nro_proc AND a.legajo=pa.legajo),v.nro_cuit as cuit
-                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
-                         CASE
-				          WHEN v.nro_cuit ='' then 'CUIT_NO_VALIDADO'
-				          WHEN (select count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
-				          WHEN (select count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
-				         END AS cuit_valido
-                    FROM DET_NOTIFICACION_IYC A (nolock)left join INDYCOM V ON V.legajo=A.legajo        
-                    WHERE
-                    nro_emision= @nro_emision";
+                    cmd.CommandText = @"
+                        SELECT 
+	                        a.Nro_Emision,
+	                        a.Nro_Notificacion,
+	                        a.Legajo,
+	                        a.nro_badec,
+	                        a.nombre, 
+	                        a.nro_proc,
+	                        0 AS debe,
+	                        a.Vencimiento,
+	                        ep.codigo_estado AS Codigo_estado_actual,
+	                        a.Nro_cedulon,
+	                        a.Barcode39,
+	                        a.Barcodeint25,
+	                        0 AS monto_original,
+	                        0 AS interes,
+                            0 AS descuento,
+	                        0 AS importe_pagar,
+	                        notificado_cidi=isnull( a.Notificado_cidi,0),
+	                        v.nro_cuit,
+	                        CASE
+		                        WHEN vd.cuit IS NULL THEN 'CUIT_NO_VALIDADO'
+		                        ELSE 'CUIT_VALIDADO'
+	                        END AS cuit_valido,
+	                        ep.descripcion_estado AS estado_actual,
+	                        vd.CUIT
+                        FROM DET_NOTIFICACION_IYC A (nolock)left join INDYCOM V ON V.legajo=A.Legajo 
+	                        INNER JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=A.codigo_estado_actual
+	                        LEFT JOIN VECINO_DIGITAL vd ON vd.CUIT = V.nro_cuit
+                        WHERE
+	                        nro_emision=@nro_emision";
                     cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
@@ -297,7 +296,8 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"SELECT
+                    cmd.CommandText = @"
+                        SELECT
                       a.Nro_Emision,a.Nro_Notificacion, a.nro_proc, a.legajo, a.nro_badec,
                       a.nombre, a.vencimiento,a.Nro_cedulon,codigo_estado_actual=ISNULL((SELECT ep.codigo_estado
                                         FROM PROCURA_IYC pa
