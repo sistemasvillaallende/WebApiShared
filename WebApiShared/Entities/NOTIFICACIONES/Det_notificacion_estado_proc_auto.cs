@@ -102,13 +102,13 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(Fecha_Fin_Estado)) { obj.Fecha_Fin_Estado = dr.GetDateTime(Fecha_Fin_Estado); }
                     if (!dr.IsDBNull(vencimiento)) { obj.vencimiento = dr.GetDateTime(vencimiento); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
-                    if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetDecimal(Debe); }
+                    if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetInt32(Debe); }
                     if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
                     if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
-                    if (!dr.IsDBNull(Monto_original)) { obj.Monto_original = dr.GetDecimal(Monto_original); }
-                    if (!dr.IsDBNull(Interes)) { obj.Interes = dr.GetDecimal(Interes); }
-                    if (!dr.IsDBNull(Descuento)) { obj.Descuento = dr.GetDecimal(Descuento); }
-                    if (!dr.IsDBNull(Importe_pagar)) { obj.Importe_pagar = dr.GetDecimal(Importe_pagar); }
+                    if (!dr.IsDBNull(Monto_original)) { obj.Monto_original = dr.GetInt32(Monto_original); }
+                    if (!dr.IsDBNull(Interes)) { obj.Interes = dr.GetInt32(Interes); }
+                    if (!dr.IsDBNull(Descuento)) { obj.Descuento = dr.GetInt32(Descuento); }
+                    if (!dr.IsDBNull(Importe_pagar)) { obj.Importe_pagar = dr.GetInt32(Importe_pagar); }
                     if (!dr.IsDBNull(estado_Actualizado)) { obj.estado_Actualizado =  dr.GetString(estado_Actualizado).Trim(); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
                     if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
@@ -128,36 +128,42 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @" SELECT
-                      a.Nro_Emision,a.Nro_Notificacion,a.nro_procuracion,a.dominio,a.nro_badec,
-                      a.nombre,a.Estado_Actual,a.Fecha_Inicio_Estado,a.Fecha_Fin_Estado, a.vencimiento,a.Nro_cedulon,
-                      Debe=((SELECT SUM(DEBE)
-		   	                    FROM CTASCTES_AUTOMOTORES C
-			                    JOIN DEUDAS_PROC_AUTO D ON
-				                    D.nro_procuracion=a.nro_procuracion AND
-                                    D.nro_transaccion=C.nro_transaccion
-                                     )) -
-				                       (SELECT SUM(haber)
-				                        FROM CTASCTES_AUTOMOTORES C
-				                        JOIN DEUDAS_PROC_AUTO D ON
-						                    D.nro_procuracion=a.nro_procuracion AND
-
-						                    D.nro_transaccion=C.nro_transaccion) ,
-                       a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
-                       estado_Actualizado= (  SELECT ep.descripcion_estado
-                                        FROM PROCURA_AUTO pa
-                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.Dominio=pa.dominio),v.cuit
-                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
-                         case
-				          when v.cuit ='' then 'CUIT_NO_VALIDADO'
-				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
-				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
-				          END AS cuit_valido
-                    FROM Det_Notificacion_Estado_Proc_Auto A (nolock)left join VEHICULOS V ON V.DOMINIO=A.DOMINIO
-                    left join badec b  on b.NRO_BAD=a.Nro_Badec
+                    cmd.CommandText = @" 
+                    SELECT
+	                    a.Nro_Emision,
+	                    a.Nro_Notificacion,
+	                    a.dominio,
+	                    a.nro_badec,
+	                    a.nombre, 
+	                    a.Nro_Procuracion,
+	                    a.Fecha_Inicio_Estado,
+	                    a.Fecha_Fin_Estado,
+	                    0 AS debe,
+	                    a.Vencimiento,
+	                    ep.codigo_estado AS Codigo_estado_actual,
+                        ep.descripcion_estado AS estado_Actual,
+	                    a.Nro_cedulon,
+	                    a.Barcode39,
+	                    a.Barcodeint25,
+	                    0 AS monto_original,
+	                    0 AS interes,
+	                    0 AS descuento,
+	                    0 AS importe_pagar,
+	                    notificado_cidi=isnull( a.Notificado_cidi,0),
+	                    v.cuit,
+	                    CASE
+		                    WHEN vd.cuit IS NULL THEN 'CUIT_NO_VALIDADO'
+		                    ELSE 'CUIT_VALIDADO'
+	                    END AS cuit_valido,
+	                    ep.descripcion_estado AS estado_Actualizado,
+	                    vd.CUIT
+                    FROM Det_Notificacion_Estado_Proc_Auto a 
+	                    INNER JOIN NOTIFICACION_ESTADO_PROC_AUTO B ON a.Nro_Emision=B.Nro_Emision
+	                    LEFT JOIN VEHICULOS V ON V.DOMINIO=a.Dominio
+	                    INNER JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=B.Cod_Estado_Procuracion
+	                    LEFT JOIN VECINO_DIGITAL vd ON vd.CUIT = V.CUIT
                     WHERE
-                    nro_emision=" + nro_emision.ToString();
+	                    A.nro_emision=" + nro_emision.ToString();
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);

@@ -79,3 +79,6 @@ WebApiShared/bin/Release/net6.0/System.Data.SqlClient.dll
 .vs/WebApiShared/DesignTimeBuild/.dtbcache.v2
 .vs/WebApiShared/v17/.futdcache.v2
 .vs/WebApiShared/v17/.suo
+/.vs
+.vs/WebApiShared/v17/.futdcache.v2
+/.vs

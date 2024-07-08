@@ -193,7 +193,7 @@ namespace WebApiShared.Controllers
         {
 
             var objeto = JsonConvert.DeserializeObject<ModeloProcuracion>(datos.ToString());
-            string cuit = "20290299498";//objeto.cuit;
+            string cuit = objeto.cuit;
             string subject = objeto.subject;
             string body = objeto.body;
             string tituloReporte = objeto.tituloReporte;
@@ -322,7 +322,7 @@ namespace WebApiShared.Controllers
         {
 
             var objeto = JsonConvert.DeserializeObject<ModeloProcuracion>(datos.ToString());
-            string cuit = "20290299498";//objeto.cuit;
+            string cuit = objeto.cuit;
             string subject = objeto.subject;
             string body = objeto.body;
             string tituloReporte = objeto.tituloReporte;
@@ -423,7 +423,7 @@ namespace WebApiShared.Controllers
                 Email email = new Email();
                 email.HashCookie = hash;// "34424C56707A693148527047383346625765504F30753058597A593D";
                 email.Cuil = cuit;
-                email.Asunto = "Procuracion Administrativa Municipalidad de Villa Allende";//subject;
+                email.Asunto = "Recursos Tributarios - Villa Allende";//subject;
                 email.Mensaje = cuerpo;
                 email.Firma = "Oficina de Recursos Tributarios";
                 email.Ente = "Municipalidad de Villa Allende";
@@ -751,7 +751,7 @@ namespace WebApiShared.Controllers
 
         //    Email email = new Email();
         //    email.Cuil = cuit;
-        //    email.Asunto = "Procuracion Administrativa Municipalidad de Villa Allende";//subject;
+        //    email.Asunto = "Recursos Tributarios - Villa Allende";//subject;
         //    email.Mensaje = cuerpo;
         //    email.Firma = "Oficina de Recursos Tributarios";
         //    email.Ente = "Municipalidad de Villa Allende";
@@ -903,7 +903,7 @@ namespace WebApiShared.Controllers
             Email email = new Email();
             email.HashCookie = hash;
             email.Cuil = cuit;
-            email.Asunto = "Procuracion Administrativa Municipalidad de Villa Allende";//subject;
+            email.Asunto = "Recursos Tributarios - Villa Allende";//subject;
             email.Mensaje = cuerpo;
             email.Firma = "Oficina de Recursos Tributarios";
             email.Ente = "Municipalidad de Villa Allende";
