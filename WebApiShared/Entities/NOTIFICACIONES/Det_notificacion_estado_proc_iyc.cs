@@ -342,12 +342,18 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         {
             try
             {
-                string sql = @"SELECT a.*, b.des_comercio, b.nombre_fantasia 
-                               FROM Det_notificacion_estado_proc_iyc a
-                               LEFT JOIN INDYCOM b on
-                                 a.legajo=b.legajo
-                               WHERE a.nro_emision = @nro_emision
-                               AND a.nro_notificacion = @nro_notificacion";
+                string sql = @"
+                    SELECT d.*, b.des_com, b.nom_fantasia,
+	                    estado_Actualizado= 
+	                    (SELECT ep.descripcion_estado 
+	                     FROM PROCURA_IYC pa                                  
+	                     JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual 
+                         AND pa.nro_procuracion=d.Nro_Procuracion AND d.Legajo=pa.legajo),cuit ='',cuit_valido=''    
+                    FROM Det_notificacion_estado_proc_iyc  d
+                    LEFT JOIN INDYCOM b on
+                      d.legajo=b.legajo
+                    WHERE d.Nro_Emision = @nro_emision
+                    AND d.Nro_Notificacion = @nro_notificacion";
                 Det_notificacion_estado_proc_iyc obj = null;
                 using (SqlConnection con = GetConnection())
                 {
