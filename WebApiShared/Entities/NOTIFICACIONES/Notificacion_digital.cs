@@ -568,7 +568,8 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-        public static int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion)
+        public static int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina,
+            int id_usuario, int cod_estado, int nro_procuracion, int nro_emision)
         {
             try
             {
@@ -576,7 +577,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 sql.AppendLine("INSERT INTO Notificacion_digital(");
                 // sql.AppendLine("id_notificacion");
                 sql.AppendLine(" tipo_notificacion");
-                //  sql.AppendLine(", nro_emision");
+                sql.AppendLine(", nro_emision");
                 sql.AppendLine(", fecha_notif");
                 //sql.AppendLine(", desc_notif");
                 sql.AppendLine(", cidi_nivel");
@@ -593,7 +594,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 sql.AppendLine("(");
                 // sql.AppendLine("@id_notificacion");
                 sql.AppendLine(" @tipo_notificacion");
-                // sql.AppendLine(", @nro_emision");
+                sql.AppendLine(", @nro_emision");
                 sql.AppendLine(", @fecha_notif");
                 //sql.AppendLine(", @desc_notif");
                 sql.AppendLine(", @cidi_nivel");
@@ -613,7 +614,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.CommandText = sql.ToString();
                     //  cmd.Parameters.AddWithValue("@id_notificacion", obj.id_notificacion);
                     cmd.Parameters.AddWithValue("@tipo_notificacion", id_tipo_notif);
-                    //  cmd.Parameters.AddWithValue("@nro_emision", obj.nro_emision);
+                    cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
                     cmd.Parameters.AddWithValue("@fecha_notif", DateTime.Now);
                     // cmd.Parameters.AddWithValue("@desc_notif", obj.desc_notif);
                     cmd.Parameters.AddWithValue("@cidi_nivel", 2);
@@ -637,26 +638,30 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-        public static void update(int id_notificacion, int estado_notif, string body_notif)
+        public static void update(int id_notificacion, int estado_notif, string body_notif, 
+            int nro_emision, int nro_notif, int nro_proc)
 
         {
             try
             {
-                StringBuilder sql = new StringBuilder();
-                sql.AppendLine("UPDATE  Notificacion_digital SET");
-                sql.AppendLine(" estado_notif=@estado_notif");
-                sql.AppendLine(", body_notif=@body_notif");
-                sql.AppendLine("WHERE id_notificacion= @id_notificacion");
+
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = sql.ToString();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "Sp_Notificador_Actualiza_estado_CiDi";
                     cmd.Parameters.AddWithValue("@id_notificacion", id_notificacion);
                     cmd.Parameters.AddWithValue("@estado_notif", estado_notif);
                     cmd.Parameters.AddWithValue("@body_notif", body_notif);
+
+                    cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
+                    cmd.Parameters.AddWithValue("@nro_notificacion", nro_notif);
+                    cmd.Parameters.AddWithValue("@nro_proc", nro_proc);
+                    cmd.Parameters.AddWithValue("@Notificado_cidi", estado_notif);
+
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
+
                 }
             }
             catch (Exception ex)
