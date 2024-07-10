@@ -290,7 +290,7 @@ namespace WebApiShared.Controllers
                 nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion, Nro_Emision);
                 if (respuesta.Resultado != "OK")
                 {
-                    _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje, Nro_Emision, Nro_Notificacion, nro_procuracion);
+                    _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje, Nro_Emision, Nro_Notificacion, nro_procuracion, tipo_proc);
                     return BadRequest(new { message = respuesta.Resultado });
                 }
                 _Notificacion_digitalService.updateProcuracion(nro_procuracion, tipo_proc, Nro_Notificacion, Nro_Emision, cod_estado_actual);
@@ -414,9 +414,9 @@ namespace WebApiShared.Controllers
                 email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
                 var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
                 nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion, Nro_Emision);
-                if (respuesta.Resultado != "OK")
+                    if (respuesta.Resultado != "OK")
                 {
-                    _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje, Nro_Emision, Nro_Notificacion, nro_procuracion);
+                    _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje, Nro_Emision, Nro_Notificacion, nro_procuracion, tipo_proc);
                     return BadRequest(new { message = "Error al obtener los datos" });
                 }
                 //_Notificacion_digitalService.update(id_notif, 1, email.Mensaje);

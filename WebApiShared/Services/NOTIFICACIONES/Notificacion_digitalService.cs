@@ -114,11 +114,11 @@ namespace WebApiShared.Services.NOTIFICACIONES
             }
         }
         public void update(int id_notificacion, int estado_notif, string body_notif,
-            int nro_emision, int nro_notif, int nro_proc)
+            int nro_emision, int nro_notif, int nro_proc, int tipo_proc)
         {
             try
             {
-                Notificacion_digital.update(id_notificacion, estado_notif, body_notif, nro_emision, nro_notif, nro_proc);
+                Notificacion_digital.update(id_notificacion, estado_notif, body_notif, nro_emision, nro_notif, nro_proc, tipo_proc);
             }
             catch (Exception ex)
             {
