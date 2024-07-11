@@ -217,22 +217,26 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     }
                     if (subsistema == 3)
                     {
-                        cmd.CommandText = @"SELECT distinct    codigo_estado= (  SELECT ep.codigo_estado
-                                        FROM PROCURA_IYC pa
-                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),
-                                        descripcion_estado= (  SELECT ep.descripcion_estado
-                                                                                FROM PROCURA_IYC pa
-                                                                                 JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                                                                AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),
-										 emite_notif_cidi=isnull( (  SELECT ep.emite_notif_cidi
-                                                                                FROM PROCURA_iyc pa
-                                                                                 JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                                                                AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),0)
-                    FROM Det_Notificacion_Estado_Proc_iyc A (nolock)left join indycom V ON V.legajo=A.legajo
-                    left join badec b  on b.NRO_BAD=a.Nro_Badec
-                    WHERE
-                    nro_emision=" + nro_emision.ToString();
+                    //     cmd.CommandText = @"SELECT distinct    codigo_estado= (  SELECT ep.codigo_estado
+                    //                     FROM PROCURA_IYC pa
+                    //                      JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                    //                     AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),
+                    //                     descripcion_estado= (  SELECT ep.descripcion_estado
+                    //                                                             FROM PROCURA_IYC pa
+                    //                                                              JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                    //                                                             AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),
+					// 					 emite_notif_cidi=isnull( (  SELECT ep.emite_notif_cidi
+                    //                                                             FROM PROCURA_iyc pa
+                    //                                                              JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                    //                                                             AND pa.nro_procuracion=a.Nro_Procuracion AND a.legajo=pa.legajo),0)
+                    // FROM Det_Notificacion_Estado_Proc_iyc A (nolock)left join indycom V ON V.legajo=A.legajo
+                    // left join badec b  on b.NRO_BAD=a.Nro_Badec
+                    // WHERE
+                    // nro_emision=" + nro_emision.ToString();
+                         cmd.CommandText = @"SELECT DISTINCT * FROM ESTADOS_PROCURACION
+                                            WHERE codigo_estado IN (
+	                                        SELECT Codigo_estado_actual FROM  DET_NOTIFICACION_IYC
+	                                        WHERE nro_emision=@nro_emision)";
 
                     }
                     if (subsistema == 4)
