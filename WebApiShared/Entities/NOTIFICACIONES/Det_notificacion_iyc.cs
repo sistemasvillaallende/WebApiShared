@@ -36,7 +36,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         public bool TieneHonorarios { get; set; }
         public Int16 Tipo_descuento { get; set; }
         public Int16 Cod_formulario { get; set; }
-        public int Codigo_estado_actual { get; set; }
+        public Int16 Codigo_estado_actual { get; set; }
         public Int16 paraimprimir { get; set; }
         public Int16 CedulonSi { get; set; }
         public int Nro_cedulon { get; set; }
@@ -51,7 +51,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         public int nro_secuencia { get; set; }
         public int nro_orden { get; set; }
         public string cuit { get; set; }
-        public int notificado_cidi { get; set; }
+        public Int16 notificado_cidi { get; set; }
         public string cuit_valido { get; set; }
         public string estado_actual { get; set; }
 
@@ -97,7 +97,6 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             nro_orden = 0;            
             notificado_cidi = 0;
             cuit = string.Empty;
-            notificado_cidi = 0;
             cuit_valido = string.Empty;
             estado_actual = string.Empty;
         }
@@ -123,7 +122,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 int Nro_proc = dr.GetOrdinal("Nro_proc");
                 //int Fecha_vencimiento = dr.GetOrdinal("Fecha_vencimiento");
                 //int Periodo = dr.GetOrdinal("Periodo");
-                int Debe = dr.GetOrdinal("Debe");
+                //int Debe = dr.GetOrdinal("Debe");
                 //int Nro_plan = dr.GetOrdinal("Nro_plan");
                 int Vencimiento = dr.GetOrdinal("Vencimiento");
                 //int Cod_tipo_procuracion = dr.GetOrdinal("Cod_tipo_procuracion");
@@ -139,16 +138,16 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 int Barcode39 = dr.GetOrdinal("Barcode39");
                 int Barcodeint25 = dr.GetOrdinal("Barcodeint25");
                 //int pagado = dr.GetOrdinal("pagado");
-                int monto_original = dr.GetOrdinal("monto_original");
-                int interes = dr.GetOrdinal("interes");
-                int descuento = dr.GetOrdinal("descuento");
-                int importe_pagar = dr.GetOrdinal("importe_pagar");
+                //int monto_original = dr.GetOrdinal("monto_original");
+                //int interes = dr.GetOrdinal("interes");
+                //int descuento = dr.GetOrdinal("descuento");
+                //int importe_pagar = dr.GetOrdinal("importe_pagar");
                 //int fecha_baja_real = dr.GetOrdinal("fecha_baja_real");
                 //int nro_secuencia = dr.GetOrdinal("nro_secuencia");
                 //int nro_orden = dr.GetOrdinal("nro_orden");                
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
                 int cuit = dr.GetOrdinal("cuit");
-                int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
+                //int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
                 int estado_actual = dr.GetOrdinal("estado_actual");
                 int cuit_valido = dr.GetOrdinal("cuit_valido");
 
@@ -170,7 +169,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(Nro_proc)) { obj.Nro_proc = dr.GetInt32(Nro_proc); }
                     //if (!dr.IsDBNull(Fecha_vencimiento)) { obj.Fecha_vencimiento = dr.GetDateTime(Fecha_vencimiento); }
                     //if (!dr.IsDBNull(Periodo)) { obj.Periodo = dr.GetString(Periodo); }
-                    if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetInt32(Debe); }
+                    //if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetInt32(Debe); }
                     //if (!dr.IsDBNull(Nro_plan)) { obj.Nro_plan = dr.GetInt32(Nro_plan); }
                     if (!dr.IsDBNull(Vencimiento)) { obj.Vencimiento = dr.GetDateTime(Vencimiento); }
                     //if (!dr.IsDBNull(Cod_tipo_procuracion)) { obj.Cod_tipo_procuracion = dr.GetInt16(Cod_tipo_procuracion); }
@@ -179,17 +178,17 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     //if (!dr.IsDBNull(TieneHonorarios)) { obj.TieneHonorarios = dr.GetBoolean(TieneHonorarios); }
                     //if (!dr.IsDBNull(Tipo_descuento)) { obj.Tipo_descuento = dr.GetInt16(Tipo_descuento); }
                     //if (!dr.IsDBNull(Cod_formulario)) { obj.Cod_formulario = dr.GetInt16(Cod_formulario); }
-                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt32(Codigo_estado_actual); }
+                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = Convert.ToInt16(dr.GetInt32(Codigo_estado_actual)); }
                     //if (!dr.IsDBNull(paraimprimir)) { obj.paraimprimir = dr.GetInt16(paraimprimir); }
                     //if (!dr.IsDBNull(CedulonSi)) { obj.CedulonSi = dr.GetInt16(CedulonSi); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
                     if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
                     if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
                     //if (!dr.IsDBNull(pagado)) { obj.pagado = dr.GetInt16(pagado); }
-                    if (!dr.IsDBNull(monto_original)) { obj.monto_original = dr.GetInt32(monto_original); }
-                    if (!dr.IsDBNull(interes)) { obj.interes = dr.GetInt32(interes); }
-                    if (!dr.IsDBNull(descuento)) { obj.descuento = dr.GetInt32(descuento); }
-                    if (!dr.IsDBNull(importe_pagar)) { obj.importe_pagar = dr.GetInt32(importe_pagar); }
+                    //if (!dr.IsDBNull(monto_original)) { obj.monto_original = dr.GetInt32(monto_original); }
+                    //if (!dr.IsDBNull(interes)) { obj.interes = dr.GetInt32(interes); }
+                    //if (!dr.IsDBNull(descuento)) { obj.descuento = dr.GetInt32(descuento); }
+                    //if (!dr.IsDBNull(importe_pagar)) { obj.importe_pagar = dr.GetInt32(importe_pagar); }
                     //if (!dr.IsDBNull(fecha_baja_real)) { obj.fecha_baja_real = dr.GetDateTime(fecha_baja_real); }
                     //if (!dr.IsDBNull(nro_secuencia)) { obj.nro_secuencia = dr.GetInt32(nro_secuencia); }
                     //if (!dr.IsDBNull(nro_orden)) { obj.nro_orden = dr.GetInt32(nro_orden); }                    

@@ -639,7 +639,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             }
         }
         public static void update(int id_notificacion, int estado_notif, string body_notif, 
-            int nro_emision, int nro_notif, int nro_proc, int tipo_proc)
+            int nro_emision, int nro_notif, int nro_proc, int tipo_proc, int masivo_o_nuevo)
 
         {
             try
@@ -659,7 +659,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.Parameters.AddWithValue("@nro_proc", nro_proc);
                     cmd.Parameters.AddWithValue("@Notificado_cidi", estado_notif);
                     cmd.Parameters.AddWithValue("@tipo_proc", tipo_proc);
-
+                    cmd.Parameters.AddWithValue("@masivo_o_nuevo", masivo_o_nuevo);
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
 

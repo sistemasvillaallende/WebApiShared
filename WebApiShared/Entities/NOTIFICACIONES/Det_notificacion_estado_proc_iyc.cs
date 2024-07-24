@@ -375,7 +375,42 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw;
             }
         }
+        public static Det_notificacion_estado_proc_iyc getByPkNuevas(int nro_emision, int nro_notificacion)
+        {
+            try
+            {
+                string sql = @"
+                    SELECT d.*, d.nro_proc as Nro_Procuracion,
+	                    estado_actual= 
+	                    (SELECT ep.descripcion_estado FROM PROCURA_IYC pa JOIN ESTADOS_PROCURACION ep ON
+	                    ep.codigo_estado=pa.codigo_estado_actual AND pa.nro_procuracion=d.Nro_Proc AND d.legajo=pa.legajo),
+	                    cuit ='',
+	                    cuit_valido='' 
+                    FROM DET_NOTIFICACION_IYC d 
+                    WHERE d.Nro_emision = @Nro_emision
+                    AND d.Nro_notificacion = @Nro_notificacion";
 
+                Det_notificacion_estado_proc_iyc obj = null;
+                using (SqlConnection con = GetConnection())
+                {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql.ToString();
+                    cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
+                    cmd.Parameters.AddWithValue("@nro_notificacion", nro_notificacion);
+                    cmd.Connection.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    List<Det_notificacion_estado_proc_iyc> lst = mapeo(dr);
+                    if (lst.Count != 0)
+                        obj = lst[0];
+                }
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
         public static int insert(Det_notificacion_estado_proc_iyc obj)
         {
             try

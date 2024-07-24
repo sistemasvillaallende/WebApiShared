@@ -9,6 +9,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
     {
         public List<Det_notificacion_estado_proc_iyc> read();
         public Det_notificacion_estado_proc_iyc getByPk(int Nro_Emision, int Nro_Notificacion);
+        public Det_notificacion_estado_proc_iyc getByPkNuevas(int Nro_Emision, int Nro_Notificacion);
         public int insert(Det_notificacion_estado_proc_iyc obj);
         public void update(Det_notificacion_estado_proc_iyc obj);
         public void delete(Det_notificacion_estado_proc_iyc obj);

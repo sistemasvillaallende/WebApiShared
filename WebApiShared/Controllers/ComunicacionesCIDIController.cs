@@ -24,7 +24,7 @@ namespace WebApiShared.Controllers
         private IDet_notificacion_estado_proc_inmService _Det_notificacion_estado_proc_inmService;
         private IDet_notificacion_estado_proc_iycService _Det_notificacion_estado_proc_iycService;
         private IDet_notificacion_autoService _Det_notificacion_autoService;
-
+        private IDet_notificacion_iycService _det_Notificacion_IycService;
         public class ModeloDeDatos
         {
             public string cuit { get; set; }
@@ -58,7 +58,9 @@ namespace WebApiShared.Controllers
             IResoluciones_multasService resoluciones_multasService, IDet_notificacion_estado_proc_autoService det_Notificacion_Estado_Proc_AutoService,
             IDet_notificacion_estado_proc_inmService det_Notificacion_Estado_Proc_InmService,
             IDet_notificacion_estado_proc_iycService det_Notificacion_Estado_Proc_IycService,
-            IDet_notificacion_autoService det_Notificacion_AutoService)
+            IDet_notificacion_autoService det_Notificacion_AutoService,
+            IDet_notificacion_iycService det_Notificacion_IycService)
+
         {
             _ComunicacionesService = ComunicacionesService;
             _Notificacion_digitalService = Notificacion_digitalService;
@@ -67,7 +69,7 @@ namespace WebApiShared.Controllers
             _Det_notificacion_estado_proc_inmService = det_Notificacion_Estado_Proc_InmService;
             _Det_notificacion_estado_proc_iycService = det_Notificacion_Estado_Proc_IycService;
             _Det_notificacion_autoService = det_Notificacion_AutoService;
-
+            _det_Notificacion_IycService = det_Notificacion_IycService;
         }
         [HttpGet]
         public IActionResult Index()
@@ -277,7 +279,7 @@ namespace WebApiShared.Controllers
                 hash = Hash.ToString();
                 Email email = new Email();
                 email.HashCookie = hash;
-                email.Cuil = cuit;
+                email.Cuil = cuit;// "23271734999";
                 email.Asunto = "Procuración administrativa Municipalidad de Villa Allende";
                 email.Mensaje = cuerpo;
                 email.Firma = "Oficina de Recursos Tributarios";
@@ -290,7 +292,7 @@ namespace WebApiShared.Controllers
                 nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion, Nro_Emision);
                 if (respuesta.Resultado != "OK")
                 {
-                    _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje, Nro_Emision, Nro_Notificacion, nro_procuracion, tipo_proc);
+                    _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje, Nro_Emision, Nro_Notificacion, nro_procuracion, tipo_proc, 1);
                     return BadRequest(new { message = respuesta.Resultado });
                 }
                 _Notificacion_digitalService.updateProcuracion(nro_procuracion, tipo_proc, Nro_Notificacion, Nro_Emision, cod_estado_actual);
@@ -344,19 +346,19 @@ namespace WebApiShared.Controllers
             }
             if (tipo_proc == 3)
             {
-                Det_notificacion_estado_proc_iyc objDet = new Det_notificacion_estado_proc_iyc();
-                objDet = _Det_notificacion_estado_proc_iycService.getByPk(Nro_Emision, Nro_Notificacion);
+                Det_notificacion_iyc objDet = new Det_notificacion_iyc();
+                objDet = _det_Notificacion_IycService.getByPk(Nro_Emision, Nro_Notificacion);
                 nombre = objDet.Nombre;
                 legajo = objDet.Legajo;
                 cuerpo = @"<html>                    
                            <body>
                            <p style='font-size: 26px;'><u> " + objeto.tituloReporte + @" </u> </p>""
                            <p> INDUSTRIA Y COMERCIO - MUNICIPALIDAD DE VILLA ALLENDE </p>
-                           <p> Estimado/a: " + objDet.Nombre + @"  titular del Comercio con Legajo: " + objDet.Legajo + @" con procuracion: " + objDet.Nro_Procuracion + @"</p>
+                           <p> Estimado/a: " + objDet.Nombre + @"  titular del Comercio con Legajo: " + objDet.Legajo + @" con procuracion: " + objDet.Nro_proc + @"</p>
                            <p> " + body + @"  </p>";
                 if (tipo_proc == 4)
                 {
-                    cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_Procuracion + "&dominio=" + objDet.Legajo + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
+                    cuerpo = cuerpo + @" <a href='https://vecino.villaallende.gov.ar/PagosOnLine/ProcuracionAuto.aspx?nroProc=" + objDet.Nro_proc + "&dominio=" + objDet.Legajo + @"' style='font-size: 32px;'>CONSULTE DEUDA AQUI</a>";
                 }
                 //if (cod_estado_actual == 76)
                 //{
@@ -414,9 +416,9 @@ namespace WebApiShared.Controllers
                 email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
                 var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
                 nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion, Nro_Emision);
-                    if (respuesta.Resultado != "OK")
+                if (respuesta.Resultado != "OK")
                 {
-                    _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje, Nro_Emision, Nro_Notificacion, nro_procuracion, tipo_proc);
+                    _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje, Nro_Emision, Nro_Notificacion, nro_procuracion, tipo_proc, 2);
                     return BadRequest(new { message = "Error al obtener los datos" });
                 }
                 //_Notificacion_digitalService.update(id_notif, 1, email.Mensaje);
@@ -424,7 +426,7 @@ namespace WebApiShared.Controllers
                     nro_procuracion, tipo_proc, Nro_Notificacion, Nro_Emision, cod_estado_actual);
                 _Notificacion_digitalService.InsertarNuevoEstadoProc(nro_procuracion, tipo_proc, nro_notif, id_usuario, cod_estado_actual);
             }
-                return Ok();//(respuesta);
+            return Ok();//(respuesta);
         }
 
         [HttpPost]
@@ -462,10 +464,10 @@ namespace WebApiShared.Controllers
             id_notif = _Notificacion_digitalService.insertNotif(cuit, email.Asunto, email.Mensaje, 6, 0, 0, 0, 0);
             if (respuesta.Resultado != "OK")
             {
-               // _Notificacion_digitalService.update(id_notif, 0, email.Mensaje, N);
+                // _Notificacion_digitalService.update(id_notif, 0, email.Mensaje, N);
                 return BadRequest(new { message = "Error al obtener los datos" });
             }
-           //_Notificacion_digitalService.update(id_notif, 1, email.Mensaje);
+            //_Notificacion_digitalService.update(id_notif, 1, email.Mensaje);
             return Ok(respuesta);
         }
 
