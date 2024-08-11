@@ -289,7 +289,7 @@ namespace WebApiShared.Controllers
                 email.TimeStamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 email.TokenValue = Config.ObtenerToken_SHA512(email.TimeStamp);
                 var respuesta = _ComunicacionesService.enviarNotificacionCUIT(cuit, email);
-                nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion, Nro_Emision);
+                nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, tipo_proc, id_oficina, id_usuario, 0, nro_procuracion, Nro_Emision);
                 if (respuesta.Resultado != "OK")
                 {
                     _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje, Nro_Emision, Nro_Notificacion, nro_procuracion, tipo_proc, 1);

@@ -102,14 +102,14 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(Fecha_Fin_Estado)) { obj.Fecha_Fin_Estado = dr.GetDateTime(Fecha_Fin_Estado); }
                     if (!dr.IsDBNull(vencimiento)) { obj.vencimiento = dr.GetDateTime(vencimiento); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
-                    obj.Debe = 0; 
+                    obj.Debe = 0;
                     if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
                     if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
-                    obj.Monto_original = 0; 
-                    obj.Interes = 0; 
-                    obj.Descuento = 0; 
-                    obj.Importe_pagar = 0; 
-                    if (!dr.IsDBNull(estado_Actualizado)) { obj.estado_Actualizado =  dr.GetString(estado_Actualizado).Trim(); }
+                    obj.Monto_original = 0;
+                    obj.Interes = 0;
+                    obj.Descuento = 0;
+                    obj.Importe_pagar = 0;
+                    if (!dr.IsDBNull(estado_Actualizado)) { obj.estado_Actualizado = dr.GetString(estado_Actualizado).Trim(); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
                     if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
                     if (!dr.IsDBNull(cuit_valido)) { obj.cuit_valido = dr.GetString(cuit_valido); }
@@ -151,10 +151,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
 	                    0 AS importe_pagar,
 	                    notificado_cidi=isnull( a.Notificado_cidi,0),
 	                    v.cuit,
-	                    CASE
-		                    WHEN vd.cuit IS NULL THEN 'CUIT_NO_VALIDADO'
-		                    ELSE 'CUIT_VALIDADO'
-	                    END AS cuit_valido,
+	                    'CUIT_VALIDADO' AS cuit_valido,
 	                    ep.descripcion_estado AS estado_Actualizado,
 	                    vd.CUIT
                     FROM Det_Notificacion_Estado_Proc_Auto a 
@@ -175,7 +172,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-        public static List<Det_notificacion_estado_proc_auto> ListarDetallexEstado(int nro_emision,int cod_estado)
+        public static List<Det_notificacion_estado_proc_auto> ListarDetallexEstado(int nro_emision, int cod_estado)
         {
             try
             {
@@ -213,10 +210,10 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     FROM Det_Notificacion_Estado_Proc_Auto A (nolock)left join VEHICULOS V ON V.DOMINIO=A.DOMINIO
                     left join badec b  on b.NRO_BAD=a.Nro_Badec
                     WHERE
-                    nro_emision=" + nro_emision.ToString()+ @" AND  (  SELECT ep.codigo_estado
+                    nro_emision=" + nro_emision.ToString() + @" AND  (  SELECT ep.codigo_estado
                     FROM PROCURA_AUTO pa
                      JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                    AND pa.nro_procuracion=a.Nro_Procuracion AND a.Dominio=pa.dominio)="+cod_estado.ToString();
+                    AND pa.nro_procuracion=a.Nro_Procuracion AND a.Dominio=pa.dominio)=" + cod_estado.ToString();
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);
@@ -235,9 +232,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 StringBuilder sql = new StringBuilder();
                 sql.AppendLine("SELECT d.* ,");
                 sql.AppendLine(" estado_Actualizado= (  SELECT ep.descripcion_estado ");
-                sql.AppendLine("        FROM PROCURA_AUTO pa  ");                                
+                sql.AppendLine("        FROM PROCURA_AUTO pa  ");
                 sql.AppendLine("        JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual ");
-                sql.AppendLine("      AND pa.nro_procuracion=d.Nro_Procuracion AND d.Dominio=pa.dominio),cuit ='',cuit_valido='' ");   
+                sql.AppendLine("      AND pa.nro_procuracion=d.Nro_Procuracion AND d.Dominio=pa.dominio),cuit ='',cuit_valido='' ");
                 sql.AppendLine(" FROM Det_notificacion_estado_proc_auto  d ");
                 sql.AppendLine(" left join badec b  on b.NRO_BAD = d.Nro_Badec ");
                 sql.AppendLine(" WHERE d.Nro_Emision = @Nro_Emision");
