@@ -130,37 +130,37 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @" 
                     SELECT
-	                    a.Nro_Emision,
-	                    a.Nro_Notificacion,
-	                    a.dominio,
-	                    a.nro_badec,
-	                    a.nombre, 
-	                    a.Nro_Procuracion,
-	                    a.Fecha_Inicio_Estado,
-	                    a.Fecha_Fin_Estado,
-	                    0 AS debe,
-	                    a.Vencimiento,
-	                    ep.codigo_estado AS Codigo_estado_actual,
+                        a.Nro_Emision,
+                        a.Nro_Notificacion,
+                        a.dominio,
+                        a.nro_badec,
+                        a.nombre, 
+                        a.Nro_Procuracion,
+                        a.Fecha_Inicio_Estado,
+                        a.Fecha_Fin_Estado,
+                        0 AS debe,
+                        a.Vencimiento,
+                        a.Estado_Actual AS Codigo_estado_actual,
                         ep.descripcion_estado AS estado_Actual,
-	                    a.Nro_cedulon,
-	                    a.Barcode39,
-	                    a.Barcodeint25,
-	                    0 AS monto_original,
-	                    0 AS interes,
-	                    0 AS descuento,
-	                    0 AS importe_pagar,
-	                    notificado_cidi=isnull( a.Notificado_cidi,0),
-	                    v.cuit,
-	                    'CUIT_VALIDADO' AS cuit_valido,
-	                    ep.descripcion_estado AS estado_Actualizado,
-	                    vd.CUIT
+                        a.Nro_cedulon,
+                        a.Barcode39,
+                        a.Barcodeint25,
+                        0 AS monto_original,
+                        0 AS interes,
+                        0 AS descuento,
+                        0 AS importe_pagar,
+                        notificado_cidi=isnull( a.Notificado_cidi,0),
+                        v.cuit,
+                        'CUIT_VALIDADO' AS cuit_valido,
+                        ep.descripcion_estado AS estado_Actualizado,
+                        vd.CUIT
                     FROM Det_Notificacion_Estado_Proc_Auto a 
-	                    INNER JOIN NOTIFICACION_ESTADO_PROC_AUTO B ON a.Nro_Emision=B.Nro_Emision
-	                    LEFT JOIN VEHICULOS V ON V.DOMINIO=a.Dominio
-	                    INNER JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=B.Cod_Estado_Procuracion
-	                    LEFT JOIN VECINO_DIGITAL vd ON vd.CUIT = V.CUIT
+                        INNER JOIN NOTIFICACION_ESTADO_PROC_AUTO B ON a.Nro_Emision=B.Nro_Emision
+                        LEFT JOIN VEHICULOS V ON V.DOMINIO=a.Dominio
+                        INNER JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=B.Cod_Estado_Procuracion
+                        LEFT JOIN VECINO_DIGITAL vd ON vd.CUIT = V.CUIT
                     WHERE
-	                    A.nro_emision=" + nro_emision.ToString();
+                        A.nro_emision=173" + nro_emision.ToString();
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);
