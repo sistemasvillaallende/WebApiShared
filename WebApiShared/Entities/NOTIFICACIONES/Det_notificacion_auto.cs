@@ -168,7 +168,7 @@ namespace SIIMVA_WEB
                     if (!dr.IsDBNull(Nro_proc)) { obj.Nro_proc = dr.GetInt32(Nro_proc); }
                   //  if (!dr.IsDBNull(Fecha_vencimiento)) { obj.Fecha_vencimiento = dr.GetDateTime(Fecha_vencimiento); }
                   //  if (!dr.IsDBNull(Periodo)) { obj.Periodo = dr.GetString(Periodo); }
-                    if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetInt32(Debe); }
+                    //if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetDecimal(Debe); }
                   //  if (!dr.IsDBNull(Nro_plan)) { obj.Nro_plan = dr.GetInt32(Nro_plan); }
                     if (!dr.IsDBNull(Vencimiento)) { obj.Vencimiento = dr.GetDateTime(Vencimiento); }
                     //if (!dr.IsDBNull(Cod_tipo_procuracion)) { obj.Cod_tipo_procuracion = dr.GetInt16(Cod_tipo_procuracion); }
@@ -184,10 +184,10 @@ namespace SIIMVA_WEB
                     if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
                     if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
                //     if (!dr.IsDBNull(pagado)) { obj.pagado = dr.GetInt16(pagado); }
-                    if (!dr.IsDBNull(monto_original)) { obj.monto_original = dr.GetInt32(monto_original); }
-                    if (!dr.IsDBNull(interes)) { obj.interes = dr.GetInt32(interes); }
-                    if (!dr.IsDBNull(descuento)) { obj.descuento = dr.GetInt32(descuento); }
-                    if (!dr.IsDBNull(importe_pagar)) { obj.importe_pagar = dr.GetInt32(importe_pagar); }
+                    ////if (!dr.IsDBNull(monto_original)) { obj.monto_original = dr.GetDecimal(monto_original); }
+                    ////if (!dr.IsDBNull(interes)) { obj.interes = dr.GetDecimal(interes); }
+                    ////if (!dr.IsDBNull(descuento)) { obj.descuento = dr.GetDecimal(descuento); }
+                    ////if (!dr.IsDBNull(importe_pagar)) { obj.importe_pagar = dr.GetDecimal(importe_pagar); }
                  //   if (!dr.IsDBNull(Fecha_baja_real)) { obj.Fecha_baja_real = dr.GetDateTime(Fecha_baja_real); }
                   //  if (!dr.IsDBNull(Nro_secuencia)) { obj.Nro_secuencia = dr.GetInt32(Nro_secuencia); }
                   //  if (!dr.IsDBNull(Nro_orden)) { obj.Nro_orden = dr.GetInt32(Nro_orden); }

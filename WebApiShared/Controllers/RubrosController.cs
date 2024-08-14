@@ -36,8 +36,26 @@ namespace WebApiShared.Controllers
             }
             return Ok(Rubros);
         }
-
-
+        [HttpGet]
+        public IActionResult read()
+        {
+            var Rubros = _RubrosService.read();
+            if (Rubros == null)
+            {
+                return BadRequest(new { message = "Error al obtener los datos" });
+            }
+            return Ok(Rubros);
+        }
+        [HttpGet]
+        public IActionResult getByComercio(int leg)
+        {
+            var Rubros = _RubrosService.getByComercio(leg);
+            if (Rubros == null)
+            {
+                return BadRequest(new { message = "Error al obtener los datos" });
+            }
+            return Ok(Rubros);
+        }
 
 
 

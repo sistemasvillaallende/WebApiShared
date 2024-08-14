@@ -10,11 +10,11 @@ namespace WebApiShared.Services.NOTIFICACIONES
 {
     public class Template_notificacionService: ITemplate_notificacionService
     {
-        public List<Template_notificacion> ObtenerTextoReporte(int idTemplate)
+        public List<Template_notificacion> ObtenerTextoReporte(int idTemplate, int subsistema)
         {
             try
             {
-                return Template_notificacion.ObtenerTextoReporte(idTemplate);
+                return Template_notificacion.ObtenerTextoReporte(idTemplate, subsistema);
             }
             catch (Exception ex)
             {

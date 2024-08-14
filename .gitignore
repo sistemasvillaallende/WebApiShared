@@ -82,3 +82,10 @@ WebApiShared/bin/Release/net6.0/System.Data.SqlClient.dll
 /.vs
 .vs/WebApiShared/v17/.futdcache.v2
 /.vs
+/.vs
+WebApiShared/bin/Debug/net6.0/WebApiShared.pdb
+WebApiShared/WebApiShared.csproj.user
+WebApiShared/WebApiShared.csproj.user
+.vs/WebApiShared/DesignTimeBuild/.dtbcache.v2
+WebApiShared/obj/Debug/net6.0/WebApiShared.AssemblyInfo.cs
+*.dll

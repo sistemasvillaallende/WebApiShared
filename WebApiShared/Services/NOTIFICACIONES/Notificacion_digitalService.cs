@@ -113,11 +113,12 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
-        public void update(int id_notificacion, int estado_notif, string body_notif)
+        public void update(int id_notificacion, int estado_notif, string body_notif,
+            int nro_emision, int nro_notif, int nro_proc, int tipo_proc, int masivo_o_nuevo)
         {
             try
             {
-                Notificacion_digital.update(id_notificacion, estado_notif, body_notif);
+                Notificacion_digital.update(id_notificacion, estado_notif, body_notif, nro_emision, nro_notif, nro_proc, tipo_proc, masivo_o_nuevo);
             }
             catch (Exception ex)
             {
@@ -182,11 +183,11 @@ namespace WebApiShared.Services.NOTIFICACIONES
             }
         }
 
-        public int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion)
+        public int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion, int nro_emision)
         {
             try
             {
-                return Notificacion_digital.insertNotifProc(cuil, subject, body, id_tipo_notif, id_oficina, id_usuario, cod_estado, nro_procuracion);
+                return Notificacion_digital.insertNotifProc(cuil, subject, body, id_tipo_notif, id_oficina, id_usuario, cod_estado, nro_procuracion, nro_emision);
             }
             catch (Exception ex)
             {
@@ -239,8 +240,8 @@ namespace WebApiShared.Services.NOTIFICACIONES
                     //por las dudas si falla lo volvemos a 0
                     //no entiendo un choto pq tenia fijo el 0.
                     //Si dsp anda bien borro todo lo comentado!
-                    nro_notificacion = Notificacion_digital.insertNotifProc(cuil, subject, body, 1, id_oficina, id_usuario, cod_estado_inicial, nro_procuracion);
-                    Notificacion_digital.update(nro_notificacion, 0, body);
+                    nro_notificacion = Notificacion_digital.insertNotifProc(cuil, subject, body, 1, id_oficina, id_usuario, cod_estado_inicial, nro_procuracion, nro_emision);
+                    //Notificacion_digital.update(nro_notificacion, 0, body);
                     //_Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);
                     //Falta reemplazar el metodo de arriba
                     //_Notificacion_digitalService.updateProcuracion(nro_procuracion, tipo_proc, Nro_Notificacion, Nro_Emision, cod_estado_actual);
@@ -257,8 +258,10 @@ namespace WebApiShared.Services.NOTIFICACIONES
             }
         }
 
-
-
+        public int insertNotifProc(string cuil, string subject, string body, int id_tipo_notif, int id_oficina, int id_usuario, int cod_estado, int nro_procuracion)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

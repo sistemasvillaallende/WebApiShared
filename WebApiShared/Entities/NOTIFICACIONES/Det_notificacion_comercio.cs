@@ -236,38 +236,39 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
+
                     cmd.CommandText = @"SELECT
-                      a.Nro_Emision,a.Nro_Notificacion,a.nro_proc,a.dominio,a.nro_badec,
-                      a.nombre, a.vencimiento,a.Nro_cedulon,codigo_estado_actual= (  SELECT ep.codigo_estado
-                                        FROM PROCURA_AUTO pa
-                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
-                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
-                      Debe=((SELECT SUM(DEBE)
-		   	                    FROM CTASCTES_AUTOMOTORES C
-			                    JOIN DEUDAS_PROC_AUTO D ON
-				                    D.nro_procuracion=a.nro_proc AND
-                                    D.nro_transaccion=C.nro_transaccion
-                                     )) -
-				                       (SELECT SUM(haber)
-				                        FROM CTASCTES_AUTOMOTORES C
-				                        JOIN DEUDAS_PROC_AUTO D ON
-						                    D.nro_procuracion=a.nro_proc AND
-						                    D.nro_transaccion=C.nro_transaccion) ,
-                       a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
-                       estado_actual= (  SELECT ep.descripcion_estado
-                                        FROM PROCURA_AUTO pa
-                                         JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                        AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
-                                       ,notificado_cidi=isnull( a.Notificado_cidi,0),
-                         case
-				          when v.cuit ='' then 'CUIT_NO_VALIDADO'
-				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
-				          WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
-				          END AS cuit_valido
-                    FROM DET_NOTIFICACION_AUTO A (nolock)left join VEHICULOS V ON V.DOMINIO=A.DOMINIO        
-                    WHERE
-                    nro_emision= @Nro_emision";
+                            a.Nro_Emision,a.Nro_Notificacion,a.nro_proc,a.dominio,a.nro_badec,
+                            a.nombre, a.vencimiento,a.Nro_cedulon,codigo_estado_actual= (  SELECT ep.codigo_estado
+                                              FROM PROCURA_AUTO pa
+                                               JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                              AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
+                                             ,notificado_cidi=isnull( a.Notificado_cidi,0),
+                            Debe=((SELECT SUM(DEBE)
+                                FROM CTASCTES_AUTOMOTORES C
+                             JOIN DEUDAS_PROC_AUTO D ON
+                              D.nro_procuracion=a.nro_proc AND
+                                          D.nro_transaccion=C.nro_transaccion
+                                           )) -
+                                 (SELECT SUM(haber)
+                                  FROM CTASCTES_AUTOMOTORES C
+                                  JOIN DEUDAS_PROC_AUTO D ON
+                                D.nro_procuracion=a.nro_proc AND
+                                D.nro_transaccion=C.nro_transaccion) ,
+                             a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
+                             estado_actual= (  SELECT ep.descripcion_estado
+                                              FROM PROCURA_AUTO pa
+                                               JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
+                                              AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
+                                             ,notificado_cidi=isnull( a.Notificado_cidi,0),
+                               case
+                    when v.cuit ='' then 'CUIT_NO_VALIDADO'
+                    WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
+                    WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
+                    END AS cuit_valido
+                          FROM DET_NOTIFICACION_AUTO A (nolock)left join VEHICULOS V ON V.DOMINIO=A.DOMINIO        
+                          WHERE
+                          nro_emision= @Nro_emision";
                     cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
                     cmd.Connection.Open();
 
