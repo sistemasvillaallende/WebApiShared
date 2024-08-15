@@ -7,13 +7,12 @@ namespace WebApiShared.Services
 {
     public interface IRubrosService
     {
-        public List<Combo> read();
+        public List<Rubros> read();
         public List<Combo> readBajoRiesgo();
         public Rubros getByPk(int cod_rubro, int anio);
         public int insert(Rubros obj);
         public void update(Rubros obj);
         public void delete(Rubros obj);
-        public List<Combo> getByComercio(int leg);
     }
 }
 

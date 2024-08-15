@@ -17,9 +17,9 @@ namespace WebApiShared.Controllers
             _Template_notificacionService = Template_notificacionService;
         }
         [HttpGet]
-        public IActionResult ObtenerTextoReporte(int idTemplate, int subsistema)
+        public IActionResult ObtenerTextoReporte(int idTemplate)
         {
-            var req = _Template_notificacionService.ObtenerTextoReporte(idTemplate, subsistema);
+            var req = _Template_notificacionService.ObtenerTextoReporte(idTemplate);
             return Ok(req);
         }
 

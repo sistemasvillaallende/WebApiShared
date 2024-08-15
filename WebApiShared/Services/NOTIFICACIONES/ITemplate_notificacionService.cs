@@ -7,7 +7,7 @@ namespace WebApiShared.Services.NOTIFICACIONES
 {
     public interface ITemplate_notificacionService
     {
-        public List<Template_notificacion> ObtenerTextoReporte(int idTemplate, int idSubsistema);
+        public List<Template_notificacion> ObtenerTextoReporte(int idTemplate);
         public List<Template_notificacion> ObtenerTextoRebeldia(int nro_expediente);
     }
 }

@@ -95,57 +95,19 @@ namespace WebApiShared.Entities
             return lst;
         }
 
-        public static List<Combo> read()
+        public static List<Rubros> read()
         {
             try
             {
-                List<Combo> lst = new List<Combo>();
+                List<Rubros> lst = new List<Rubros>();
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText =
-                    @"SELECT *FROM SIIMVA.dbo.RUBROS
-                        WHERE anio=YEAR(GETDATE()) AND activo=1 AND periodo_desde NOT LIKE ('%71%') 
-                        AND periodo_hasta NOT LIKE ('%71%') AND
-                        GETDATE() BETWEEN 
-                        CONVERT(DATE, '01-' + SUBSTRING(periodo_desde, 6, 2) + '-' + SUBSTRING(periodo_hasta, 1, 4))
-                        AND CONVERT(DATE, '01-' + SUBSTRING(periodo_hasta, 6, 2) + '-' + SUBSTRING(periodo_hasta, 1, 4))
-                        ORDER BY concepto";
+                    cmd.CommandText = "SELECT *FROM Rubros";
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
-                    lst = mapeoReducido(dr);
-                    return lst;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public static List<Combo> getByComercio(int leg)
-        {
-            try
-            {
-                List<Combo> lst = new List<Combo>();
-                using (SqlConnection con = GetConnection())
-                {
-                    SqlCommand cmd = con.CreateCommand();
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText =
-                @"SELECT *FROM SIIMVA.dbo.RUBROS A
-                    INNER JOIN SIIMVA.dbo.RUBROS_X_IYC B ON B.cod_rubro = A.cod_rubro
-                    INNER JOIN SIIMVA.dbo.INDYCOM C ON B.legajo=C.legajo 
-                    WHERE anio=YEAR(GETDATE()) AND activo=1 AND C.legajo = @legago AND periodo_desde 
-                    NOT LIKE ('%71%') AND periodo_hasta NOT LIKE ('%71%') AND
-                    GETDATE() BETWEEN CONVERT(DATE, '01-' + SUBSTRING(periodo_desde, 6, 2) + '-' + SUBSTRING(periodo_hasta, 1, 4))
-                    AND CONVERT(DATE, '01-' + SUBSTRING(periodo_hasta, 6, 2) + '-' + SUBSTRING(periodo_hasta, 1, 4))
-                    ORDER BY concepto";
-
-                    cmd.Parameters.AddWithValue("@legago", leg);
-                    cmd.Connection.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-                    lst = mapeoReducido(dr);
+                    lst = mapeo(dr);
                     return lst;
                 }
             }

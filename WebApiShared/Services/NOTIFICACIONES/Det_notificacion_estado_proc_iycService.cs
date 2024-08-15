@@ -87,18 +87,6 @@ namespace WebApiShared.Services.NOTIFICACIONES
                 throw ex;
             }
         }
-
-        public Det_notificacion_estado_proc_iyc getByPkNuevas(int Nro_Emision, int Nro_Notificacion)
-        {
-            try
-            {
-                return Det_notificacion_estado_proc_iyc.getByPkNuevas(Nro_Emision, Nro_Notificacion);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
     }
 }
 

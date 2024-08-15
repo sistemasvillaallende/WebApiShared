@@ -36,7 +36,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             return lst;
         }
 
-        public static List<Template_notificacion> ObtenerTextoReporte(int idTemplate, int subsistema)
+        public static List<Template_notificacion> ObtenerTextoReporte(int idTemplate)
         {
             try
             {
@@ -45,23 +45,17 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = @"
-                            SELECT 
-	                            idTemplate=trcp.Id_Template,
-	                            tituloReporte=trcp.Titulo_Reporte, 
-	                            Reporte=trdp.Detalle             
-                            FROM TEMPLATE_REPORTE_CABECERA_PROC trcp              
-	                            LEFT JOIN TEMPLATE_REPORTE_DETALLE_PROC trdp ON trdp.Id_Template = trcp.Id_Template     
-	                            LEFT JOIN TEMPLATE_PLANTILLA_DETALLE tpd ON tpd.Id_parametro = trdp.Id_parametro        
-	                            LEFT JOIN TEMPLATE_TIPO_PARAM ttp ON ttp.Id_parametro = tpd.Id_parametro                
-                            WHERE trcp.Cod_estado_proc= @idTemplate AND trcp.es_web=1  AND trcp.Subsistema=@subsistema                    
-	                            AND trdp.Nro_version= 
-		                            (SELECT MAX(trdp2.Nro_version)                                  
-		                            FROM TEMPLATE_REPORTE_DETALLE_PROC trdp2                       
-		                            WHERE trdp2.Id_template=trdp.Id_template  AND trdp2.Activo=1)
-	                            AND trdp.Id_parametro=3";
+                    cmd.CommandText = @"SELECT idTemplate=trcp.Id_Template,tituloReporte=trcp.Titulo_Reporte, Reporte=  trdp.Detalle             
+                                              FROM TEMPLATE_REPORTE_CABECERA_PROC trcp              
+                                              LEFT JOIN TEMPLATE_REPORTE_DETALLE_PROC trdp ON trdp.Id_Template = trcp.Id_Template     
+                                              LEFT JOIN TEMPLATE_PLANTILLA_DETALLE tpd ON tpd.Id_parametro = trdp.Id_parametro        
+                                              LEFT JOIN TEMPLATE_TIPO_PARAM ttp ON ttp.Id_parametro = tpd.Id_parametro                
+                                        WHERE trcp.Cod_estado_proc= @idTemplate   and trcp.es_web=1                     
+                                        AND trdp.Nro_version= (  SELECT MAX(trdp2.Nro_version)                                  
+                                                                 FROM TEMPLATE_REPORTE_DETALLE_PROC trdp2                       
+                                                                 WHERE trdp2.Id_template=trdp.Id_template  AND trdp2.Activo=1 )
+						                and trdp.Id_parametro=3";
                     cmd.Parameters.AddWithValue("@idTemplate", idTemplate);
-                    cmd.Parameters.AddWithValue("@subsistema", subsistema);
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);

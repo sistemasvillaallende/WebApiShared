@@ -12,17 +12,6 @@ namespace WebApiShared.Services
 {
     public class RubrosService : IRubrosService
     {
-        public List<Combo> getByComercio(int leg)
-        {
-            try
-            {
-                return Rubros.getByComercio(leg);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public Rubros getByPk(int cod_rubro, int anio)
         {
             try
@@ -34,11 +23,11 @@ namespace WebApiShared.Services
                 throw ex;
             }
         }
-        public List<Combo> read()
+        public List<Rubros> read()
         {
             try
             {
-                return Entities.Rubros.read();
+                return Rubros.read();
             }
             catch (Exception ex)
             {
