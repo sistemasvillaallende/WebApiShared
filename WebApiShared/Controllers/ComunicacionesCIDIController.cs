@@ -435,7 +435,7 @@ namespace WebApiShared.Controllers
                 nro_notif = _Notificacion_digitalService.insertNotifProc(cuit, email.Asunto, email.Mensaje, 1, id_oficina, id_usuario, 0, nro_procuracion);
                 if (respuesta.Resultado != "OK")
                 {
-                    _Notificacion_digitalService.update(nro_notif, 0, email.Mensaje);
+                    _Notificacion_digitalService.update(nro_notif, 2, email.Mensaje);
                     return BadRequest(new { message = "Error al obtener los datos" });
                 }
                 _Notificacion_digitalService.update(nro_notif, 1, email.Mensaje);

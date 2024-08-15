@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {}
+    "D:\\Muni\\Dev\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {}
   },
   "projects": {
-    "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {
+    "D:\\Muni\\Dev\\WebApiShared\\WebApiShared\\WebApiShared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
+        "projectUniqueName": "D:\\Muni\\Dev\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
         "projectName": "WebApiShared",
-        "projectPath": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
-        "packagesPath": "C:\\Users\\mandres\\.nuget\\packages\\",
-        "outputPath": "D:\\Dev\\NET2022\\WebApiShared\\WebApiShared\\obj\\",
+        "projectPath": "D:\\Muni\\Dev\\WebApiShared\\WebApiShared\\WebApiShared.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "D:\\Muni\\Dev\\WebApiShared\\WebApiShared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mandres\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -102,7 +102,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
