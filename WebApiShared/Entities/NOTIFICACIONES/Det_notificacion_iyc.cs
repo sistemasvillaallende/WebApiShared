@@ -111,43 +111,15 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 int Nro_notificacion = dr.GetOrdinal("Nro_notificacion");
                 int Legajo = dr.GetOrdinal("Legajo");
                 int Nro_badec = dr.GetOrdinal("Nro_badec");
-                int Nombre = dr.GetOrdinal("Nombre");               
-                //int Nom_barrio_dom_esp = dr.GetOrdinal("Nom_barrio_dom_esp");
-                //int Nom_calle_dom_esp = dr.GetOrdinal("Nom_calle_dom_esp");
-                //int Nro_dom_esp = dr.GetOrdinal("Nro_dom_esp");
-                //int Ciudad_dom_esp = dr.GetOrdinal("Ciudad_dom_esp");
-                //int Provincia_dom_esp = dr.GetOrdinal("Provincia_dom_esp");
-                //int Pais_dom_esp = dr.GetOrdinal("Pais_dom_esp");
-                //int Cod_postal_esp = dr.GetOrdinal("Cod_postal_esp");             
+                int Nombre = dr.GetOrdinal("Nombre");                           
                 int Nro_proc = dr.GetOrdinal("Nro_proc");
-                //int Fecha_vencimiento = dr.GetOrdinal("Fecha_vencimiento");
-                //int Periodo = dr.GetOrdinal("Periodo");
-                //int Debe = dr.GetOrdinal("Debe");
-                //int Nro_plan = dr.GetOrdinal("Nro_plan");
                 int Vencimiento = dr.GetOrdinal("Vencimiento");
-                //int Cod_tipo_procuracion = dr.GetOrdinal("Cod_tipo_procuracion");
-                //int Bloqueado = dr.GetOrdinal("Bloqueado");
-                //int Codigo_procurador = dr.GetOrdinal("Codigo_procurador");
-                //int TieneHonorarios = dr.GetOrdinal("TieneHonorarios");
-                //int Tipo_descuento = dr.GetOrdinal("Tipo_descuento");
-                //int Cod_formulario = dr.GetOrdinal("Cod_formulario");
                 int Codigo_estado_actual = dr.GetOrdinal("Codigo_estado_actual");
-                //int paraimprimir = dr.GetOrdinal("paraimprimir");
-                //int CedulonSi = dr.GetOrdinal("CedulonSi");
                 int Nro_cedulon = dr.GetOrdinal("Nro_cedulon");
                 int Barcode39 = dr.GetOrdinal("Barcode39");
-                int Barcodeint25 = dr.GetOrdinal("Barcodeint25");
-                //int pagado = dr.GetOrdinal("pagado");
-                //int monto_original = dr.GetOrdinal("monto_original");
-                //int interes = dr.GetOrdinal("interes");
-                //int descuento = dr.GetOrdinal("descuento");
-                //int importe_pagar = dr.GetOrdinal("importe_pagar");
-                //int fecha_baja_real = dr.GetOrdinal("fecha_baja_real");
-                //int nro_secuencia = dr.GetOrdinal("nro_secuencia");
-                //int nro_orden = dr.GetOrdinal("nro_orden");                
+                int Barcodeint25 = dr.GetOrdinal("Barcodeint25");            
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
-                int cuit = dr.GetOrdinal("cuit");
-                //int Notificado_cidi = dr.GetOrdinal("Notificado_cidi");
+                int cuit = dr.GetOrdinal("nro_cuit");
                 int estado_actual = dr.GetOrdinal("estado_actual");
                 int cuit_valido = dr.GetOrdinal("cuit_valido");
 
@@ -159,39 +131,12 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(Legajo)) { obj.Legajo = dr.GetInt32(Legajo); }
                     if (!dr.IsDBNull(Nro_badec)) { obj.Nro_badec = dr.GetInt32(Nro_badec); }
                     if (!dr.IsDBNull(Nombre)) { obj.Nombre = dr.GetString(Nombre); }
-                    //if (!dr.IsDBNull(Nom_barrio_dom_esp)) { obj.Nom_barrio_dom_esp = dr.GetString(Nom_barrio_dom_esp); }
-                    //if (!dr.IsDBNull(Nom_calle_dom_esp)) { obj.Nom_calle_dom_esp = dr.GetString(Nom_calle_dom_esp); }
-                    //if (!dr.IsDBNull(Nro_dom_esp)) { obj.Nro_dom_esp = dr.GetString(Nro_dom_esp); }
-                    //if (!dr.IsDBNull(Ciudad_dom_esp)) { obj.Ciudad_dom_esp = dr.GetString(Ciudad_dom_esp); }
-                    //if (!dr.IsDBNull(Provincia_dom_esp)) { obj.Provincia_dom_esp = dr.GetString(Provincia_dom_esp); }
-                    //if (!dr.IsDBNull(Pais_dom_esp)) { obj.Pais_dom_esp = dr.GetString(Pais_dom_esp); }
-                    //if (!dr.IsDBNull(Cod_postal_esp)) { obj.Cod_postal_esp = dr.GetString(Cod_postal_esp); }
                     if (!dr.IsDBNull(Nro_proc)) { obj.Nro_proc = dr.GetInt32(Nro_proc); }
-                    //if (!dr.IsDBNull(Fecha_vencimiento)) { obj.Fecha_vencimiento = dr.GetDateTime(Fecha_vencimiento); }
-                    //if (!dr.IsDBNull(Periodo)) { obj.Periodo = dr.GetString(Periodo); }
-                    //if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetInt32(Debe); }
-                    //if (!dr.IsDBNull(Nro_plan)) { obj.Nro_plan = dr.GetInt32(Nro_plan); }
                     if (!dr.IsDBNull(Vencimiento)) { obj.Vencimiento = dr.GetDateTime(Vencimiento); }
-                    //if (!dr.IsDBNull(Cod_tipo_procuracion)) { obj.Cod_tipo_procuracion = dr.GetInt16(Cod_tipo_procuracion); }
-                    //if (!dr.IsDBNull(Bloqueado)) { obj.Bloqueado = dr.GetBoolean(Bloqueado); }
-                    //if (!dr.IsDBNull(Codigo_procurador)) { obj.Codigo_procurador = dr.GetInt16(Codigo_procurador); }
-                    //if (!dr.IsDBNull(TieneHonorarios)) { obj.TieneHonorarios = dr.GetBoolean(TieneHonorarios); }
-                    //if (!dr.IsDBNull(Tipo_descuento)) { obj.Tipo_descuento = dr.GetInt16(Tipo_descuento); }
-                    //if (!dr.IsDBNull(Cod_formulario)) { obj.Cod_formulario = dr.GetInt16(Cod_formulario); }
-                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = Convert.ToInt16(dr.GetInt32(Codigo_estado_actual)); }
-                    //if (!dr.IsDBNull(paraimprimir)) { obj.paraimprimir = dr.GetInt16(paraimprimir); }
-                    //if (!dr.IsDBNull(CedulonSi)) { obj.CedulonSi = dr.GetInt16(CedulonSi); }
+                    if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt16(Codigo_estado_actual); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
                     if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
-                    if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
-                    //if (!dr.IsDBNull(pagado)) { obj.pagado = dr.GetInt16(pagado); }
-                    //if (!dr.IsDBNull(monto_original)) { obj.monto_original = dr.GetInt32(monto_original); }
-                    //if (!dr.IsDBNull(interes)) { obj.interes = dr.GetInt32(interes); }
-                    //if (!dr.IsDBNull(descuento)) { obj.descuento = dr.GetInt32(descuento); }
-                    //if (!dr.IsDBNull(importe_pagar)) { obj.importe_pagar = dr.GetInt32(importe_pagar); }
-                    //if (!dr.IsDBNull(fecha_baja_real)) { obj.fecha_baja_real = dr.GetDateTime(fecha_baja_real); }
-                    //if (!dr.IsDBNull(nro_secuencia)) { obj.nro_secuencia = dr.GetInt32(nro_secuencia); }
-                    //if (!dr.IsDBNull(nro_orden)) { obj.nro_orden = dr.GetInt32(nro_orden); }                    
+                    if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }                    
                     if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
                     if (!dr.IsDBNull(cuit_valido)) { obj.cuit_valido = dr.GetString(cuit_valido); }
@@ -243,36 +188,39 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @"
-                        SELECT 
-	                        a.Nro_Emision,
-	                        a.Nro_Notificacion,
-	                        a.Legajo,
-	                        a.nro_badec,
-	                        a.nombre, 
-	                        a.nro_proc,
-	                        0 AS debe,
-	                        a.Vencimiento,
-	                        ep.codigo_estado AS Codigo_estado_actual,
-	                        a.Nro_cedulon,
-	                        a.Barcode39,
-	                        a.Barcodeint25,
-	                        0 AS monto_original,
-	                        0 AS interes,
-                            0 AS descuento,
-	                        0 AS importe_pagar,
-	                        notificado_cidi=isnull( a.Notificado_cidi,0),
-	                        v.nro_cuit,
-	                        CASE
-		                        WHEN vd.cuit IS NULL THEN 'CUIT_NO_VALIDADO'
-		                        ELSE 'CUIT_VALIDADO'
-	                        END AS cuit_valido,
-	                        ep.descripcion_estado AS estado_actual,
-	                        vd.CUIT
-                        FROM DET_NOTIFICACION_IYC A (nolock)left join INDYCOM V ON V.legajo=A.Legajo 
-	                        INNER JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=A.codigo_estado_actual
-	                        LEFT JOIN VECINO_DIGITAL vd ON vd.CUIT = V.nro_cuit
-                        WHERE
-	                        nro_emision=@nro_emision";
+                            SELECT 
+                                 a.Nro_Emision,
+                                 a.Nro_Notificacion,
+                                 a.Legajo,
+                                 a.nro_badec,
+                                 a.nombre, 
+                                 a.nro_proc,
+                                 0 AS debe,
+                                 a.Vencimiento,
+                                 a.Codigo_estado_actual AS Codigo_estado_actual,
+                                 estado_Actualizado = 
+                                     (SELECT descripcion_estado FROM HIST_PROC_IYC e
+                                         INNER JOIN ESTADOS_PROCURACION f ON e.codigo_estado=f.codigo_estado
+                                      WHERE nro_procuracion=a.nro_proc
+                                         AND e.nro_paso = (SELECT MAX(nro_paso) - 1
+                                         FROM HIST_PROC_IYC WHERE nro_procuracion = a.nro_proc)),
+                                 a.Nro_cedulon,
+                                 a.Barcode39,
+                                 a.Barcodeint25,
+                                 0 AS monto_original,
+                                 0 AS interes,
+                                 0 AS descuento,
+                                 0 AS importe_pagar,
+                                 notificado_cidi=isnull( a.Notificado_cidi,0),
+                                 c.nro_cuit,
+                                 'CUIT_VALIDADO' AS cuit_valido,
+                                 b.descripcion_estado AS estado_Actual--,
+                                 --vd.CUIT
+                             FROM DET_NOTIFICACION_IYC A (nolock)left join INDYCOM V ON V.legajo=A.Legajo 
+                                 INNER JOIN ESTADOS_PROCURACION b ON a.Codigo_estado_actual=b.codigo_estado 
+                                 LEFT JOIN INDYCOM c ON a.Legajo=c.legajo
+                                 LEFT JOIN VECINO_DIGITAL d ON d.CUIT=c.nro_cuit
+                             WHERE Nro_Emision=@nro_emision";
                     cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();

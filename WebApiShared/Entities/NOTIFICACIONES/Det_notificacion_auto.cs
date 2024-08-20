@@ -230,7 +230,7 @@ namespace SIIMVA_WEB
                 throw ex;
             }
         }
-
+        //ESTE METODO MANEJA LAS PROCURACIONES
         public static List<Det_notificacion_auto> listarDetalle(int Nro_emision)
         {
             try
@@ -241,36 +241,39 @@ namespace SIIMVA_WEB
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @"
-                        SELECT 
-	                        a.Nro_Emision,
-	                        a.Nro_Notificacion,
-	                        a.dominio,
-	                        a.nro_badec,
-	                        a.nombre, 
-	                        a.nro_proc,
-	                        0 AS debe,
-	                        a.Vencimiento,
-	                        ep.codigo_estado AS Codigo_estado_actual,
-	                        a.Nro_cedulon,
-	                        a.Barcode39,
-	                        a.Barcodeint25,
-	                        0 AS monto_original,
-	                        0 AS interes,
-                            0 AS descuento,
-	                        0 AS importe_pagar,
-	                        notificado_cidi=isnull( a.Notificado_cidi,0),
-	                        v.cuit,
-	                        CASE
-		                        WHEN vd.cuit IS NULL THEN 'CUIT_NO_VALIDADO'
-		                        ELSE 'CUIT_VALIDADO'
-	                        END AS cuit_valido,
-	                        ep.descripcion_estado AS estado_actual,
-	                        vd.CUIT
-                        FROM DET_NOTIFICACION_AUTO A (nolock)left join VEHICULOS V ON V.DOMINIO=A.DOMINIO 
-	                        INNER JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=A.codigo_estado_actual
-	                        LEFT JOIN VECINO_DIGITAL vd ON vd.CUIT = V.CUIT
-                        WHERE
-	                        nro_emision=@Nro_emision";
+                    SELECT 
+                        a.Nro_Emision,
+                        a.Nro_Notificacion,
+                        a.dominio,
+                        a.nro_badec,
+                        a.nombre, 
+                        a.nro_proc,
+                        0 AS debe,
+                        a.Vencimiento,
+                        a.Codigo_estado_actual AS Codigo_estado_actual,
+	                    estado_Actualizado = 
+		                    (SELECT descripcion_estado FROM HIST_PROC_AUTO e
+			                    INNER JOIN ESTADOS_PROCURACION f ON e.codigo_estado=f.codigo_estado
+		                     WHERE nro_procuracion=a.nro_proc
+			                    AND e.nro_paso = (SELECT MAX(nro_paso) - 1
+			                    FROM HIST_PROC_AUTO WHERE nro_procuracion = a.nro_proc)),
+                        a.Nro_cedulon,
+                        a.Barcode39,
+                        a.Barcodeint25,
+                        0 AS monto_original,
+                        0 AS interes,
+                        0 AS descuento,
+                        0 AS importe_pagar,
+                        notificado_cidi=isnull( a.Notificado_cidi,0),
+                        c.CUIT,
+                        'CUIT_VALIDADO' AS cuit_valido,
+	                    b.descripcion_estado AS estado_Actual--,
+                        --vd.CUIT
+                    FROM DET_NOTIFICACION_AUTO A (nolock)left join VEHICULOS V ON V.DOMINIO=A.DOMINIO 
+	                    INNER JOIN ESTADOS_PROCURACION b ON a.Codigo_estado_actual=b.codigo_estado 
+	                    LEFT JOIN VEHICULOS c ON a.dominio=c.dominio
+	                    LEFT JOIN VECINO_DIGITAL d ON d.CUIT=c.cuit
+                    WHERE Nro_Emision=@Nro_emision";
                     cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
                     cmd.Connection.Open();
 

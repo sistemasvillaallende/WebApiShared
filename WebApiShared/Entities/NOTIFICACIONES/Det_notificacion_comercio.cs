@@ -237,38 +237,40 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
 
-                    cmd.CommandText = @"SELECT
-                            a.Nro_Emision,a.Nro_Notificacion,a.nro_proc,a.dominio,a.nro_badec,
-                            a.nombre, a.vencimiento,a.Nro_cedulon,codigo_estado_actual= (  SELECT ep.codigo_estado
-                                              FROM PROCURA_AUTO pa
-                                               JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                              AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
-                                             ,notificado_cidi=isnull( a.Notificado_cidi,0),
-                            Debe=((SELECT SUM(DEBE)
-                                FROM CTASCTES_AUTOMOTORES C
-                             JOIN DEUDAS_PROC_AUTO D ON
-                              D.nro_procuracion=a.nro_proc AND
-                                          D.nro_transaccion=C.nro_transaccion
-                                           )) -
-                                 (SELECT SUM(haber)
-                                  FROM CTASCTES_AUTOMOTORES C
-                                  JOIN DEUDAS_PROC_AUTO D ON
-                                D.nro_procuracion=a.nro_proc AND
-                                D.nro_transaccion=C.nro_transaccion) ,
-                             a.Barcode39,a.Barcodeint25,a.Monto_original,a.interes, a.Descuento,a.Importe_pagar,
-                             estado_actual= (  SELECT ep.descripcion_estado
-                                              FROM PROCURA_AUTO pa
-                                               JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pa.codigo_estado_actual
-                                              AND pa.nro_procuracion=a.Nro_Proc AND a.Dominio=pa.dominio),v.cuit
-                                             ,notificado_cidi=isnull( a.Notificado_cidi,0),
-                               case
-                    when v.cuit ='' then 'CUIT_NO_VALIDADO'
-                    WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))>0 then 'CUIT_VALIDADO'
-                    WHEN (select  count(*) from VECINO_DIGITAL vd  where LTRIM(RTRIM(v.cuit))=LTRIM(RTRIM(vd.cuit )))=0 then 'CUIT_NO_VALIDADO'
-                    END AS cuit_valido
-                          FROM DET_NOTIFICACION_AUTO A (nolock)left join VEHICULOS V ON V.DOMINIO=A.DOMINIO        
-                          WHERE
-                          nro_emision= @Nro_emision";
+                    cmd.CommandText = @"  
+     SELECT 
+         a.Nro_Emision,
+         a.Nro_Notificacion,
+         a.Legajo,
+         a.nro_badec,
+         a.nombre, 
+         a.nro_proc,
+         0 AS debe,
+         a.Vencimiento,
+         a.Codigo_estado_actual AS Codigo_estado_actual,
+         estado_Actualizado = 
+             (SELECT descripcion_estado FROM HIST_PROC_IYC e
+                 INNER JOIN ESTADOS_PROCURACION f ON e.codigo_estado=f.codigo_estado
+              WHERE nro_procuracion=a.nro_proc
+                 AND e.nro_paso = (SELECT MAX(nro_paso) - 1
+                 FROM HIST_PROC_IYC WHERE nro_procuracion = a.nro_proc)),
+         a.Nro_cedulon,
+         a.Barcode39,
+         a.Barcodeint25,
+         0 AS monto_original,
+         0 AS interes,
+         0 AS descuento,
+         0 AS importe_pagar,
+         notificado_cidi=isnull( a.Notificado_cidi,0),
+         c.nro_cuit,
+         'CUIT_VALIDADO' AS cuit_valido,
+         b.descripcion_estado AS estado_Actual--,
+         --vd.CUIT
+     FROM DET_NOTIFICACION_IYC A (nolock)left join INDYCOM V ON V.legajo=A.Legajo 
+         INNER JOIN ESTADOS_PROCURACION b ON a.Codigo_estado_actual=b.codigo_estado 
+         LEFT JOIN INDYCOM c ON a.Legajo=c.legajo
+         LEFT JOIN VECINO_DIGITAL d ON d.CUIT=c.nro_cuit
+     WHERE Nro_Emision=@Nro_emision";
                     cmd.Parameters.AddWithValue("@Nro_emision", Nro_emision);
                     cmd.Connection.Open();
 

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\ComunicacionesBackController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CipherTrust.CADP.NETCore" Version="8.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="runtime.native.System.Data.SqlClient.sni" Version="4.7.0" />

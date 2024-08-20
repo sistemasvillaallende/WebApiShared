@@ -575,11 +575,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             {
                 StringBuilder sql = new StringBuilder();
                 sql.AppendLine("INSERT INTO Notificacion_digital(");
-                // sql.AppendLine("id_notificacion");
                 sql.AppendLine(" tipo_notificacion");
                 sql.AppendLine(", nro_emision");
                 sql.AppendLine(", fecha_notif");
-                //sql.AppendLine(", desc_notif");
                 sql.AppendLine(", cidi_nivel");
                 sql.AppendLine(", estado_notif");
                 sql.AppendLine(", cuil");
@@ -588,15 +586,12 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 sql.AppendLine(", id_oficina");
                 sql.AppendLine(", id_usuario");
                 sql.AppendLine(", nro_procuracion");
-                //  sql.AppendLine(", nombre");
                 sql.AppendLine(")");
                 sql.AppendLine("VALUES");
                 sql.AppendLine("(");
-                // sql.AppendLine("@id_notificacion");
                 sql.AppendLine(" @tipo_notificacion");
                 sql.AppendLine(", @nro_emision");
                 sql.AppendLine(", @fecha_notif");
-                //sql.AppendLine(", @desc_notif");
                 sql.AppendLine(", @cidi_nivel");
                 sql.AppendLine(", @estado_notif");
                 sql.AppendLine(", @cuil");
@@ -605,14 +600,12 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 sql.AppendLine(", @id_oficina");
                 sql.AppendLine(", @id_usuario");
                 sql.AppendLine(", @nro_procuracion");
-                //sql.AppendLine(", @nombre");
                 sql.AppendLine(") SELECT SCOPE_IDENTITY()");
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = sql.ToString();
-                    //  cmd.Parameters.AddWithValue("@id_notificacion", obj.id_notificacion);
                     cmd.Parameters.AddWithValue("@tipo_notificacion", id_tipo_notif);
                     cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
                     cmd.Parameters.AddWithValue("@fecha_notif", DateTime.Now);
@@ -620,7 +613,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.Parameters.AddWithValue("@cidi_nivel", 2);
                     cmd.Parameters.AddWithValue("@estado_notif", cod_estado);
                     cmd.Parameters.AddWithValue("@cuil", cuil);
-                    if(subject != null)
+                    if (subject != null)
                         cmd.Parameters.AddWithValue("@subject_notif", subject);
                     else
                         cmd.Parameters.AddWithValue("@subject_notif", " ");
@@ -638,7 +631,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-        public static void update(int id_notificacion, int estado_notif, string body_notif, 
+        public static void update(int id_notificacion, int estado_notif, string body_notif,
             int nro_emision, int nro_notif, int nro_proc, int tipo_proc, int masivo_o_nuevo)
 
         {
@@ -733,20 +726,48 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 throw ex;
             }
         }
-        public static void updateProcuracion(int nro_procuracion, int tipo_proc, int nro_notifiicacion, int nro_emision, int cod_estado_actual)
+        public static void updateProcuracion(int nro_procuracion, int tipo_proc, int nro_notifiicacion,
+            int nro_emision, int cod_estado_actual)
 
         {
             try
             {
+                int paso_sig = DALBase.SigPaso("HIST_PROC_TASA", "nro_paso", "nro_procuracion", nro_procuracion);
+                string Estado_Actual = string.Empty;
+
+
                 StringBuilder sql = new StringBuilder();
                 StringBuilder sqlUpdProc = new StringBuilder();
                 StringBuilder sqlInsEstado = new StringBuilder();
-                int estado_sig;
-
+                int estado_sig = 0;
+                estado_sig = SigEstado("estados_procuracion", "codigo_estado_sig", "codigo_estado", cod_estado_actual);
+                switch (estado_sig)
+                {
+                    case 3:
+                        Estado_Actual = "NOTIFICACION EMITIDA";
+                        break;
+                    case 5:
+                        Estado_Actual = "NOTIFICADO";
+                        break;
+                    case 59:
+                        Estado_Actual = "PREJUDICIAL MUNICIPAL EMITIDO";
+                        break;
+                    case 60:
+                        Estado_Actual = "PREJUDICIAL MUNICIPAL NOTIFICADO";
+                        break;
+                    case 76:
+                        Estado_Actual = "CITACION PREJUDICIAL EMITIDA";
+                        break;
+                    case 77:
+                        Estado_Actual = "CITACION PREJUDICIAL NOTIFICADA";
+                        break;
+                    default:
+                        break;
+                }
                 if (tipo_proc == 1)
                 {
                     sql.AppendLine("UPDATE Det_Notificacion_Estado_Proc_inm SET ");
-                    sql.AppendLine(" Notificado_cidi=1 ");
+                    sql.AppendLine(" Notificado_cidi=1, Estado_Actual=@Estado_Actual");
                     sql.AppendLine("WHERE  nro_emision= @nro_emision and nro_notificacion= @nro_notificacion ");
                     sql.AppendLine(" and nro_procuracion= @nro_procuracion ");
 
@@ -759,7 +780,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 if (tipo_proc == 3)
                 {
                     sql.AppendLine("UPDATE Det_Notificacion_Estado_Proc_iyc SET ");
-                    sql.AppendLine(" Notificado_cidi=1 ");
+                    sql.AppendLine(" Notificado_cidi=1, Estado_Actual=@Estado_Actual ");
                     sql.AppendLine("WHERE  nro_emision= @nro_emision and nro_notificacion= @nro_notificacion ");
                     sql.AppendLine(" and nro_procuracion= @nro_procuracion ");
 
@@ -772,7 +793,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 if (tipo_proc == 4)
                 {
                     sql.AppendLine("UPDATE Det_Notificacion_Estado_Proc_Auto SET");
-                    sql.AppendLine(" Notificado_cidi=1");
+                    sql.AppendLine(" Notificado_cidi=1, Estado_Actual=@Estado_Actual");
                     sql.AppendLine("WHERE  nro_emision= @nro_emision and nro_notificacion= @nro_notificacion");
                     sql.AppendLine(" and nro_procuracion= @nro_procuracion");
 
@@ -780,6 +801,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                                             set codigo_estado_actual=@cod_estado
                                             where nro_procuracion= @nro_procuracion
                                         ");
+
+
+
                 }
 
                 using (SqlConnection con = GetConnection())
@@ -790,9 +814,10 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
                     cmd.Parameters.AddWithValue("@nro_notificacion", nro_notifiicacion);
                     cmd.Parameters.AddWithValue("@nro_procuracion", nro_procuracion);
+                    cmd.Parameters.AddWithValue("@Estado_Actual", Estado_Actual);
+
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
-                    estado_sig = SigEstado("estados_procuracion", "codigo_estado_sig", "codigo_estado", cod_estado_actual);
                     cmd.CommandText = sqlUpdProc.ToString();
                     cmd.Parameters.Clear();
                     cmd.Parameters.AddWithValue("@nro_procuracion", nro_procuracion);
@@ -819,7 +844,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 if (tipo_proc == 3)
                 {
                     sql.AppendLine("UPDATE DET_NOTIFICACION_IYC SET ");
-                    sql.AppendLine(" Notificado_cidi=1 ");
+                    sql.AppendLine(" Notificado_cidi=1, Codigo_estado_actual=@cod_estado ");
                     sql.AppendLine("WHERE  nro_emision= @nro_emision and nro_notificacion= @nro_notificacion ");
                     sql.AppendLine(" and nro_proc= @nro_procuracion ");
 
@@ -999,9 +1024,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                                           ,@observaciones,@fecha_fin_estado,@usuario)
                 
                          ");
-                    paso_sig =  DALBase.SigPaso("HIST_PROC_AUTO", "nro_paso", "nro_procuracion", nro_procuracion);
+                    paso_sig = DALBase.SigPaso("HIST_PROC_AUTO", "nro_paso", "nro_procuracion", nro_procuracion);
 
-                }          
+                }
                 int dias = 0;
                 int estado_sig = 0;
                 string usuario_hist = DALBase.GetNombre("USUARIOS_V2", "NOMBRE", "COD_USUARIO", cod_usuario);
@@ -1016,8 +1041,8 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = sql.ToString();
                     cmd.Parameters.AddWithValue("@nro_procuracion", nro_procuracion);
-                    cmd.Parameters.AddWithValue("@nro_paso", paso_sig);          
-                    cmd.Parameters.AddWithValue("codigo_estado", estado_sig);           
+                    cmd.Parameters.AddWithValue("@nro_paso", paso_sig);
+                    cmd.Parameters.AddWithValue("codigo_estado", estado_sig);
                     cmd.Parameters.AddWithValue("@fecha_cambio_estado", fechaActual);
                     cmd.Parameters.AddWithValue("@observaciones", "PROCURACION NOTIFICADA MEDIANTE CIDI - NRO DE NOTIFICACION DIGITAL: " + id_notificacion);
                     cmd.Parameters.AddWithValue("@fecha_fin_estado", nuevaFecha);

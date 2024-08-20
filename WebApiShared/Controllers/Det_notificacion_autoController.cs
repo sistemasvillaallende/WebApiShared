@@ -6,6 +6,7 @@ using SIIMVA_WEB.Services;
 
 namespace SIIMVA_WEB.Controllers
 {
+    //ESTE CONTROLLER MANEJA LOS EVENTOS DE PROCURACIONES AUTOMOTORES NUEVOS
     [ApiController]
     [Route("[controller]/[action]")]
     public class Det_notificacion_autoController : Controller

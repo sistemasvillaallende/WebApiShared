@@ -9,7 +9,7 @@ using WebApiShared.Services.NOTIFICACIONES;
 
 namespace WebApiShared.Controllers
 {
-
+    //ESTE CONTROLLER MUESTRA EL DETALLE DE LAS PROCURACIONES MASIVAS
     [ApiController]
     [Route("[controller]/[action]")]
     public class Det_notificacion_estado_proc_autoController : Controller
@@ -19,17 +19,7 @@ namespace WebApiShared.Controllers
         {
             _Det_notificacion_estado_proc_autoService = Det_notificacion_estado_proc_autoService;
         }
-        // [HttpGet]
-        //public IActionResult getByPk(
-        //int Nro_Emision, int Nro_Notificacion)
-        //{
-        //    var Det_notificacion_estado_proc_auto = _Det_notificacion_estado_proc_autoService.getByPk(Nro_Emision, Nro_Notificacion);
-        //    if (Det_notificacion_estado_proc_auto == null)
-        //    {
-        //        return BadRequest(new { message = "Error al obtener los datos" });
-        //    }
-        //    return Ok(Det_notificacion_estado_proc_auto);
-        //}
+
 
         [HttpGet]
         public IActionResult listarDetalle(int nro_emision)

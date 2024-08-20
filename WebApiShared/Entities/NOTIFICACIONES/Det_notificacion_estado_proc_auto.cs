@@ -123,44 +123,48 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         {
             try
             {
+                //ESTE ES EL CONTROLLER QUE MANEJA EL DETALLE DE PROCURACIONES MASIVAS
                 List<Det_notificacion_estado_proc_auto> lst = new List<Det_notificacion_estado_proc_auto>();
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = @" 
-                    SELECT
-                        a.Nro_Emision,
-                        a.Nro_Notificacion,
-                        a.dominio,
-                        a.nro_badec,
-                        a.nombre, 
-                        a.Nro_Procuracion,
-                        a.Fecha_Inicio_Estado,
-                        a.Fecha_Fin_Estado,
-                        0 AS debe,
-                        a.Vencimiento,
-                        a.Estado_Actual AS Codigo_estado_actual,
-                        ep.descripcion_estado AS estado_Actual,
-                        a.Nro_cedulon,
-                        a.Barcode39,
-                        a.Barcodeint25,
-                        0 AS monto_original,
-                        0 AS interes,
-                        0 AS descuento,
-                        0 AS importe_pagar,
-                        notificado_cidi=isnull( a.Notificado_cidi,0),
-                        v.cuit,
-                        'CUIT_VALIDADO' AS cuit_valido,
-                        ep.descripcion_estado AS estado_Actualizado,
-                        vd.CUIT
-                    FROM Det_Notificacion_Estado_Proc_Auto a 
-                        INNER JOIN NOTIFICACION_ESTADO_PROC_AUTO B ON a.Nro_Emision=B.Nro_Emision
-                        LEFT JOIN VEHICULOS V ON V.DOMINIO=a.Dominio
-                        INNER JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=B.Cod_Estado_Procuracion
-                        LEFT JOIN VECINO_DIGITAL vd ON vd.CUIT = V.CUIT
-                    WHERE
-                        A.nro_emision=173" + nro_emision.ToString();
+                        SELECT 
+	                        a.Nro_Emision,
+	                        a.Nro_Notificacion,
+	                        a.dominio,
+	                        a.nro_badec,
+	                        a.nombre, 
+	                        a.Nro_Procuracion,
+	                        a.Fecha_Inicio_Estado,
+	                        a.Fecha_Fin_Estado,
+	                        '0' AS debe,
+	                        a.Vencimiento,
+	                        b.codigo_estado AS Codigo_estado_actual,
+	                        estado_actual = 
+		                        (SELECT descripcion_estado 
+		                         FROM HIST_PROC_AUTO e
+			                        INNER JOIN ESTADOS_PROCURACION f ON e.codigo_estado=f.codigo_estado
+		                         WHERE nro_procuracion=a.nro_procuracion
+			                        AND e.nro_paso = (SELECT MAX(nro_paso) - 1
+		                         FROM HIST_PROC_AUTO WHERE nro_procuracion = a.nro_procuracion)),
+	                        a.Nro_cedulon,
+	                        a.Barcode39,
+	                        a.Barcodeint25,
+	                        0 AS monto_original,
+	                        0 AS interes,
+	                        0 AS descuento,
+	                        0 AS importe_pagar,
+	                        notificado_cidi=isnull( a.Notificado_cidi,0),
+	                        c.cuit,
+	                        'CUIT_VALIDADO' AS cuit_valido,
+	                        a.Estado_Actual AS estado_actualizado
+			            FROM Det_Notificacion_Estado_Proc_Auto a
+                            INNER JOIN ESTADOS_PROCURACION b ON a.Estado_Actual=b.descripcion_estado 
+				            LEFT JOIN VEHICULOS c ON a.dominio=c.dominio
+				            LEFT JOIN VECINO_DIGITAL d ON d.CUIT=c.cuit
+			            WHERE Nro_Emision=" + nro_emision.ToString();
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     lst = mapeo(dr);
