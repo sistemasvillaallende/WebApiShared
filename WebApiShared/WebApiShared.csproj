@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\ComunicacionesBackController.cs" />
+    <Compile Remove="Entities\NOTIFICACIONES\Det_notificacion_comercio.cs" />
   </ItemGroup>
 
   <ItemGroup>

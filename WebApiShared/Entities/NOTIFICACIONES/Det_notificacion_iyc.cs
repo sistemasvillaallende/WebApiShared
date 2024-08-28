@@ -94,7 +94,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             importe_pagar = 0;
             fecha_baja_real = DateTime.Now;
             nro_secuencia = 0;
-            nro_orden = 0;            
+            nro_orden = 0;
             notificado_cidi = 0;
             cuit = string.Empty;
             cuit_valido = string.Empty;
@@ -111,15 +111,15 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 int Nro_notificacion = dr.GetOrdinal("Nro_notificacion");
                 int Legajo = dr.GetOrdinal("Legajo");
                 int Nro_badec = dr.GetOrdinal("Nro_badec");
-                int Nombre = dr.GetOrdinal("Nombre");                           
+                int Nombre = dr.GetOrdinal("Nombre");
                 int Nro_proc = dr.GetOrdinal("Nro_proc");
                 int Vencimiento = dr.GetOrdinal("Vencimiento");
                 int Codigo_estado_actual = dr.GetOrdinal("Codigo_estado_actual");
                 int Nro_cedulon = dr.GetOrdinal("Nro_cedulon");
                 int Barcode39 = dr.GetOrdinal("Barcode39");
-                int Barcodeint25 = dr.GetOrdinal("Barcodeint25");            
+                int Barcodeint25 = dr.GetOrdinal("Barcodeint25");
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
-                int cuit = dr.GetOrdinal("nro_cuit");
+                int cuit = dr.GetOrdinal("cuit");
                 int estado_actual = dr.GetOrdinal("estado_actual");
                 int cuit_valido = dr.GetOrdinal("cuit_valido");
 
@@ -136,7 +136,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt16(Codigo_estado_actual); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
                     if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
-                    if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }                    
+                    if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
                     if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
                     if (!dr.IsDBNull(cuit_valido)) { obj.cuit_valido = dr.GetString(cuit_valido); }
@@ -212,9 +212,9 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                                  0 AS descuento,
                                  0 AS importe_pagar,
                                  notificado_cidi=isnull( a.Notificado_cidi,0),
-                                 c.nro_cuit,
+                                 c.nro_cuit as cuit,
                                  'CUIT_VALIDADO' AS cuit_valido,
-                                 b.descripcion_estado AS estado_Actual--,
+                                 b.descripcion_estado AS  estado_Actual--,
                                  --vd.CUIT
                              FROM DET_NOTIFICACION_IYC A (nolock)left join INDYCOM V ON V.legajo=A.Legajo 
                                  INNER JOIN ESTADOS_PROCURACION b ON a.Codigo_estado_actual=b.codigo_estado 
@@ -297,24 +297,24 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         {
             try
             {
-                StringBuilder sql = new StringBuilder();                
-                sql.AppendLine("SELECT d.*, ");
-                sql.AppendLine(" estado_actual= (SELECT ep.descripcion_estado ");
-                sql.AppendLine("        FROM Procura_iyc pi  ");
-                sql.AppendLine("        JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pi.codigo_estado_actual ");
-                sql.AppendLine("      AND pi.nro_procuracion=d.nro_proc AND d.legajo=pi.legajo), cuit ='',cuit_valido='' ");
-                sql.AppendLine("FROM Det_notificacion_iyc d ");
-                sql.AppendLine("WHERE d.Nro_emision = @nro_emision");
-                sql.AppendLine("AND d.Nro_notificacion = @nro_notificacion");
+                string sql=
+                @"SELECT d.*,
+                estado_actual= (SELECT ep.descripcion_estado
+                FROM Procura_iyc pi 
+                JOIN ESTADOS_PROCURACION ep ON ep.codigo_estado=pi.codigo_estado_actual 
+                AND pi.nro_procuracion=d.nro_proc AND d.legajo=pi.legajo), cuit ='',cuit_valido='' 
+                FROM Det_notificacion_iyc d 
+                WHERE d.Nro_emision = @nro_emision
+                AND d.Nro_notificacion = @nro_notificacion";
 
                 Det_notificacion_iyc obj = null;
                 using (SqlConnection con = GetConnection())
                 {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = sql.ToString();
+                    cmd.CommandText = sql;
                     cmd.Parameters.AddWithValue("@nro_emision", nro_emision);
-                    cmd.Parameters.AddWithValue("@nro_notificacion", nro_notificacion);                    
+                    cmd.Parameters.AddWithValue("@nro_notificacion", nro_notificacion);
                     cmd.Connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     List<Det_notificacion_iyc> lst = mapeo(dr);

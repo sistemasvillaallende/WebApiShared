@@ -152,6 +152,7 @@ namespace WebApiShared.Controllers
 
             if (Request.Headers.TryGetValue("hash", out var Hash))
             {
+                cuit = cuit.Trim();
                 hash = Hash.ToString();
                 Email email = new Email();
                 email.HashCookie = hash;
@@ -278,6 +279,7 @@ namespace WebApiShared.Controllers
             string hash = "";
             if (Request.Headers.TryGetValue("hash", out var Hash))
             {
+                cuit=cuit.Trim();
                 hash = Hash.ToString();
                 Email email = new Email();
                 email.HashCookie = hash;// "34424C56707A693148527047383346625765504F30753058597A593D";

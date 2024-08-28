@@ -8,6 +8,9 @@ namespace WebApiShared.Services.CIDI
         {
             try
             {
+                ResultadoEmail respuesta = Config.LlamarWebAPI<Email, 
+                    ResultadoEmail>(APIComunicacion.Email.Enviar_HTML, email);
+
                 return Config.LlamarWebAPI<Email, ResultadoEmail>
                 (APIComunicacion.Email.Enviar, email);
             }
