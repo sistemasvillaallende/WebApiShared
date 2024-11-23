@@ -89,3 +89,7 @@ WebApiShared/WebApiShared.csproj.user
 .vs/WebApiShared/DesignTimeBuild/.dtbcache.v2
 WebApiShared/obj/Debug/net6.0/WebApiShared.AssemblyInfo.cs
 *.dll
+.vs/WebApiShared/v17/.futdcache.v2
+.vs/WebApiShared/v17/.futdcache.v2
+.vs/WebApiShared/v17/.suo
+WebApiShared/bin/Debug/net6.0/WebApiShared.dll

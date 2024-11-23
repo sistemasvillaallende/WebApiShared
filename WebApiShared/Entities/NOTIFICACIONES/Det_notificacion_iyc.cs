@@ -112,7 +112,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 int Legajo = dr.GetOrdinal("Legajo");
                 int Nro_badec = dr.GetOrdinal("Nro_badec");
                 int Nombre = dr.GetOrdinal("Nombre");
-                int Nro_proc = dr.GetOrdinal("Nro_proc");
+                int nro_proc = dr.GetOrdinal("nro_proc");
                 int Vencimiento = dr.GetOrdinal("Vencimiento");
                 int Codigo_estado_actual = dr.GetOrdinal("Codigo_estado_actual");
                 int Nro_cedulon = dr.GetOrdinal("Nro_cedulon");
@@ -131,7 +131,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(Legajo)) { obj.Legajo = dr.GetInt32(Legajo); }
                     if (!dr.IsDBNull(Nro_badec)) { obj.Nro_badec = dr.GetInt32(Nro_badec); }
                     if (!dr.IsDBNull(Nombre)) { obj.Nombre = dr.GetString(Nombre); }
-                    if (!dr.IsDBNull(Nro_proc)) { obj.Nro_proc = dr.GetInt32(Nro_proc); }
+                    if (!dr.IsDBNull(nro_proc)) { obj.Nro_proc = dr.GetInt32(nro_proc); }
                     if (!dr.IsDBNull(Vencimiento)) { obj.Vencimiento = dr.GetDateTime(Vencimiento); }
                     if (!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt16(Codigo_estado_actual); }
                     if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }

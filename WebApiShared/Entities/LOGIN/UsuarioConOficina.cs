@@ -27,7 +27,7 @@ namespace WebApiShared.Entities.LOGIN
 
         public string? nombre_oficina { get; set; }
         public string cuit { get; set; }
-
+         
 
         public static UsuarioConOficina ValidUser(string user, string password)
         {

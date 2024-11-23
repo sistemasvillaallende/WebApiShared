@@ -34,7 +34,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         public string cuit_valido { get; set; }
         public string des_com { get; set; }
         public string nom_fantasia { get; set; }
-
+        public Int16 Codigo_estado_actual { get; set; }
 
         public Det_notificacion_estado_proc_iyc()
         {
@@ -62,6 +62,7 @@ namespace WebApiShared.Entities.NOTIFICACIONES
             cuit_valido = string.Empty;
             des_com = string.Empty;
             nom_fantasia = string.Empty;
+            Codigo_estado_actual = 0; 
         }
 
         private static List<Det_notificacion_estado_proc_iyc> mapeo(SqlDataReader dr)
@@ -77,23 +78,24 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                 int Nro_Badec = dr.GetOrdinal("Nro_Badec");
                 int Nombre = dr.GetOrdinal("Nombre");
                 int Estado_Actual = dr.GetOrdinal("Estado_Actual");
-                int Fecha_Inicio_Estado = dr.GetOrdinal("Fecha_Inicio_Estado");
-                int Fecha_Fin_Estado = dr.GetOrdinal("Fecha_Fin_Estado");
-                int vencimiento = dr.GetOrdinal("vencimiento");
+                int Codigo_estado_actual = dr.GetOrdinal("Codigo_estado_actual"); 
+                //int Fecha_Inicio_Estado = dr.GetOrdinal("Fecha_Inicio_Estado");
+                //int Fecha_Fin_Estado = dr.GetOrdinal("Fecha_Fin_Estado");
+                //int vencimiento = dr.GetOrdinal("vencimiento");
                 int Nro_cedulon = dr.GetOrdinal("Nro_cedulon");
-                int Debe = dr.GetOrdinal("Debe");
-                int Barcode39 = dr.GetOrdinal("Barcode39");
-                int Barcodeint25 = dr.GetOrdinal("Barcodeint25");
-                int Monto_original = dr.GetOrdinal("Monto_original");
-                int Interes = dr.GetOrdinal("Interes");
-                int Descuento = dr.GetOrdinal("Descuento");
-                int Importe_pagar = dr.GetOrdinal("Importe_pagar");
+                //int Debe = dr.GetOrdinal("Debe");
+                //int Barcode39 = dr.GetOrdinal("Barcode39");
+                //int Barcodeint25 = dr.GetOrdinal("Barcodeint25");
+                //int Monto_original = dr.GetOrdinal("Monto_original");
+                //int Interes = dr.GetOrdinal("Interes");
+                //int Descuento = dr.GetOrdinal("Descuento");
+                //int Importe_pagar = dr.GetOrdinal("Importe_pagar");
                 int estado_Actualizado = dr.GetOrdinal("estado_Actualizado");
                 int cuit = dr.GetOrdinal("cuit");
                 int notificado_cidi = dr.GetOrdinal("notificado_cidi");
                 int cuit_valido = dr.GetOrdinal("cuit_valido");
-                int des_com = dr.GetOrdinal("des_com");
-                int nom_fantasia = dr.GetOrdinal("nom_fantasia");
+                //int des_com = dr.GetOrdinal("des_com");
+                //int nom_fantasia = dr.GetOrdinal("nom_fantasia");
                 while (dr.Read())
                 {
                     obj = new Det_notificacion_estado_proc_iyc();
@@ -104,23 +106,24 @@ namespace WebApiShared.Entities.NOTIFICACIONES
                     if (!dr.IsDBNull(Nro_Badec)) { obj.Nro_Badec = dr.GetInt32(Nro_Badec); }
                     if (!dr.IsDBNull(Nombre)) { obj.Nombre = dr.GetString(Nombre); }
                     if (!dr.IsDBNull(Estado_Actual)) { obj.Estado_Actual = dr.GetString(Estado_Actual); }
-                    if (!dr.IsDBNull(Fecha_Inicio_Estado)) { obj.Fecha_Inicio_Estado = dr.GetDateTime(Fecha_Inicio_Estado); }
-                    if (!dr.IsDBNull(Fecha_Fin_Estado)) { obj.Fecha_Fin_Estado = dr.GetDateTime(Fecha_Fin_Estado); }
-                    if (!dr.IsDBNull(vencimiento)) { obj.vencimiento = dr.GetDateTime(vencimiento); }
-                    if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
-                    if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetDecimal(Debe); }
-                    if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
-                    if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
-                    if (!dr.IsDBNull(Monto_original)) { obj.Monto_original = dr.GetDecimal(Monto_original); }
-                    if (!dr.IsDBNull(Interes)) { obj.Interes = dr.GetDecimal(Interes); }
-                    if (!dr.IsDBNull(Descuento)) { obj.Descuento = dr.GetDecimal(Descuento); }
-                    if (!dr.IsDBNull(Importe_pagar)) { obj.Importe_pagar = dr.GetDecimal(Importe_pagar); }
+                    if(!dr.IsDBNull(Codigo_estado_actual)) { obj.Codigo_estado_actual = dr.GetInt16(Codigo_estado_actual); }
+                    //if (!dr.IsDBNull(Fecha_Inicio_Estado)) { obj.Fecha_Inicio_Estado = dr.GetDateTime(Fecha_Inicio_Estado); }
+                    //if (!dr.IsDBNull(Fecha_Fin_Estado)) { obj.Fecha_Fin_Estado = dr.GetDateTime(Fecha_Fin_Estado); }
+                    //if (!dr.IsDBNull(vencimiento)) { obj.vencimiento = dr.GetDateTime(vencimiento); }
+                    //if (!dr.IsDBNull(Nro_cedulon)) { obj.Nro_cedulon = dr.GetInt32(Nro_cedulon); }
+                    //if (!dr.IsDBNull(Debe)) { obj.Debe = dr.GetDecimal(Debe); }
+                    //if (!dr.IsDBNull(Barcode39)) { obj.Barcode39 = dr.GetString(Barcode39); }
+                    //if (!dr.IsDBNull(Barcodeint25)) { obj.Barcodeint25 = dr.GetString(Barcodeint25); }
+                    //if (!dr.IsDBNull(Monto_original)) { obj.Monto_original = dr.GetDecimal(Monto_original); }
+                    //if (!dr.IsDBNull(Interes)) { obj.Interes = dr.GetDecimal(Interes); }
+                    //if (!dr.IsDBNull(Descuento)) { obj.Descuento = dr.GetDecimal(Descuento); }
+                   //if (!dr.IsDBNull(Importe_pagar)) { obj.Importe_pagar = dr.GetDecimal(Importe_pagar); }
                     if (!dr.IsDBNull(estado_Actualizado)) { obj.estado_Actualizado = dr.GetString(estado_Actualizado).Trim(); }
                     if (!dr.IsDBNull(cuit)) { obj.cuit = dr.GetString(cuit); }
                     if (!dr.IsDBNull(notificado_cidi)) { obj.notificado_cidi = dr.GetInt16(notificado_cidi); }
                     if (!dr.IsDBNull(cuit_valido)) { obj.cuit_valido = dr.GetString(cuit_valido); }
-                    if (!dr.IsDBNull(des_com)) { obj.des_com = dr.GetString(des_com); }
-                    if (!dr.IsDBNull(nom_fantasia)) { obj.nom_fantasia = dr.GetString(nom_fantasia); }
+                    //if (!dr.IsDBNull(des_com)) { obj.des_com = dr.GetString(des_com); }
+                    //if (!dr.IsDBNull(nom_fantasia)) { obj.nom_fantasia = dr.GetString(nom_fantasia); }
                     lst.Add(obj);
                 }
             }
@@ -130,42 +133,39 @@ namespace WebApiShared.Entities.NOTIFICACIONES
         {
             try
             {
-                string strSQL = @"SELECT 
-                                a.nro_emision, a.nro_notificacion, a.nro_procuracion, a.legajo, a.nro_badec,
-                                a.nombre, a.estado_actual, a.fecha_inicio_estado, 
-                                a.fecha_fin_estado, a.vencimiento, a.nro_cedulon,
-                                debe=((SELECT SUM(DEBE)
-		   	                                FROM CTASCTES_INDYCOM C
-			                                JOIN DEUDAS_PROC_IYC D ON
-				                                D.nro_procuracion=a.nro_procuracion AND
-					                            D.nro_transaccion=C.nro_transaccion))-
-				                       (SELECT SUM(haber)
-				                        FROM CTASCTES_INDYCOM C
-				                        JOIN DEUDAS_PROC_IYC D ON
-						                    D.nro_procuracion=a.nro_procuracion AND
-						                    D.nro_transaccion=C.nro_transaccion),
-                                a.barcode39, a.barcodeint25,
-                                a.monto_original, a.interes, 
-                                a.descuento, a.importe_pagar,
-                                estado_Actualizado= (SELECT ep.descripcion_estado
-												     FROM PROCURA_IYC pa
-                                                     JOIN ESTADOS_PROCURACION ep ON 
-												        ep.codigo_estado=pa.codigo_estado_actual AND
-                                                        pa.nro_procuracion=a.nro_procuracion AND 
-													    a.legajo=pa.legajo),
-	                            i.nro_cuit as cuit,
-                                notificado_cidi=isnull( a.Notificado_cidi,0),
-	                            CASE
-		                            WHEN i.nro_cuit ='' then 'CUIT_NO_VALIDADO'
-		                            WHEN (SELECT count(*) from VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))>0 THEN 'CUIT_VALIDADO'
-		                            WHEN (SELECT count(*) from VECINO_DIGITAL vd WHERE LTRIM(RTRIM(i.nro_cuit))=LTRIM(RTRIM(vd.cuit )))=0 THEN 'CUIT_NO_VALIDADO'
-	                            END AS cuit_valido,
-                                i.des_com, 
-                                i.nom_fantasia 
-                                FROM DET_NOTIFICACION_ESTADO_PROC_IYC a (nolock) 
-                                LEFT JOIN INDYCOM i ON i.legajo=a.legajo
-                                LEFT JOIN BADEC b ON b.nro_bad=a.nro_badec
-                                WHERE nro_emision=@nro_emision";
+                string strSQL = @"     SELECT 
+         a.Nro_Emision,
+         a.Nro_Notificacion,
+         a.Legajo,
+         a.nro_badec,
+         a.nombre, 
+         a.nro_proc AS Nro_Procuracion,
+         0 AS debe,
+         a.Vencimiento,
+         a.Codigo_estado_actual AS Codigo_estado_actual,
+         estado_Actualizado = 
+             (SELECT descripcion_estado FROM HIST_PROC_IYC e
+                 INNER JOIN ESTADOS_PROCURACION f ON e.codigo_estado=f.codigo_estado
+              WHERE nro_procuracion=a.nro_proc
+                 AND e.nro_paso = (SELECT MAX(nro_paso) - 1
+                 FROM HIST_PROC_IYC WHERE nro_procuracion = a.nro_proc)),
+         a.Nro_cedulon,
+         a.Barcode39,
+         a.Barcodeint25,
+         0 AS monto_original,
+         0 AS interes,
+         0 AS descuento,
+         0 AS importe_pagar,
+         notificado_cidi=isnull( a.Notificado_cidi,0),
+         c.nro_cuit AS cuit,
+         'CUIT_VALIDADO' AS cuit_valido,
+         b.descripcion_estado AS estado_Actual--,
+         --vd.CUIT
+     FROM DET_NOTIFICACION_IYC A (nolock)left join INDYCOM V ON V.legajo=A.Legajo 
+         INNER JOIN ESTADOS_PROCURACION b ON a.Codigo_estado_actual=b.codigo_estado 
+         LEFT JOIN INDYCOM c ON a.Legajo=c.legajo
+         LEFT JOIN VECINO_DIGITAL d ON d.CUIT=c.nro_cuit
+     WHERE Nro_Emision=@nro_emision";
                 List<Det_notificacion_estado_proc_iyc> lst = new List<Det_notificacion_estado_proc_iyc>();
                 using (SqlConnection con = GetConnection())
                 {

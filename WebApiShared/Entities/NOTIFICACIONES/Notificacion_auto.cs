@@ -63,7 +63,6 @@ namespace SIIMVA_WEB
             if (dr.HasRows)
             {
                 int Nro_emision = dr.GetOrdinal("Nro_emision");
-                //int Descripcion_noti = dr.GetOrdinal("Descripcion_noti");
                 int Fecha_emision = dr.GetOrdinal("Fecha_emision");
                 int Fecha_vencimiento = dr.GetOrdinal("Fecha_vencimiento");
                 int Cantidad_reg = dr.GetOrdinal("Cantidad_reg");
